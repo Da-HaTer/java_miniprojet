@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Utilisateur {
 	private String login;
-	private String motDePasse;
+	private String motDePasse;	
 	
 	public Utilisateur() {
 		

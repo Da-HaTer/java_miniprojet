@@ -1,6 +1,6 @@
 package gestion;
 
-import java.util.ArrayList;
+	import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.Matiere;
