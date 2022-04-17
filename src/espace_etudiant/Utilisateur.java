@@ -53,6 +53,9 @@ public class Utilisateur {
 		return Crypted;
 
 	}
+	public Boolean seConnecter(String login, String motDePasse) {
+		return (login.equals(this.login) && cryptPass(motDePasse).equals(this.motDePasse));
+	}
 
 	public static void main(String[] args) {
 		Utilisateur user = new Utilisateur("test", "test:)");
