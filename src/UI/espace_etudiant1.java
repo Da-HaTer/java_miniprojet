@@ -17,17 +17,17 @@ import javax.swing.UIManager;
 
 
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-public class espace_etudiant extends JFrame  {
+public class espace_etudiant1 extends JFrame  {
 	private static final long serialVersionUID = 5L;
-	public espace_etudiant() {
+	public espace_etudiant1() {
 		 super("Bienvenue dens l'espace etudiant");
 	       this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	        this.setSize(450, 300);
-		     //this.setLocation(350, 200);
+	        this.setResizable(false);
 		     this.setLocationRelativeTo(null);
 		     JPanel contentPane =(JPanel) this.getContentPane() ;
 		     contentPane.setLayout(new GridLayout(2,2,20,20));
-		     Label l = new Label("Sélectionner votre classe");
+		     Label l = new Label("Selectionner votre classe");
 		     contentPane.add(l);
 		
 	   final Choice c = new Choice();    
@@ -35,7 +35,8 @@ public class espace_etudiant extends JFrame  {
 	   
 	   c.setBounds(100, 100, 75, 75);   
 
-	      
+	   ///todo:
+//	   replace this with auto fetch later
 	   c.add("MI2A");    
 	   c.add("MI2B");    
 	   c.add("PI");   
@@ -53,6 +54,11 @@ public class espace_etudiant extends JFrame  {
 		 JButton Reclamation =new JButton ("Reclamation");
 		Reclamation.setBounds(150,170,160,30);
 		contentPane.add(Reclamation);
+		
+		
+		///todo:
+//		actionlistener
+//		fix select class (remove and should be automatically determined)
 	}
 	
 
@@ -60,7 +66,7 @@ public class espace_etudiant extends JFrame  {
 
 public static void main(String[] args) throws Exception {
 	UIManager.setLookAndFeel(new NimbusLookAndFeel());
-	 espace_etudiant log =new espace_etudiant() ;
+	 espace_etudiant1 log =new espace_etudiant1() ;
 	log.setVisible(true);
 	log.setAlwaysOnTop(true)	;
 }}

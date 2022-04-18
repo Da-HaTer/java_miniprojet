@@ -4,6 +4,7 @@ import java.util.* ;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -16,10 +17,15 @@ import javax.swing.UIManager;
 
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import java.awt.Checkbox;
+import java.awt.CheckboxGroup;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -31,38 +37,69 @@ public class espace_etudiant2 extends JFrame implements ActionListener  {
 	public espace_etudiant2() {
 		super("Vos Notes");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setSize(900, 600);
+		this.setSize(900, 700);
+//		this.setResizable(false);
 		//this.setLocation(350, 200);
 		this.setLocationRelativeTo(null);
 		JPanel contentPane =(JPanel) this.getContentPane() ;
 		//contentPane.setLayout(new GridLayout(3,1,100,10));
 		setLayout(new FlowLayout());
-		 String[] columns = new String[] {
-		            "Matiére", "Note S1", "Note S2", "Moyenne" };
-		        
-		         
-		       
-		        Object[][] data = new Object[][] {
-		            {"BD", 10, 10, 10 },
-		            {"JAVA", 15, 8, 50.0 }
-		         
-		        };
-		 
-		        //crée un JTable avec des données
-		        JTable table = new JTable(data, columns);
-		        contentPane.add(table);
-		        JScrollPane scroll = new JScrollPane(table);
-		        table.setFillsViewportHeight(true);
-		        contentPane.add(scroll);
-		        /*JLabel labelHead = new JLabel("Liste des notes");
-		        labelHead.setFont(new Font("Arial",Font.TRUETYPE_FONT,20));
-		        contentPane.add(labelHead);*/
-		        JButton deconnection =new JButton ("deconnection");
-				deconnection.setBounds(150,170,160,30);
-				contentPane.add(deconnection);
-				JButton reclamation =new JButton ("reclamation");
-				reclamation.setBounds(150,170,160,30);
-				contentPane.add(reclamation);
+		String[] columns = new String[] {"Matiere", "Note S1", "Note S2", "Moyenne" };
+		Object[][] data = new Object[][] {{"BD", 10, 10, 10 },{"JAVA", 15, 8, 50.0 }};
+
+        JTable table = new JTable(data, columns)
+        {
+			private static final long serialVersionUID = 1L;
+	
+			public boolean isCellEditable(int row, int column) {                
+					return false;               
+			};
+		};
+        contentPane.add(table);
+        JScrollPane scroll = new JScrollPane(table);
+        table.setFillsViewportHeight(true);
+        contentPane.add(scroll);
+        /*JLabel labelHead = new JLabel("Liste des notes");
+        labelHead.setFont(new Font("Arial",Font.TRUETYPE_FONT,20));
+        contentPane.add(labelHead);*/
+        
+        JPanel ui = new JPanel();
+        ui.setLayout(new GridLayout(3,5,20, 25));
+        add(ui);
+        JLabel moylabel = new JLabel("moyenne:");
+		moylabel.setFont(new Font("Serif", Font.PLAIN, 18));
+//		ui.add(new Panel());
+		ui.add(new JLabel());
+		ui.add(moylabel);
+		
+		JTextField moy= new JTextField("");
+//		moy.setPreferredSize(new Dimension(100,20));
+//		ui.add(new Panel());
+		ui.add(moy);
+		
+		ui.add(new JLabel());
+		JLabel label = new JLabel("selectionner semestre:");
+		label.setFont(new Font("Serif", Font.PLAIN, 18));
+//		label.setSize(150,50);
+//		label.setPreferredSize(new Dimension(250, 100));
+//		label.setBackground(new Color(255,255,255));
+		ui.add(new JLabel());
+		ui.add(label);
+		CheckboxGroup sem = new CheckboxGroup();
+		
+		ui.add(new Checkbox("Semestre1", sem, true));
+//		
+		ui.add(new Checkbox("Semestre2", sem, false));
+		
+		JButton deconnection =new JButton ("deconnection");
+//		deconnection.setBounds(150,170,160,30);
+		ui.add(new Panel());
+		ui.add(new Panel());
+		ui.add(deconnection);
+		
+		JButton reclamation =new JButton ("reclamation");
+//		reclamation.setBounds(150,170,160,30);
+		ui.add(reclamation);
 	}
 
 	@Override
@@ -70,7 +107,8 @@ public class espace_etudiant2 extends JFrame implements ActionListener  {
 		// TODO Auto-generated method stub
 		
 	}
-	
+	///todo:
+//	set data based on semester (actionlistener)
 	public static void main(String[] args) throws Exception {
 	UIManager.setLookAndFeel(new NimbusLookAndFeel());
 	espace_etudiant2 login =new espace_etudiant2() ;

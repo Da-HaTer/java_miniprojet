@@ -27,8 +27,9 @@ import java.awt.event.WindowListener;
 public class reclamation extends JFrame   {
 	private static final long serialVersionUID = 7L;
 	public reclamation() {
-		super("Bienvenue dans Escpce libre");
+		super("Reclamation");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setResizable(false);
 		this.setSize(450, 200);
 		//this.setLocation(350, 200);
 		this.setLocationRelativeTo(null);
@@ -51,7 +52,7 @@ public class reclamation extends JFrame   {
 		contentPane.add(buttonpanel);
 	   //connection.addActionListener(t&his);
 	}
-	
+	///todo: add actionlistener + icon + reclamation object
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		reclamation login =new reclamation() ;
