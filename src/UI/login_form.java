@@ -98,15 +98,9 @@ public class login_form extends JFrame implements ActionListener{
 //			System.out.println(user.getClass());
 			System.out.print("login Successful as ");
 			if (user instanceof Etudiant) {
-				///todo
-				//pass class to espace_etud
-//				for(Classe c:classes) {
-//					
-//					if (c.student_in_class(user)) espace_etudiant(c); //open espace etudiant with parameter class
-//				}
 				dispose();
 				System.out.println("Etudiant "+l);
-				new espace_etudiant2(user);
+				new espace_etudiant2((Etudiant) user,1);
 			}
 			if (user instanceof Enseignant){
 				System.out.println("Enseignant "+l);
