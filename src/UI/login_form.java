@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import espace_etudiant.Utilisateur;
 import gestion.Admin;
+import gestion.Classe;
 import gestion.Enseignant;
 import gestion.Etudiant;
 
@@ -29,6 +30,7 @@ public class login_form extends JFrame implements ActionListener{
 	private JPanel panel;
 	private JLabel message;
 	Vector <Utilisateur> users=new Vector<Utilisateur>();
+	Vector <Classe> classes=new Vector<Classe>();
 	
 	private void initUserList() {
 		users.add(new Etudiant("user1", "Ahmed", "Ben Ahmed", "ahmed", "1234"));
@@ -96,13 +98,21 @@ public class login_form extends JFrame implements ActionListener{
 //			System.out.println(user.getClass());
 			System.out.print("login Successful as ");
 			if (user instanceof Etudiant) {
-				System.out.println("Etudiant");
+				///todo
+				//pass class to espace_etud
+//				for(Classe c:classes) {
+//					
+//					if (c.student_in_class(user)) espace_etudiant(c); //open espace etudiant with parameter class
+//				}
+				dispose();
+				System.out.println("Etudiant "+l);
+				new espace_etudiant2(user);
 			}
 			if (user instanceof Enseignant){
-				System.out.println("Enseignant");
+				System.out.println("Enseignant "+l);
 			}
 			if (user instanceof Admin) {
-				System.out.println("Admin");
+				System.out.println("Admin "+l);
 			}
 		}
 		else {

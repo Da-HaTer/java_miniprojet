@@ -5,13 +5,31 @@ import java.util.ArrayList;
 import model.Matiere;
 
 public class Classe { //like struct
+	String name;
 	public ArrayList<Matiere> listeMatiereS1 = new ArrayList<>();
 	public ArrayList<Matiere> listeMatiereS2 = new ArrayList<>();
 	public ArrayList<Etudiant> listeEtudiant = new ArrayList<>();
+	
+	public Classe(String s) {
+		name=s;
+		// TODO Auto-generated constructor stub
+	}
+	public Classe(String s,ArrayList<Matiere> s1, ArrayList<Matiere> s2, ArrayList<Etudiant> e){
+		name=s;
+		listeMatiereS1=s1;
+		listeMatiereS2=s2;
+		listeEtudiant=e;
+		// TODO Auto-generated constructor stub
+	}
+	
+	public boolean student_in_class(Etudiant e){ //check if a student is in a class
+		 for (Etudiant i: listeEtudiant) if (i.getId()==e.getId()) return true;
+		 return false;	 
+	}
 
 	public static void main(String[] args) {
 
-		Classe mi2 = new Classe();
+		Classe mi2 = new Classe("mi2");
 
 		//mi2.listeMatiereS1.add(new Matiere(0.7, 0.3, 0, 2, "Algo"));
 		mi2.listeMatiereS1.add(new Matiere(0.7, 0.3, 0, 1, "math"));

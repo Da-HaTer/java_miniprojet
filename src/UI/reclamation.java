@@ -46,18 +46,16 @@ public class reclamation extends JFrame   {
 		buttonpanel.setLayout(null); 
 		
 		JButton connection =new JButton ("Depot");
-		connection.setBounds(30, 0, 80, 50);
+		connection.setBounds(40, 0, 80, 30);
 		buttonpanel.add(connection);
 		//connection.setBounds(150,170,160,30);
 		contentPane.add(buttonpanel);
+		setVisible(true);
 	   //connection.addActionListener(t&his);
 	}
-	///todo: add actionlistener + icon + reclamation object
+	///todo: add actionlistener + icon
 	public static void main(String[] args) throws Exception {
-		UIManager.setLookAndFeel(new NimbusLookAndFeel());
-		reclamation login =new reclamation() ;
-		login.setVisible(true);
-		login.setAlwaysOnTop(true);		
+		new reclamation() ;
 	}
 
 }

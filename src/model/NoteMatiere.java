@@ -16,7 +16,6 @@ public class NoteMatiere {
 	public double moyenne() {
 		return (notes.getExam() * matiere.getCoefExam() + notes.getTp() * matiere.getCoefTp()
 				+ notes.getDs() * matiere.getCoefds());
-
 	}
 
 	public Matiere getMatiere() {

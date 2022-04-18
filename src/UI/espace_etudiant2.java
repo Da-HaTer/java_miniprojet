@@ -5,10 +5,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -16,6 +18,9 @@ import javax.swing.UIManager;
 
 
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.table.DefaultTableModel;
+
+import gestion.Etudiant;
 
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
@@ -32,10 +37,16 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class espace_etudiant2 extends JFrame implements ActionListener  {
-	private static final long serialVersionUID = 9L;
+	Etudiant u;
+	JButton deconnection,reclamation;
+	ButtonGroup radioButtonGroup = new ButtonGroup();
+	JRadioButton sem1,sem2;
+	JTable table;
 	
-	public espace_etudiant2() {
+	public espace_etudiant2(Etudiant u, int sem) {
 		super("Vos Notes");
+		this.u=u;
+//		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(900, 700);
 //		this.setResizable(false);
@@ -44,17 +55,7 @@ public class espace_etudiant2 extends JFrame implements ActionListener  {
 		JPanel contentPane =(JPanel) this.getContentPane() ;
 		//contentPane.setLayout(new GridLayout(3,1,100,10));
 		setLayout(new FlowLayout());
-		String[] columns = new String[] {"Matiere", "Note S1", "Note S2", "Moyenne" };
-		Object[][] data = new Object[][] {{"BD", 10, 10, 10 },{"JAVA", 15, 8, 50.0 }};
-
-        JTable table = new JTable(data, columns)
-        {
-			private static final long serialVersionUID = 1L;
-	
-			public boolean isCellEditable(int row, int column) {                
-					return false;               
-			};
-		};
+		init_table(sem);
         contentPane.add(table);
         JScrollPane scroll = new JScrollPane(table);
         table.setFillsViewportHeight(true);
@@ -66,13 +67,13 @@ public class espace_etudiant2 extends JFrame implements ActionListener  {
         JPanel ui = new JPanel();
         ui.setLayout(new GridLayout(3,5,20, 25));
         add(ui);
-        JLabel moylabel = new JLabel("moyenne:");
+        JLabel moylabel = new JLabel("moyenne semestre:");
 		moylabel.setFont(new Font("Serif", Font.PLAIN, 18));
 //		ui.add(new Panel());
 		ui.add(new JLabel());
 		ui.add(moylabel);
 		
-		JTextField moy= new JTextField("");
+		JTextField moy= new JTextField();
 //		moy.setPreferredSize(new Dimension(100,20));
 //		ui.add(new Panel());
 		ui.add(moy);
@@ -85,37 +86,99 @@ public class espace_etudiant2 extends JFrame implements ActionListener  {
 //		label.setBackground(new Color(255,255,255));
 		ui.add(new JLabel());
 		ui.add(label);
-		CheckboxGroup sem = new CheckboxGroup();
 		
-		ui.add(new Checkbox("Semestre1", sem, true));
-//		
-		ui.add(new Checkbox("Semestre2", sem, false));
+		sem1=new JRadioButton("Semestre1");
+//		else sem2.setSelected(false);
 		
-		JButton deconnection =new JButton ("deconnection");
+		sem2=new JRadioButton("Semestre2");
+		
+		if (sem==1) {
+			if(u!=null) moy.setText(Double.toString(u.moyenneS1()));
+			moy.setText("10");///temp
+			sem1.setSelected(true);
+		}
+		else{
+			sem2.setSelected(true);
+			moy.setText("20"); ///temp
+			if(u!=null) moy.setText(Double.toString(u.moyenneS2()));
+		}
+		
+		radioButtonGroup.add(sem1);
+		radioButtonGroup.add(sem2);
+		sem1.addActionListener(this);
+		sem2.addActionListener(this);
+		ui.add(sem1);
+		ui.add(sem2);
+		
+		deconnection =new JButton ("deconnection");
+		deconnection.addActionListener(this);
 //		deconnection.setBounds(150,170,160,30);
 		ui.add(new Panel());
 		ui.add(new Panel());
 		ui.add(deconnection);
 		
-		JButton reclamation =new JButton ("reclamation");
+		reclamation =new JButton ("reclamation");
+		reclamation.addActionListener(this);
 //		reclamation.setBounds(150,170,160,30);
 		ui.add(reclamation);
+		setVisible(true);
 	}
 
+	public void init_table(int c){
+		if (c==1) {
+			String[] columns = new String[] {"Matiere", "Note S1", "Note S2", "Moyenne" };
+			Object[][] data = new Object[][] {{"BD", 10, 10, 10 },{"C++", 15, 8, 20.0 }};
+			
+	        table= new JTable(data, columns){
+//				private static final long serialVersionUID = 1L;
+		
+				public boolean isCellEditable(int row, int column) {                
+						return false;               
+				};
+			};
+		}
+		if (c==2) {
+			String[] columns = new String[] {"Matiere", "Note S1", "Note S2", "Moyenne" };
+			Object[][] data = new Object[][] {{"proba", 10, 10, 10 },{"JAVA", 15, 8, 10.0 }};
+			
+	        table= new JTable(data, columns){
+				private static final long serialVersionUID = 1L;
+		
+				public boolean isCellEditable(int row, int column) {                
+						return false;               
+				};
+			};
+		}
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+		Object source = e.getSource();
+		if (source==sem1) {
+			dispose();
+			new espace_etudiant2(u,1);
+			//semester1
+		}
+		if (source==sem2) {
+			//semester2
+			dispose();
+			new espace_etudiant2(u,2);
+		}
+		if (source==deconnection) {
+			System.out.println("discoennected");
+			dispose();
+			new login_form();
+		}
+		if (source==reclamation) {
+			System.out.println("reclamation");
+			dispose();
+			new reclamation();
+		}
 	}
 	///todo:
 //	set data based on semester (actionlistener)
-	public static void main(String[] args) throws Exception {
-	UIManager.setLookAndFeel(new NimbusLookAndFeel());
-	espace_etudiant2 login =new espace_etudiant2() ;
-	login.setVisible(true);
-	login.setAlwaysOnTop(true)	;		
-	
-
-}
+	public static void main(String[] args){
+		new espace_etudiant2(null,1);
+	}
 
 }
