@@ -31,7 +31,7 @@ public class espace_superadmin extends JFrame implements ActionListener {
 		contentPane.add(ajout_e);
 	    ajout_e.addActionListener(this);
 	    
-	    JButton supp_e =new JButton ("Supprimer étudiant");
+	    JButton supp_e =new JButton ("Supprimer Etudiant");
 		contentPane.add(supp_e);
 	    supp_e.addActionListener(this);
 	    

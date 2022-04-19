@@ -97,7 +97,7 @@ public class espace_enseignant extends JFrame implements ActionListener  {
 		ui.add(deconnection);
 		setVisible(true);
 	}
-	private JComboBox<String> getclasses() {
+	public JComboBox<String> getclasses() { ///make this external
 		// TODO Auto-generated method stub
 		///TODO
 		//auto import classes here
@@ -131,6 +131,7 @@ public class espace_enseignant extends JFrame implements ActionListener  {
 	///todo:
 //	set data based on semester (actionlistener)
 //	enseignant should be assigned matiere (important)
+//	bouton sauvergarder (confirmation (optionon)) ..
 	public static void main(String[] args) throws Exception {
 		new espace_enseignant() ;		
 	}
