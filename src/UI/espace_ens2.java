@@ -35,21 +35,26 @@ import java.awt.event.WindowListener;
 
 public class espace_ens2 extends JFrame implements ActionListener  {
 	private static final long serialVersionUID = 9L;
+	JButton deconnection,retour;
 	
 	public espace_ens2() { 
 		super("Vos Notes");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setSize(900, 700);
-//		this.setResizable(false);
+		this.setSize(500, 500);
+		this.setResizable(false);
 		//this.setLocation(350, 200);
 		this.setLocationRelativeTo(null);
 		JPanel contentPane =(JPanel) this.getContentPane() ;
 		//contentPane.setLayout(new GridLayout(3,1,100,10));
 		setLayout(new FlowLayout());
 		String[] columns = new String[] {"Etudiant", "Note DS", "Note TP", "Note Exam" };
-		Object[][] data = new Object[][] {{"BD", 10, 10, 10 },{"JAVA", 15, 8, 50.0 }};
-		///check if marks already asigned here
-		boolean locked=true;
+		Object[][] data = new Object[50][4];
+		for (int i = 0; i < data.length; i++) {
+			data[i]=new Object[]{"Etudiant "+Integer.toString(i), 10, 10, 10};
+		}
+		
+		///check if marks already assigned here
+		boolean locked=false;
 		JTable table;
 		if (locked) {
 	        table =new JTable(data, columns)
@@ -68,57 +73,33 @@ public class espace_ens2 extends JFrame implements ActionListener  {
         JScrollPane scroll = new JScrollPane(table);
         table.setFillsViewportHeight(true);
         contentPane.add(scroll);
-        /*JLabel labelHead = new JLabel("Liste des notes");
-        labelHead.setFont(new Font("Arial",Font.TRUETYPE_FONT,20));
-        contentPane.add(labelHead);*/
-        
+
         JPanel ui = new JPanel();
-        ui.setLayout(new GridLayout(3,5,20, 25));
-        
-		Label l = new Label("Selectionner classe");
-		l.setFont(new Font("Serif", Font.PLAIN, 18));
-		ui.add(new JLabel());
-		ui.add(l);
-		
-		final Choice c = new Choice();    
-		c.setBounds(100, 100, 75, 75);   
-		///todo
-		//auto import classes;
-		c.add("MI2A");    
-		c.add("MI2B");    
-		c.add("PI");   
-		ui.add(c);
-		ui.add(new JLabel());
-        
         add(ui);
-		ui.add(new JLabel());
-		JLabel label = new JLabel("selectionner semestre:");
-		label.setFont(new Font("Serif", Font.PLAIN, 18));
-//		label.setSize(150,50);
-//		label.setPreferredSize(new Dimension(250, 100));
-//		label.setBackground(new Color(255,255,255));
-		ui.add(new JLabel());
-		ui.add(label);
-		CheckboxGroup sem = new CheckboxGroup();
-		
-		ui.add(new Checkbox("Semestre1", sem, true));
-//		
-		ui.add(new Checkbox("Semestre2", sem, false));
-		
-		JButton deconnection =new JButton ("Retour");
+        ui.setLayout(new GridLayout(1,5));
+		retour =new JButton ("Retour");
+		retour.addActionListener(this);
 //		deconnection.setBounds(150,170,160,30);
-		ui.add(new Panel());
-		ui.add(new Panel());
-		ui.add(deconnection);
+		ui.add(new Panel()); ui.add(new Panel()); ///automate with number??
+		ui.add(retour);
 		
-		JButton reclamation =new JButton ("Deconnection");
+		deconnection =new JButton ("Deconnection");
+		deconnection.addActionListener(this);
 //		reclamation.setBounds(150,170,160,30);
-		ui.add(reclamation);
+		ui.add(deconnection);
+		setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		Object source=e.getSource();
+		if (source==retour){
+				System.out.println("retour");
+		}
+		else if (source==deconnection){
+			System.out.println("deconnection");
+	}
 		
 		
 	}
@@ -126,12 +107,7 @@ public class espace_ens2 extends JFrame implements ActionListener  {
 //	set data based on semester (actionlistener)
 //	enseignant should be assigned matiere (important)
 	public static void main(String[] args) throws Exception {
-	UIManager.setLookAndFeel(new NimbusLookAndFeel());
-	espace_ens2 login =new espace_ens2() ;
-	login.setVisible(true);
-	login.setAlwaysOnTop(true)	;		
-	
-
-}
+		new espace_ens2() ;		
+	}
 
 }

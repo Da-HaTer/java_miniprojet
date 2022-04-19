@@ -177,6 +177,9 @@ public class espace_etudiant2 extends JFrame implements ActionListener  {
 	}
 	///todo:
 //	set data based on semester (actionlistener)
+//	fetch data from ??
+//	pass class by reference
+//	display info (name fname, class)
 	public static void main(String[] args){
 		new espace_etudiant2(null,1);
 	}
