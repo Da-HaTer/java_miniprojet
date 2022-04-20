@@ -64,7 +64,8 @@ public class reclamation extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println(rec.getText());
+		String message=rec.getText();
+		System.out.println(message);
 	}
 
 }

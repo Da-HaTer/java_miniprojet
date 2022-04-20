@@ -37,6 +37,7 @@ import java.awt.event.WindowListener;
 
 public class espace_ens2 extends JFrame implements ActionListener  {
 	private static final long serialVersionUID = 9L;
+	private boolean locked;
 	JButton valider,deconnection,retour;
 	Enseignant ens;
 	
@@ -58,7 +59,7 @@ public class espace_ens2 extends JFrame implements ActionListener  {
 		}
 		
 		///check if marks already assigned here
-		boolean locked=false;
+		locked=false;
 		JTable table;
 		if (locked) {
 	        table =new JTable(data, columns)
@@ -124,7 +125,7 @@ public class espace_ens2 extends JFrame implements ActionListener  {
 //	set data based on semester (actionlistener)
 //	enseignant should be assigned matiere (important)
 	public static void main(String[] args) throws Exception {
-		new espace_ens2("MI2-A",1,null) ;		
+		new espace_ens2("MI2-A",1,null);
 	}
 
 }
