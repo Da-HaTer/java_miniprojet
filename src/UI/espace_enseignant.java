@@ -20,6 +20,8 @@ import javax.swing.UIManager;
 
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import gestion.Enseignant;
+
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 import java.awt.Choice;
@@ -42,9 +44,10 @@ public class espace_enseignant extends JFrame implements ActionListener  {
 	JComboBox<String> class_selection;
 	ButtonGroup radioButtonGroup = new ButtonGroup();
 	JRadioButton sem1,sem2;
-	
-	public espace_enseignant() { 
+	Enseignant ens;
+	public espace_enseignant(Enseignant e) {
 		super("Vos Notes");
+		ens=e;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(700, 300);
 		this.setResizable(false);
@@ -58,7 +61,7 @@ public class espace_enseignant extends JFrame implements ActionListener  {
         
 		JLabel l = new JLabel("Selectionner classe");
 		l.setFont(new Font("Serif", Font.PLAIN, 18));
-		JLabel welcome=new JLabel("BIENVENUE "+"TEACHER NUMBER 007");
+		JLabel welcome=new JLabel("BIENVENUE "+ens.getLogin().toUpperCase());
 		ui.add(new JLabel());
 		ui.add(welcome);
 		ui.add(new JLabel());
@@ -111,9 +114,15 @@ public class espace_enseignant extends JFrame implements ActionListener  {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object source=e.getSource();
+		String classe_name =class_selection.getSelectedItem().toString();
+		int sem = 1 ;
+		
 		if (source==validate) {
-			System.out.println("validate");
-		}
+//			System.out.println("validate");
+			if (sem2.isSelected()) sem=2;
+			dispose();
+			new espace_ens2(classe_name,sem);
+		} 
 		if (source==deconnection) {
 			System.out.println("deconnection");
 		}
@@ -124,8 +133,8 @@ public class espace_enseignant extends JFrame implements ActionListener  {
 			System.out.println("sem2");
 		}
 		if (source==class_selection) {
-			String item =class_selection.getSelectedItem().toString();
-			System.out.println(item);
+//			String item =class_selection.getSelectedItem().toString();
+			System.out.println(classe_name);
 		}
 	}
 	///todo:
@@ -133,6 +142,7 @@ public class espace_enseignant extends JFrame implements ActionListener  {
 //	enseignant should be assigned matiere (important)
 //	bouton sauvergarder (confirmation (optionon)) ..
 	public static void main(String[] args) throws Exception {
-		new espace_enseignant() ;		
+		Enseignant e=new Enseignant("imen", "12345");
+		new espace_enseignant(e) ;		
 	}
 }

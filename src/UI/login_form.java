@@ -43,7 +43,7 @@ public class login_form extends JFrame implements ActionListener{
     	panel = new JPanel();
 //        frame = new JFrame();
        
-        setSize(400, 200);
+        setSize(400, 150);
     	
         setLocationRelativeTo(null); //centered
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,6 +104,8 @@ public class login_form extends JFrame implements ActionListener{
 			}
 			if (user instanceof Enseignant){
 				System.out.println("Enseignant "+l);
+				dispose();
+				new espace_enseignant((Enseignant) user);
 			}
 			if (user instanceof Admin) {
 				System.out.println("Admin "+l);

@@ -35,12 +35,12 @@ import java.awt.event.WindowListener;
 
 public class espace_ens2 extends JFrame implements ActionListener  {
 	private static final long serialVersionUID = 9L;
-	JButton deconnection,retour;
+	JButton valider,deconnection,retour;
 	
-	public espace_ens2() { 
+	public espace_ens2(String classname, int sem) { 
 		super("Vos Notes");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setSize(500, 500);
+		this.setSize(550, 550);
 		this.setResizable(false);
 		//this.setLocation(350, 200);
 		this.setLocationRelativeTo(null);
@@ -69,6 +69,10 @@ public class espace_ens2 extends JFrame implements ActionListener  {
 		else {
 			table = new JTable(data, columns);
 		}
+		JLabel classe=new JLabel("Classe: "+classname);
+		classe.setFont(new Font("Serif", Font.BOLD, 18));
+		
+		contentPane.add(classe);
         contentPane.add(table);
         JScrollPane scroll = new JScrollPane(table);
         table.setFillsViewportHeight(true);
@@ -76,11 +80,15 @@ public class espace_ens2 extends JFrame implements ActionListener  {
 
         JPanel ui = new JPanel();
         add(ui);
-        ui.setLayout(new GridLayout(1,5));
+        ui.setLayout(new GridLayout(1,5,5,5));
+        valider  =new JButton ("valider");
+		valider.addActionListener(this);
+		
 		retour =new JButton ("Retour");
 		retour.addActionListener(this);
 //		deconnection.setBounds(150,170,160,30);
-		ui.add(new Panel()); ui.add(new Panel()); ///automate with number??
+		ui.add(new Panel()); ///automate with number??
+		ui.add(valider);
 		ui.add(retour);
 		
 		deconnection =new JButton ("Deconnection");
@@ -99,15 +107,17 @@ public class espace_ens2 extends JFrame implements ActionListener  {
 		}
 		else if (source==deconnection){
 			System.out.println("deconnection");
-	}
-		
+		}
+		else if (source==valider){
+			System.out.println("deconnection");
+		}
 		
 	}
 	///todo:
 //	set data based on semester (actionlistener)
 //	enseignant should be assigned matiere (important)
 	public static void main(String[] args) throws Exception {
-		new espace_ens2() ;		
+		new espace_ens2("MI2-A",1) ;		
 	}
 
 }
