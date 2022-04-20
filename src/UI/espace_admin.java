@@ -12,6 +12,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import gestion.gestion_classe;
+import gestion.gestion_enseignant;
+import gestion.gestion_etudiant;
+import gestion.gestion_matiere;
+import main.login_form;
+
  public class espace_admin extends JFrame implements ActionListener{
  JComboBox<String> entity_selection;//,action_selection;
  JButton validate,deconnection;
@@ -72,22 +78,22 @@ import javax.swing.JPanel;
 			
 			switch (choix) {
 				case "Etudiant": {
-					System.out.println("etudiant");
-	//				gestion_etudiant();
+//					System.out.println("etudiant");
+					new gestion_etudiant();
 					break;
 				}
 				case "Enseignant": {
-	//				gestion_enseignant();
-					System.out.println("enseignant");
+					new gestion_enseignant();
+//					System.out.println("enseignant");
 					break;
 				}
 				case "Matiere": {
-	//				gestion_matiere();
+					new gestion_matiere();
 					System.out.println("matiere");
 					break;
 				}
 				case "Classe": {
-	//				gestion_classe();
+					new gestion_classe();
 					System.out.println("calsse");
 					break;
 				}
