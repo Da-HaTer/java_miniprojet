@@ -17,6 +17,8 @@ import javax.swing.UIManager;
 
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import gestion.Enseignant;
+
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 import java.awt.Choice;
@@ -36,9 +38,11 @@ import java.awt.event.WindowListener;
 public class espace_ens2 extends JFrame implements ActionListener  {
 	private static final long serialVersionUID = 9L;
 	JButton valider,deconnection,retour;
+	Enseignant ens;
 	
-	public espace_ens2(String classname, int sem) { 
+	public espace_ens2(String classname, int sem,Enseignant e) { 
 		super("Vos Notes");
+		ens=e;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(550, 550);
 		this.setResizable(false);
@@ -104,12 +108,15 @@ public class espace_ens2 extends JFrame implements ActionListener  {
 		Object source=e.getSource();
 		if (source==retour){
 				System.out.println("retour");
+				dispose();
+				new espace_enseignant(ens);
 		}
 		else if (source==deconnection){
-			System.out.println("deconnection");
+			dispose();
+			new login_form();
 		}
 		else if (source==valider){
-			System.out.println("deconnection");
+			System.out.println("valider");
 		}
 		
 	}
@@ -117,7 +124,7 @@ public class espace_ens2 extends JFrame implements ActionListener  {
 //	set data based on semester (actionlistener)
 //	enseignant should be assigned matiere (important)
 	public static void main(String[] args) throws Exception {
-		new espace_ens2("MI2-A",1) ;		
+		new espace_ens2("MI2-A",1,null) ;		
 	}
 
 }

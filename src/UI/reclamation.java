@@ -24,8 +24,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class reclamation extends JFrame   {
+public class reclamation extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 7L;
+	JButton depot;
+	JTextArea rec;
+	
 	public reclamation() {
 		super("Reclamation");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -36,7 +39,7 @@ public class reclamation extends JFrame   {
 		JPanel contentPane =(JPanel) this.getContentPane() ;
 		contentPane.setLayout(new GridLayout(2,1,10,10));
 		
-		JTextArea rec =new JTextArea("Inserer votre reclamation ici ") ;
+		rec =new JTextArea("Inserer votre reclamation ici ") ;
 //		rec.setCaretPosition(rec.getText().length()-1); //cursor at end
 		rec.selectAll();
 		rec.setLineWrap(true);
@@ -45,9 +48,10 @@ public class reclamation extends JFrame   {
 		JPanel buttonpanel= new JPanel();
 		buttonpanel.setLayout(null); 
 		
-		JButton connection =new JButton ("Depot");
-		connection.setBounds(40, 0, 80, 30);
-		buttonpanel.add(connection);
+		depot=new JButton ("Depot");
+		depot.addActionListener(this);
+		depot.setBounds(40, 0, 80, 30);
+		buttonpanel.add(depot);
 		//connection.setBounds(150,170,160,30);
 		contentPane.add(buttonpanel);
 		setVisible(true);
@@ -56,6 +60,11 @@ public class reclamation extends JFrame   {
 	///todo: add actionlistener + icon
 	public static void main(String[] args) throws Exception {
 		new reclamation() ;
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println(rec.getText());
 	}
 
 }

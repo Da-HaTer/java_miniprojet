@@ -121,20 +121,12 @@ public class espace_enseignant extends JFrame implements ActionListener  {
 //			System.out.println("validate");
 			if (sem2.isSelected()) sem=2;
 			dispose();
-			new espace_ens2(classe_name,sem);
+			new espace_ens2(classe_name,sem,ens);
 		} 
 		if (source==deconnection) {
 			System.out.println("deconnection");
-		}
-		if (source==sem1) {
-			System.out.println("sem1");
-		}
-		if (source==sem2) {
-			System.out.println("sem2");
-		}
-		if (source==class_selection) {
-//			String item =class_selection.getSelectedItem().toString();
-			System.out.println(classe_name);
+			dispose();
+			new login_form();
 		}
 	}
 	///todo:
