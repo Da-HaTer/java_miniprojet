@@ -9,9 +9,13 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.*;
 import javax.swing.event.*;
-public class gestion_entite 
+public class gestion_entite extends JPanel
 {  
-    //TextField
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//TextField
     private Vector<JTextField> tfields; // text1, text2, text3, text4;
     private Vector<JLabel> labels; //label1, label2, label3, label4;
     // JTable Header
@@ -23,11 +27,11 @@ public class gestion_entite
     // Create the table
     private JTable table = new JTable(model);
     // Create the main panel
-    private JPanel mainPanel = new JPanel(new BorderLayout());
     public gestion_entite(Vector<String> colnames){
     	if (colnames!=null){
     		columns=(String[]) colnames.toArray(new String[colnames.size()]);
     	}
+    	setLayout(new BorderLayout());
     	model= new DefaultTableModel(columns, 0);
     	table.setModel(model);
     	tfields=new Vector<JTextField>();
@@ -41,7 +45,7 @@ public class gestion_entite
         //Button panel
         JPanel buttonPanel = new JPanel();
         //Add buttons to panel
-//        buttonPanel.add(valider);
+        buttonPanel.add(valider);
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(delete);
@@ -124,7 +128,7 @@ public class gestion_entite
         valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
+            	JOptionPane.showMessageDialog(null, "Donnes sauvegardes"); //alert
             }
         });
         
@@ -135,9 +139,9 @@ public class gestion_entite
         init_fields();
         init_input_ui(textPanel);
         //Add the panels and the table to the main panel
-        mainPanel.add(textPanel, BorderLayout.NORTH);
-        mainPanel.add(new JScrollPane(table), BorderLayout.CENTER);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        add(textPanel, BorderLayout.NORTH);
+        add(new JScrollPane(table), BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
     private void remove_empties() {
 		// TODO Auto-generated method stub
@@ -169,9 +173,9 @@ public class gestion_entite
 		}
 	}
 	//Get the main panel
-    public JComponent getComponent() {
-        return mainPanel;
-    }
+//    public JComponent getComponent() {
+//        return mainPanel;
+//    }
     // start the application in thread-safe
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -180,12 +184,18 @@ public class gestion_entite
             	Vector<String> cols=new Vector<>();
             	cols.add("nom");
             	cols.add("prenom");
-//            	cols.add("addresse");
-//            	cols.add("cin");
-//            	cols.add("sex");
-            	
+            	cols.add("addresse");
+            	cols.add("cin");
+            	cols.add("sex");
                 JFrame f = new JFrame("Gestion");
-                f.getContentPane().add(new gestion_entite(cols).getComponent());
+                f.setLayout(new FlowLayout());
+                JPanel p1=new gestion_entite(cols);
+                JPanel p2=new gestion_entite(cols);
+                JPanel p3=new gestion_entite(cols);
+                f.getContentPane().add(p1);
+                f.getContentPane().add(p2);
+                f.getContentPane().add(p3);
+                
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //              f.setSize(340,250);
                 f.pack();
