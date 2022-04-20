@@ -14,7 +14,6 @@ public class gestion_entite
     //TextField
     private Vector<JTextField> tfields; // text1, text2, text3, text4;
     private Vector<JLabel> labels; //label1, label2, label3, label4;
-    private int selectedrow=0;
     // JTable Header
     private String[] columns = {
         "Name", "Age","sex","Address",
@@ -38,12 +37,15 @@ public class gestion_entite
         //Update button
         JButton updateButton = new JButton("Update");
         JButton delete = new JButton("delete");
+        JButton valider = new JButton("valider");
         //Button panel
         JPanel buttonPanel = new JPanel();
         //Add buttons to panel
+//        buttonPanel.add(valider);
         buttonPanel.add(addButton);
         buttonPanel.add(updateButton);
         buttonPanel.add(delete);
+        
     
         // This code is called when the Add button is clicked
         addButton.addActionListener(new ActionListener() {
@@ -76,9 +78,11 @@ public class gestion_entite
           @Override
           public void valueChanged(ListSelectionEvent e) {
                 int i = table.getSelectedRow();
-                for (int j = 0; j < tfields.size(); j++) {
-                	tfields.get(j).setText((String)model.getValueAt(i, j));
-				}
+                if (i!=-1) {
+	                for (int j = 0; j < tfields.size(); j++) {
+	                	tfields.get(j).setText((String)model.getValueAt(i, j));
+					}
+                }
 //                text1.setText((String)model.getValueAt(i, 0));
 //                text2.setText((String)model.getValueAt(i, 1));
 //                text3.setText((String)model.getValueAt(i, 2));
@@ -105,38 +109,31 @@ public class gestion_entite
             public void actionPerformed(ActionEvent e) {
                //Update the form
 //            	model=(DefaultTableModel) e.getSource();
-               int i = table.getSelectedRow();
-               for (int j = 0; j < tfields.size(); j++) {
-            	   model.setValueAt("", i, j);
-				}               
+            	int selectedrow=table.getSelectedRow();
+	        	if(selectedrow != -1) {
+	                // remove selected row from the model
+//	        		table.setRowSelectionInterval(0, 0);
+//	        		table.clearSelection();
+//	        		model.permutrow()
+	                model.removeRow(selectedrow);
+	                JOptionPane.showMessageDialog(null, "Selected row deleted successfully"); //alert
+	        	}             
             }
         });
         
+        valider.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	
+            }
+        });
         
         //Create the JTextFields panel
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         init_labels();
         init_fields();
-
-
-//        text1 = new JTextField();
-//        text2 = new JTextField();
-//        text3 = new JTextField();
-        
-        //Add the JTextFields to the panel
         init_input_ui(textPanel);
-//        textPanel.add(label1);
-//        textPanel.add(text1);
-//        textPanel.add(label2);
-//        textPanel.add(text2);
-//        textPanel.add(label3);
-//        textPanel.add(text3);
-
-//        textPanel.add(text1, BorderLayout.NORTH);
-//        textPanel.add(text2, BorderLayout.CENTER);
-//        textPanel.add(text3, BorderLayout.SOUTH);
-//        textPanel.add(labelPanel, BorderLayout.WEST);
         //Add the panels and the table to the main panel
         mainPanel.add(textPanel, BorderLayout.NORTH);
         mainPanel.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -149,9 +146,8 @@ public class gestion_entite
     		System.out.println(model.getValueAt(0, i));
     		
 		}
-    	
-		
-	}
+    }
+    
 	private void init_input_ui(JPanel textPanel) {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < columns.length; i++) {
@@ -188,7 +184,7 @@ public class gestion_entite
 //            	cols.add("cin");
 //            	cols.add("sex");
             	
-                JFrame f = new JFrame("Update a Row in JTable");
+                JFrame f = new JFrame("Gestion");
                 f.getContentPane().add(new gestion_entite(cols).getComponent());
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //              f.setSize(340,250);
