@@ -48,21 +48,12 @@ import main.login_form;
          contentpane.add(validate);
          contentpane.add(deconnection);
          setVisible(true);
-         
      }
  	public JComboBox<String> get_entities() { ///make this external
 		// TODO Auto-generated method stub
 		///TODO
 		//auto import classes here
 		String[] data= {"Etudiant","Enseignant","Classe","Matiere"};
-		JComboBox<String> c=new JComboBox<String>(data);
-		return c;
-	}
- 	public JComboBox<String> get_actions() { ///make this external
-		// TODO Auto-generated method stub
-		///TODO
-		//auto import classes here
-		String[] data= {"create","List","update","delete"};
 		JComboBox<String> c=new JComboBox<String>(data);
 		return c;
 	}

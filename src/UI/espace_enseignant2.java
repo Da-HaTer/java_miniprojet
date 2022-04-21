@@ -19,6 +19,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import main.login_form;
 import user.Enseignant;
+import user.Utilisateur;
 
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
@@ -40,11 +41,11 @@ public class espace_enseignant2 extends JFrame implements ActionListener  {
 	private static final long serialVersionUID = 9L;
 	private boolean locked;
 	JButton valider,deconnection,retour;
-	Enseignant ens;
+	Utilisateur ens;
 	
-	public espace_enseignant2(String classname, int sem,Enseignant e) { 
+	public espace_enseignant2(String classname, int sem,Utilisateur ens2) { 
 		super("Vos Notes");
-		ens=e;
+		ens=ens2;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(550, 550);
 		this.setResizable(false);
@@ -61,6 +62,10 @@ public class espace_enseignant2 extends JFrame implements ActionListener  {
 		
 		///check if marks already assigned here
 		locked=false;
+		if (ens instanceof Enseignant) {
+			System.out.println("enseignant");
+			locked=true;
+		}
 		JTable table;
 		if (locked) {
 	        table =new JTable(data, columns)

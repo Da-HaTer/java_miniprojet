@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class gestion_classe_attributes {
-	public gestion_classe_attributes() {
+	public gestion_classe_attributes(String classname) {
 		// TODO Auto-generated constructor stub
     	Vector<String> mat_s1=new Vector<>();
     	mat_s1.add("id matiere");
@@ -15,7 +15,7 @@ public class gestion_classe_attributes {
     	mat_s2.add("id matiere");
     	Vector<String> Etudiants=new Vector<>();
     	Etudiants.add("id etudiant");
-        JFrame f = new JFrame("Gestion classe");
+        JFrame f = new JFrame("Gestion classe "+classname);
         f.setLayout(new FlowLayout());
         JPanel p1=new gestion_entite(mat_s1);
         JPanel p2=new gestion_entite(mat_s2);
@@ -31,6 +31,6 @@ public class gestion_classe_attributes {
         f.setVisible(true);
 	}
     public static void main(String[] args) {
-        new gestion_classe_attributes();
+        new gestion_classe_attributes("");
     }
 }

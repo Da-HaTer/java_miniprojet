@@ -26,6 +26,7 @@ public class gestion_entite extends JPanel
     private DefaultTableModel model;
     // Create the table
     private JTable table = new JTable(model);
+    private JPanel buttonPanel;
     // Create the main panel
     public gestion_entite(Vector<String> colnames){
     	if (colnames!=null){
@@ -43,7 +44,7 @@ public class gestion_entite extends JPanel
         JButton delete = new JButton("delete");
         JButton valider = new JButton("valider");
         //Button panel
-        JPanel buttonPanel = new JPanel();
+        buttonPanel = new JPanel();
         //Add buttons to panel
         buttonPanel.add(valider);
         buttonPanel.add(addButton);
@@ -162,6 +163,12 @@ public class gestion_entite extends JPanel
 		for (String s:columns) {
 			labels.add(new JLabel(s));
 		}
+	}
+	public JPanel get_button_panel() {
+		return buttonPanel;
+	}
+	public Vector<JTextField> get_textfields(){
+		return tfields;
 	}
 	//Get the main panel
 //    public JComponent getComponent() {

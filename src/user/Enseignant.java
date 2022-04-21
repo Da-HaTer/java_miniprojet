@@ -1,6 +1,10 @@
 package user;
 
 public class Enseignant extends Utilisateur{
+	private String name;
+	private String cin;
+	private String id;
+	
 	public String getName() {
 		return name;
 	}
@@ -19,10 +23,6 @@ public class Enseignant extends Utilisateur{
 	public void setId(String id) {
 		this.id = id;
 	}
-	private String name;
-	private String cin;
-	private String id;
-
 	public Enseignant(String login, String passwd) {
 		super(login,passwd);
 		// TODO Auto-generated constructor stub

@@ -16,11 +16,13 @@ import javax.swing.JTextField;
 import UI.espace_admin;
 import UI.espace_enseignant1;
 import UI.espace_etudiant;
+import UI.espace_superadmin;
 import user.Utilisateur;
 import user.Admin;
 import model.Classe;
 import user.Enseignant;
 import user.Etudiant;
+import user.Super_Admin;
 
 public class login_form extends JFrame implements ActionListener{
 //	private int count=0;
@@ -39,6 +41,7 @@ public class login_form extends JFrame implements ActionListener{
 		users.add(new Etudiant("user1", "Ahmed", "Ben Ahmed", "ahmed", "1234"));
 		users.add(new Enseignant("Imene", "12345"));
 		users.add(new Admin("admin", "*****"));
+		users.add(new Super_Admin("root", "toor"));
 	}
 
     public login_form(){
@@ -108,11 +111,15 @@ public class login_form extends JFrame implements ActionListener{
 			}
 			if (user instanceof Enseignant){
 				System.out.println("Enseignant "+l);
-				new espace_enseignant1((Enseignant) user);
+				new espace_enseignant1(user);
 			}
 			if (user instanceof Admin) {
 				System.out.println("Admin "+l);
 				new espace_admin();
+			}
+			if (user instanceof Super_Admin) {
+				System.out.println("SuperAdmin "+l);
+				new espace_superadmin(user);
 			}
 		}
 		else {

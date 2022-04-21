@@ -22,6 +22,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import main.login_form;
 import user.Enseignant;
+import user.Utilisateur;
 
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
@@ -45,8 +46,8 @@ public class espace_enseignant1 extends JFrame implements ActionListener  {
 	JComboBox<String> class_selection;
 	ButtonGroup radioButtonGroup = new ButtonGroup();
 	JRadioButton sem1,sem2;
-	Enseignant ens;
-	public espace_enseignant1(Enseignant e) {
+	Utilisateur ens;
+	public espace_enseignant1(Utilisateur e) {
 		super("Vos Notes");
 		ens=e;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
