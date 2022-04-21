@@ -16,9 +16,9 @@ public class gestion_classe implements ActionListener{
 		// TODO Auto-generated constructor stub
     	Vector<String> cols=new Vector<>();
     	cols.add("Nom classe");
-        JFrame f = new JFrame("Gestion classe");
+        JFrame f = new JFrame("Gestion classes");
         f.setLayout(new FlowLayout());
-        p1=new gestion_entite(cols);
+        p1=new gestion_entite("classes",cols);
         JPanel p2=p1.get_button_panel();
         define=new JButton("Definir");
         define.addActionListener(this);

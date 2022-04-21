@@ -15,7 +15,7 @@ public class gestion_etudiant {
     	cols.add("name");
         JFrame f = new JFrame("Gestion Etudiants");
         f.setLayout(new FlowLayout());
-        JPanel p1=new gestion_entite(cols);
+        JPanel p1=new gestion_entite("Etudiants",cols);
         f.getContentPane().add(p1);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //      f.setSize(340,250);

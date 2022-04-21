@@ -17,9 +17,9 @@ public class gestion_classe_attributes {
     	Etudiants.add("id etudiant");
         JFrame f = new JFrame("Gestion classe "+classname);
         f.setLayout(new FlowLayout());
-        JPanel p1=new gestion_entite(mat_s1);
-        JPanel p2=new gestion_entite(mat_s2);
-        JPanel p3=new gestion_entite(Etudiants);
+        JPanel p1=new gestion_entite("Matieres semestre 1",mat_s1);
+        JPanel p2=new gestion_entite("Matieres semestre 2",mat_s2);
+        JPanel p3=new gestion_entite("Etudiants",Etudiants);
         f.getContentPane().add(p1);
         f.getContentPane().add(p2);
         f.getContentPane().add(p3);

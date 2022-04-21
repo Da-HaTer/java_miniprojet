@@ -28,7 +28,7 @@ public class gestion_entite extends JPanel
     private JTable table = new JTable(model);
     private JPanel buttonPanel;
     // Create the main panel
-    public gestion_entite(Vector<String> colnames){
+    public gestion_entite(String tablename,Vector<String> colnames){
     	if (colnames!=null){
     		columns=(String[]) colnames.toArray(new String[colnames.size()]);
     	}
@@ -136,9 +136,12 @@ public class gestion_entite extends JPanel
         //Create the JTextFields panel
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        JLabel title= new JLabel(tablename);
+        title.setFont(new Font("Serif", Font.BOLD, 18));
         init_labels();
         init_fields();
         init_input_ui(textPanel);
+        textPanel.add(title);
         //Add the panels and the table to the main panel
         add(textPanel, BorderLayout.NORTH);
         add(new JScrollPane(table), BorderLayout.CENTER);
@@ -187,9 +190,9 @@ public class gestion_entite extends JPanel
             	cols.add("sex");
                 JFrame f = new JFrame("Gestion");
                 f.setLayout(new FlowLayout());
-                JPanel p1=new gestion_entite(cols);
-                JPanel p2=new gestion_entite(cols);
-                JPanel p3=new gestion_entite(cols);
+                JPanel p1=new gestion_entite("Table 1",cols);
+                JPanel p2=new gestion_entite("Table 2",cols);
+                JPanel p3=new gestion_entite("Table 3",cols);
                 f.getContentPane().add(p1);
                 f.getContentPane().add(p2);
                 f.getContentPane().add(p3);

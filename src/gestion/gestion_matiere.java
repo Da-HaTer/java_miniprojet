@@ -16,9 +16,9 @@ public class gestion_matiere {
     	cols.add("coef-TP");
     	cols.add("coef-EX");
     	cols.add("coeficient");
-        JFrame f = new JFrame("Gestion Etudiants");
+        JFrame f = new JFrame("Gestion Matieres");
         f.setLayout(new FlowLayout());
-        JPanel p1=new gestion_entite(cols);
+        JPanel p1=new gestion_entite("Matieres",cols);
         f.getContentPane().add(p1);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //      f.setSize(340,250);

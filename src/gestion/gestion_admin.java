@@ -11,9 +11,9 @@ public class gestion_admin {
 		// TODO Auto-generated constructor stub
 		Vector<String> cols=new Vector<>();
     	cols.add("username");
-        JFrame f = new JFrame("Gestion Enseignants");
+        JFrame f = new JFrame("Gestion Admins");
         f.setLayout(new FlowLayout());
-        JPanel p1=new gestion_entite(cols);
+        JPanel p1=new gestion_entite("Admins",cols);
         f.getContentPane().add(p1);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //      f.setSize(340,250);
