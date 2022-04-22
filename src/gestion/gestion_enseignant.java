@@ -10,6 +10,8 @@ public class gestion_enseignant {
 	public gestion_enseignant() {
 		// TODO Auto-generated constructor stub
 		Vector<String> cols=new Vector<>();
+    	cols.add("login");
+    	cols.add("password");
     	cols.add("id");
     	cols.add("cin");
     	cols.add("name");

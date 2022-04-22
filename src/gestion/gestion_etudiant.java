@@ -10,7 +10,9 @@ public class gestion_etudiant {
 	public gestion_etudiant() {
 		// TODO Auto-generated constructor stub
 		Vector<String> cols=new Vector<>();
-    	cols.add("id");
+//		cols.add("login");
+//		cols.add("password");
+		cols.add("id");
     	cols.add("cin");
     	cols.add("name");
         JFrame f = new JFrame("Gestion Etudiants");

@@ -11,6 +11,7 @@ public class gestion_admin {
 		// TODO Auto-generated constructor stub
 		Vector<String> cols=new Vector<>();
     	cols.add("username");
+    	cols.add("password");
         JFrame f = new JFrame("Gestion Admins");
         f.setLayout(new FlowLayout());
         JPanel p1=new gestion_entite("Admins",cols);

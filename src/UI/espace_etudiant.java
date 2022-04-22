@@ -172,7 +172,7 @@ public class espace_etudiant extends JFrame implements ActionListener  {
 		}
 		if (source==reclamation) {
 			System.out.println("reclamation");
-			dispose();
+//			dispose();
 			new reclamation();
 		}
 	}

@@ -2,6 +2,8 @@ package gestion;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -130,6 +132,7 @@ public class gestion_entite extends JPanel
             @Override
             public void actionPerformed(ActionEvent e) {
             	JOptionPane.showMessageDialog(null, "Donnes sauvegardes"); //alert
+            	System.out.println(Arrays.deepToString(get_data())); 
             }
         });
         
@@ -152,7 +155,6 @@ public class gestion_entite extends JPanel
 		for (int i = 0; i < columns.length; i++) {
 	        textPanel.add(labels.get(i));
 	        textPanel.add(tfields.get(i));
-
 		}
 	}
 	private void init_fields() {
@@ -160,6 +162,17 @@ public class gestion_entite extends JPanel
     	for (int i = 0; i < columns.length; i++) {
     		tfields.add(new JTextField());
 		}
+	}
+	public String[][] get_data(){
+		int L = table.getRowCount();
+        int C = table.getColumnCount();
+        String[][] data= new String[L][C];
+        for (int i = 0; i < L; i++) {
+			for (int j = 0; j < C; j++) {
+				data[i][j]=(String) table.getValueAt(i, j);
+			}
+		}
+        return data;
 	}
 	private void init_labels() {
 		// TODO Auto-generated method stub
@@ -198,7 +211,7 @@ public class gestion_entite extends JPanel
                 f.getContentPane().add(p3);
                 
 //                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                
+
 //              f.setSize(340,250);
                 f.pack();
                 f.setLocationRelativeTo(null);
