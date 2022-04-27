@@ -9,12 +9,17 @@ public class Matiere {
 	private double coefTp;
 	private double coefMatiere;
 
+//	public Matiere() {}
 	public Matiere(double coefExam, double coefds, double coefTp, double coefMatiere, String nomMatiere) {
 		this.coefExam = coefExam;
 		this.coefDs = coefds;
 		this.coefTp = coefTp;
 		this.coefMatiere = coefMatiere;
 		this.nomMatiere = nomMatiere;
+	}
+
+	public Matiere() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public double getCoefExam() {

@@ -86,19 +86,21 @@ public class login_form extends JFrame implements ActionListener{
         new login_form();
     }
     
-    private Utilisateur connect(String l,String p){
-    	for(Utilisateur u:users) {
-			if (u.seConnecter(l, p)){
-				return u;
-			}
-		}
-    	return null ;
-    }
+//    private Utilisateur connect(String l,String p){ deprecated after integration of getUserFromDB (user class)
+//    	for(Utilisateur u:users) {
+//			if (u.seConnecter(l, p)){
+//				return u;
+//			}
+//		}
+//    	return null ;
+//    }
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String l= this.login.getText();
 		String p= this.Passwordtext.getText();
-		Utilisateur user=connect(l,p);
+		Utilisateur user = new Utilisateur(l, p);
+		user = user.getUserFromDB();
+//		Utilisateur user=connect(l,p);
 		if(user!=null){
 //			message.setText("user found !!");
 //			System.out.println(user.getClass());

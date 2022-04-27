@@ -2,10 +2,17 @@ package user;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.mysql.jdbc.*;
 
 public class Utilisateur {
+	public int idUser;
 	private String login;
 	private String motDePasse;	
+	private int type;
 	
 	public Utilisateur() {
 		
@@ -17,6 +24,14 @@ public class Utilisateur {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+	public int getType() {
+		// TODO Auto-generated method stub
+		return type;
+	}
+	private void setType(int t) {
+		// TODO Auto-generated method stub
+		type=t;
 	}
 
 	public String getMotDePasse() {
@@ -53,15 +68,47 @@ public class Utilisateur {
 		return Crypted;
 
 	}
+	
+    public Utilisateur getUserFromDB() { ///todo: create instances of user
+        try{ 
+            String query = "SELECT * FROM User WHERE Login=? and Pwd=?";
+            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+    			preparedStmt.setString(1, login);
+    			preparedStmt.setString(2, motDePasse);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            Utilisateur utilisateur = null;
+            while (resultSet.next()) {
+    				utilisateur = new Utilisateur();
+    				utilisateur.setLogin(resultSet.getString(2));
+    				utilisateur.setMotDePasse(resultSet.getString(3));
+    				utilisateur.setType(Integer.parseInt(resultSet.getString(5)));
+//                System.out.println(resultSet.getString(2));
+//                System.out.println(resultSet.getString(3));
+            }
+            connection.close();
+            return utilisateur;
+        }
+        
+        catch (SQLException e) {e.printStackTrace();}
+        return null;
+    }
+    
 	public Boolean seConnecter(String login, String motDePasse) {
 		return (login.equals(this.login) && cryptPass(motDePasse).equals(this.motDePasse));
 	}
 
 	public static void main(String[] args) {
-		Utilisateur user = new Utilisateur("test", "test:)");
-		System.out.println(user.getMotDePasse());
-		if(user.getMotDePasse().equals(cryptPass("test:)"))) {
-			System.out.println("ok");
-		}
+		Utilisateur user = new Utilisateur("ahmed", "ahmed");
+//		System.out.println(user.getMotDePasse());
+//		if(user.getMotDePasse().equals(cryptPass("test:)"))) {
+//			System.out.println("ok");
+//		}
+//		if (user.getUserFromDB()==null) {
+//			System.out.println("error");
+//		}
+//		System.out.println(user.getMotDePasse());
 	}
+
+
 }
