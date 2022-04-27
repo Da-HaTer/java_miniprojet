@@ -34,6 +34,11 @@ public class login_form extends JFrame implements ActionListener{
 	private JPasswordField Passwordtext;
 	private JPanel panel;
 	private JLabel message;
+	
+	public static final int etudiantTypeCode = 1;
+	public static final int ensegnantTypeCode = 2;
+	public static final int adminypeCode = 3;
+	
 	Vector <Utilisateur> users=new Vector<Utilisateur>();
 	Vector <Classe> classes=new Vector<Classe>();
 	
@@ -105,24 +110,41 @@ public class login_form extends JFrame implements ActionListener{
 //			message.setText("user found !!");
 //			System.out.println(user.getClass());
 			dispose();
-			System.out.print("login Successful as ");
-			if (user instanceof Etudiant) {
-//				dispose();
-				System.out.println("Etudiant "+l);
-				new espace_etudiant((Etudiant) user,1);
+			
+			switch (user.getType()) {
+				case etudiantTypeCode:{
+					Etudiant etudiant = Etudiant.getEtudiantFromDB(user.idUser);
+					System.err.println(etudiant.toString());
+					etudiant.getListMatieresDB(user.idUser);
+					// start the user main screen
+					break;
+				}
+				case ensegnantTypeCode: { /// complete these
+					break;
+				}
+				case adminypeCode: {
+					break;
+				}
 			}
-			if (user instanceof Enseignant){
-				System.out.println("Enseignant "+l);
-				new espace_enseignant1(user);
-			}
-			if (user instanceof Admin) {
-				System.out.println("Admin "+l);
-				new espace_admin();
-			}
-			if (user instanceof Super_Admin) {
-				System.out.println("SuperAdmin "+l);
-				new espace_superadmin(user);
-			}
+			
+//			System.out.print("login Successful as ");
+//			if (user instanceof Etudiant) {
+////				dispose();
+//				System.out.println("Etudiant "+l);
+//				new espace_etudiant((Etudiant) user,1);
+//			}
+//			if (user instanceof Enseignant){
+//				System.out.println("Enseignant "+l);
+//				new espace_enseignant1(user);
+//			}
+//			if (user instanceof Admin) {
+//				System.out.println("Admin "+l);
+//				new espace_admin();
+//			}
+//			if (user instanceof Super_Admin) {
+//				System.out.println("SuperAdmin "+l);
+//				new espace_superadmin(user);
+//			}
 		}
 		else {
 			message.setText("user not found !!"); ///temp, make this alert instead of message
