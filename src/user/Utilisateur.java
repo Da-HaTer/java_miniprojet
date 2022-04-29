@@ -121,42 +121,28 @@ public class Utilisateur {
         return null;
     }
     public void save_user_DB() {
-        try{ 
-            String query = "insert into user values (?,?,?,?,?);"; // WHERE Login=? and Pwd=?";
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
-            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
-            
-            preparedStmt.setInt(1, idUser);	preparedStmt.setString(2, login);
-			preparedStmt.setString(3, motDePasse); preparedStmt.setInt(4, idref);	
-			preparedStmt.setInt(5, type);	
-			
-            int rowsaffected = preparedStmt.executeUpdate();
-            System.out.println(rowsaffected);
-
-            connection.close();
-        }
-        
-        catch (SQLException e) {e.printStackTrace();}
+    	String exist=fetch_user(login,type);
+    	if (exist=="") {
+	        try{ 
+	            String query = "insert into user values (?,?,?,?,?);"; // WHERE Login=? and Pwd=?";
+	            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+	            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+	            
+	            preparedStmt.setInt(1, idUser);	preparedStmt.setString(2, login);
+				preparedStmt.setString(3, motDePasse); preparedStmt.setInt(4, idref);	
+				preparedStmt.setInt(5, type);	
+				
+	            int rowsaffected = preparedStmt.executeUpdate();
+	            System.out.println(rowsaffected);
+	
+	            connection.close();
+	        }
+	        
+	        catch (SQLException e) {e.printStackTrace();}
+    	}
     }
     
-    public void DBdelete_by_id(int id) {
-        try{ 
-            String query = "delete from user where idUser=?;"; // WHERE Login=? and Pwd=?";
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
-            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
-            
-            preparedStmt.setInt(1, id);
-            
-            int rowsaffected = preparedStmt.executeUpdate();
-            System.out.println(rowsaffected);
-
-            connection.close();
-        }
-        
-        catch (SQLException e) {e.printStackTrace();}
-    }
-    
-    public void DBdelete_by_login(String login) {
+    public void DBdelete_by_login(String login) { ///must be private (only children can delete)
         try{ 
             String query = "delete from user where Login=?;"; // WHERE Login=? and Pwd=?";
             java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
@@ -173,12 +159,32 @@ public class Utilisateur {
         catch (SQLException e) {e.printStackTrace();}
     }
     
+    public String fetch_user(String login,int type) {
+        try{ 
+            String query = "select Login from user where Login=? and userType=?;"; // WHERE Login=? and Pwd=?";
+            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+            
+            preparedStmt.setString(1, login);
+            preparedStmt.setInt(2, type);
+            String res="";
+            ResultSet r = preparedStmt.executeQuery();
+            while (r.next()) res= r.getString(1);
+            connection.close();
+            return res;
+        }
+        catch (SQLException e) {e.printStackTrace();}
+        return "";
+    }
+    
 //	public Boolean seConnecter(String login, String motDePasse) { (deprecated) 
 //		return (login.equals(this.login) && cryptPass(motDePasse).equals(this.motDePasse));
 //	}
 
 	public static void main(String[] args) {
-//		Utilisateur user = new Utilisateur(3,"admin", "*****",1,3);
+		Utilisateur user = new Utilisateur(3,"admin", "*****",1,3);
+//		int r=user.fetch_user(user.getLogin());
+//		System.out.println(r);
 //		user.save_to_DB();
 //		user.DBdelete_by_id(4);
 //		user.DBdelete_by_login("admin");
