@@ -12,7 +12,7 @@ public class Utilisateur {
 	public int idUser;
 	private String login;
 	private String motDePasse;	
-	public int idref;
+	public int idref; //remove this ?
 	private int type;
 	
 	public Utilisateur(String login, String motDePasse) {
@@ -70,6 +70,9 @@ public class Utilisateur {
 		this.motDePasse = cryptPass(motDePasse);
 	}
 
+	private void copy_MotDePasse(String motDePasse) { //unencrypted
+		this.motDePasse = motDePasse;
+	}
 
 	private static String cryptPass(String motDePasse) {
 		String Crypted = "";
@@ -107,10 +110,8 @@ public class Utilisateur {
     				utilisateur.setIdUser(Integer.parseInt(resultSet.getString(1)));
     				utilisateur.setLogin(resultSet.getString(2));
     				utilisateur.setIdref(Integer.parseInt(resultSet.getString(4)));
-    				utilisateur.setMotDePasse(resultSet.getString(3));
+    				utilisateur.copy_MotDePasse(resultSet.getString(3));
     				utilisateur.setType(Integer.parseInt(resultSet.getString(5)));
-//                System.out.println(resultSet.getString(2));
-//                System.out.println(resultSet.getString(3));
             }
             connection.close();
             return utilisateur;
@@ -119,14 +120,68 @@ public class Utilisateur {
         catch (SQLException e) {e.printStackTrace();}
         return null;
     }
+    public void save_user_DB() {
+        try{ 
+            String query = "insert into user values (?,?,?,?,?);"; // WHERE Login=? and Pwd=?";
+            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+            
+            preparedStmt.setInt(1, idUser);	preparedStmt.setString(2, login);
+			preparedStmt.setString(3, motDePasse); preparedStmt.setInt(4, idref);	
+			preparedStmt.setInt(5, type);	
+			
+            int rowsaffected = preparedStmt.executeUpdate();
+            System.out.println(rowsaffected);
+
+            connection.close();
+        }
+        
+        catch (SQLException e) {e.printStackTrace();}
+    }
     
-	public Boolean seConnecter(String login, String motDePasse) {
-		return (login.equals(this.login) && cryptPass(motDePasse).equals(this.motDePasse));
-	}
+    public void DBdelete_by_id(int id) {
+        try{ 
+            String query = "delete from user where idUser=?;"; // WHERE Login=? and Pwd=?";
+            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+            
+            preparedStmt.setInt(1, id);
+            
+            int rowsaffected = preparedStmt.executeUpdate();
+            System.out.println(rowsaffected);
+
+            connection.close();
+        }
+        
+        catch (SQLException e) {e.printStackTrace();}
+    }
+    
+    public void DBdelete_by_login(String login) {
+        try{ 
+            String query = "delete from user where Login=?;"; // WHERE Login=? and Pwd=?";
+            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+            
+            preparedStmt.setString(1, login);
+            
+            int rowsaffected = preparedStmt.executeUpdate();
+            System.out.println(rowsaffected);
+
+            connection.close();
+        }
+        
+        catch (SQLException e) {e.printStackTrace();}
+    }
+    
+//	public Boolean seConnecter(String login, String motDePasse) { (deprecated) 
+//		return (login.equals(this.login) && cryptPass(motDePasse).equals(this.motDePasse));
+//	}
 
 	public static void main(String[] args) {
-		Utilisateur user = new Utilisateur("ahmed", "ahmed");
-		System.out.println(user.toString());
+//		Utilisateur user = new Utilisateur(3,"admin", "*****",1,3);
+//		user.save_to_DB();
+//		user.DBdelete_by_id(4);
+//		user.DBdelete_by_login("admin");
 //		System.out.println(user.getMotDePasse());
 //		if(user.getMotDePasse().equals(cryptPass("test:)"))) {
 //			System.out.println("ok");

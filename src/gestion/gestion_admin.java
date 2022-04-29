@@ -36,7 +36,12 @@ public class gestion_admin {
             	String[][] s=p1.get_data();
             	ArrayList<Admin> admins=new ArrayList<Admin>();
             	for (int i = 0; i < s.length; i++) {
-					admins.add(Admin(s[i][0],s[i][1], s[i][2], s[i][3], s[i][4],s[i][5], s[i][6]));
+					admins.add(new Admin(Integer.parseInt(s[i][0]),s[i][1], 
+							s[i][2], Integer.parseInt(s[i][3]) ,
+							Integer.parseInt(s[i][4]) ,
+							Integer.parseInt(s[i][5]), 
+							Integer.parseInt(s[i][6]))
+							);
 				}
             }
         });
