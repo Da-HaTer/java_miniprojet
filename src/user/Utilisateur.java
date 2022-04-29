@@ -12,8 +12,36 @@ public class Utilisateur {
 	public int idUser;
 	private String login;
 	private String motDePasse;	
+	public int idref;
 	private int type;
 	
+	public Utilisateur(String login, String motDePasse) {
+		this.login = login;
+		this.motDePasse = cryptPass(motDePasse);
+	}
+	public Utilisateur(int id,String login, String motDePasse, int idref, int type) {
+		this.idUser=id;
+		this.idref=idref;
+		this.type=type;
+		this.login = login;
+		this.motDePasse = cryptPass(motDePasse);
+	}
+	
+	public int getIdUser() {
+		return idUser;
+	}
+
+	public int getIdref() {
+		return idref;
+	}
+
+	public void setIdref(int idref) {
+		this.idref = idref;
+	}
+
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
+	}
 	public Utilisateur() {
 		
 	}
@@ -42,10 +70,6 @@ public class Utilisateur {
 		this.motDePasse = cryptPass(motDePasse);
 	}
 
-	public Utilisateur(String login, String motDePasse) {
-		this.login = login;
-		this.motDePasse = cryptPass(motDePasse);
-	}
 
 	private static String cryptPass(String motDePasse) {
 		String Crypted = "";
@@ -80,7 +104,9 @@ public class Utilisateur {
             Utilisateur utilisateur = null;
             while (resultSet.next()) {
     				utilisateur = new Utilisateur();
+    				utilisateur.setIdUser(Integer.parseInt(resultSet.getString(1)));
     				utilisateur.setLogin(resultSet.getString(2));
+    				utilisateur.setIdref(Integer.parseInt(resultSet.getString(4)));
     				utilisateur.setMotDePasse(resultSet.getString(3));
     				utilisateur.setType(Integer.parseInt(resultSet.getString(5)));
 //                System.out.println(resultSet.getString(2));
@@ -100,6 +126,7 @@ public class Utilisateur {
 
 	public static void main(String[] args) {
 		Utilisateur user = new Utilisateur("ahmed", "ahmed");
+		System.out.println(user.toString());
 //		System.out.println(user.getMotDePasse());
 //		if(user.getMotDePasse().equals(cryptPass("test:)"))) {
 //			System.out.println("ok");

@@ -171,9 +171,82 @@ public class Etudiant extends Utilisateur {
 			return null;
 		}
 
-	public void getListMatieresDB(int idUser) {///todo : complete this (should be similar to class (different query) 
-		// TODO Auto-generated method stub
-		
-	}
+//	public ArrayList<Matiere> getListMatieresDB(int sem) {///todo : complete this (should be similar to class (different query) 
+//		// TODO Auto-generated method stub
+//		try {
+//			String query ="SELECT\n"
+//			+ "Matiere.idMatiere,Matiere.MatiereName,Matiere.coefDS,"
+//			+ "Matiere.coefExam,Matiere.coefTP,"
+//			+ "Matiere.coefMatiere\n"
+//			+ "FROM Matiere\n"
+//			+ "JOIN semestre\n"
+//			+ " ON Matiere.idSemestre = semestre.idsemestre\n"
+//			+ "JOIN Classe\n"
+//			+ String.format(" ON Classe.idS%d = semestre.idsemestre\n", sem)
+//			+ " where Classe.idClasse = ?;";
+//			
+//            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+//			PreparedStatement preparedStmt = connection.prepareStatement(query);
+//			preparedStmt.setInt(1, this.idClasse);
+//			ResultSet resultSet = preparedStmt.executeQuery();
+//			ArrayList<Matiere> matieres = new ArrayList<Matiere>();
+//			while (resultSet.next()) {
+//				Matiere matiere = new Matiere();
+//				matiere.setId(resultSet.getInt(1));
+//				matiere.setNomMatiere(resultSet.getString(2));
+//				matiere.setCoefds(resultSet.getDouble(3));
+//				matiere.setCoefExam(resultSet.getDouble(4));
+//				matiere.setCoefTp(resultSet.getDouble(5));
+//				matiere.setCoefMatiere(resultSet.getDouble(6));
+//				matieres.add(matiere);
+//				System.out.println(matiere.toString());
+//			}
+//			connection.close();
+//			return matieres;
+//		} 
+//		catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return null;	
+//	}
+//	
+//	public ArrayList<Matiere> getListMatieresDB(int sem) {
+//		try {
+//			String query ="SELECT\n"
+//			+ "Matiere.idMatiere,Matiere.MatiereName,Matiere.coefDS,"
+//			+ "Matiere.coefExam,Matiere.coefTP,"
+//			+ "Matiere.coefMatiere\n"
+//			+ "FROM Matiere\n"
+//			+ "JOIN semestre\n"
+//			+ " ON Matiere.idSemestre = semestre.idsemestre\n"
+//			+ "JOIN Classe\n"
+//			+ String.format(" ON Classe.idS%d = semestre.idsemestre\n", sem)
+//			+ " where Classe.idClasse = ?;";
+//			
+//            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+//			PreparedStatement preparedStmt = connection.prepareStatement(query);
+//			preparedStmt.setInt(1, this.idClasse);
+//			ResultSet resultSet = preparedStmt.executeQuery();
+//			ArrayList<Matiere> matieres = new ArrayList<Matiere>();
+//			while (resultSet.next()) {
+//				Matiere matiere = new Matiere();
+//				matiere.setId(resultSet.getInt(1));
+//				matiere.setNomMatiere(resultSet.getString(2));
+//				matiere.setCoefds(resultSet.getDouble(3));
+//				matiere.setCoefExam(resultSet.getDouble(4));
+//				matiere.setCoefTp(resultSet.getDouble(5));
+//				matiere.setCoefMatiere(resultSet.getDouble(6));
+//				matieres.add(matiere);
+//				System.out.println(matiere.toString());
+//			}
+//			connection.close();
+//			return matieres;
+//		} 
+//		catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
+//	
 
 }

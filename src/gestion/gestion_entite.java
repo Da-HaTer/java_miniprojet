@@ -29,6 +29,7 @@ public class gestion_entite extends JPanel
     // Create the table
     private JTable table = new JTable(model);
     private JPanel buttonPanel;
+    public JButton valider;
     // Create the main panel
     public gestion_entite(String tablename,Vector<String> colnames){
     	if (colnames!=null){
@@ -44,7 +45,7 @@ public class gestion_entite extends JPanel
         //Update button
         JButton updateButton = new JButton("Update");
         JButton delete = new JButton("delete");
-        JButton valider = new JButton("valider");
+        valider = new JButton("valider");
         //Button panel
         buttonPanel = new JPanel();
         //Add buttons to panel
@@ -128,13 +129,13 @@ public class gestion_entite extends JPanel
             }
         });
         
-        valider.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	JOptionPane.showMessageDialog(null, "Donnes sauvegardes"); //alert
-            	System.out.println(Arrays.deepToString(get_data())); 
-            }
-        });
+//        valider.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//            	JOptionPane.showMessageDialog(null, "Donnes sauvegardes"); //alert
+//            	System.out.println(Arrays.deepToString(get_data())); 
+//            }
+//        });
         
         //Create the JTextFields panel
         JPanel textPanel = new JPanel();
@@ -201,14 +202,29 @@ public class gestion_entite extends JPanel
             	cols.add("addresse");
             	cols.add("cin");
             	cols.add("sex");
+            	cols.add("addresse");
+            	cols.add("cin");
+            	cols.add("sex");
+            	cols.add("addresse");
+            	cols.add("cin");
+            	cols.add("sex");
                 JFrame f = new JFrame("Gestion");
-                f.setLayout(new FlowLayout());
+//                f.setLayout(new FlowLayout());
                 JPanel p1=new gestion_entite("Table 1",cols);
                 JPanel p2=new gestion_entite("Table 2",cols);
                 JPanel p3=new gestion_entite("Table 3",cols);
-                f.getContentPane().add(p1);
-                f.getContentPane().add(p2);
-                f.getContentPane().add(p3);
+                JPanel p4=new JPanel();
+                
+                JScrollPane scroll = new JScrollPane( ///added scroll option for small screens
+                		p4,
+                        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
+                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS
+                );
+                f.add(scroll);
+
+                p4.add(p1);
+                p4.add(p2);
+                p4.add(p3);
                 
 //                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

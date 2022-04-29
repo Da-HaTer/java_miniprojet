@@ -42,15 +42,15 @@ public class login_form extends JFrame implements ActionListener{
 	Vector <Utilisateur> users=new Vector<Utilisateur>();
 	Vector <Classe> classes=new Vector<Classe>();
 	
-	private void initUserList() {
-		users.add(new Etudiant("user1", "Ahmed", "Ben Ahmed", "ahmed", "1234"));
-		users.add(new Enseignant("Imene", "12345"));
-		users.add(new Admin("admin", "*****"));
-		users.add(new Super_Admin("root", "toor"));
-	}
+//	private void initUserList() {
+//		users.add(new Etudiant("user1", "Ahmed", "Ben Ahmed", "ahmed", "1234"));
+//		users.add(new Enseignant("Imene", "12345"));
+//		users.add(new Admin("admin", "*****"));
+//		users.add(new Super_Admin("root", "toor"));
+//	}
 
     public login_form(){
-    	initUserList();
+//    	initUserList();
     	panel = new JPanel();
 //        frame = new JFrame();
        
@@ -105,16 +105,17 @@ public class login_form extends JFrame implements ActionListener{
 		String p= this.Passwordtext.getText();
 		Utilisateur user = new Utilisateur(l, p);
 		user = user.getUserFromDB();
+		System.out.println(user.idUser);
 //		Utilisateur user=connect(l,p);
 		if(user!=null){
-//			message.setText("user found !!");
+			message.setText("user found !!");
 //			System.out.println(user.getClass());
 			dispose();
 			
 			switch (user.getType()) {
 				case etudiantTypeCode:{
-					Etudiant etudiant = Etudiant.getEtudiantFromDB(user.idUser);
-					System.err.println(etudiant.toString());
+					Etudiant etudiant = Etudiant.getEtudiantFromDB(user.idref);
+//					System.err.println(etudiant.toString());
 					etudiant.getListMatieresDB(user.idUser);
 					// start the user main screen
 					break;
