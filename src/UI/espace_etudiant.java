@@ -21,6 +21,9 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableModel;
 
 import main.login_form;
+import model.Matiere;
+import model.Note;
+import model.NoteMatiere;
 import user.Etudiant;
 
 import java.awt.Checkbox;
@@ -43,8 +46,7 @@ public class espace_etudiant extends JFrame implements ActionListener  {
 	ButtonGroup radioButtonGroup = new ButtonGroup();
 	JRadioButton sem1,sem2;
 	JTable table;
-	
-	public espace_etudiant(Etudiant u, int sem) {
+	public espace_etudiant(Etudiant u,int sem) {
 		super("Vos Notes");
 		this.u=u;
 //		UIManager.setLookAndFeel(new NimbusLookAndFeel());
@@ -124,11 +126,29 @@ public class espace_etudiant extends JFrame implements ActionListener  {
 		ui.add(reclamation);
 		setVisible(true);
 	}
-
+//	ArrayList<Matiere> sem1= etudiant.getListMatieresDB(1);
+//	ArrayList<Matiere> sem2= etudiant.getListMatieresDB(2);
 	public void init_table(int c){
-		if (c==1) {
-			String[] columns = new String[] {"Matiere", "Note S1", "Note S2", "Moyenne" };
-			Object[][] data = new Object[][] {{"BD", 10, 10, 10 },{"C++", 15, 8, 20.0 }};
+		ArrayList<Matiere> mats;
+		
+		if (c==1) mats= u.getListMatieresDB(1);
+		else mats= u.getListMatieresDB(2);
+		
+		String[] columns = new String[] {"Matiere", "Note DS", "Note TP","Note EXAM", "Moyenne" };
+//			Object[][] data = new Object[][] {{"BD", 10, 10, 10 },{"C++", 15, 8, 20.0 }};
+		Object[][] data= new Object[mats.size()][5];
+		for (int i = 0; i < data.length; i++) {
+			Matiere mat=mats.get(i);
+			System.out.println("matiere:");
+			System.out.println(mat.toString());
+			int idmat=mat.getId();
+			int idnote=u.fetch_note(idmat);
+			Note n=new Note();
+			n.fetch_note(idnote);
+			NoteMatiere notematiere=new NoteMatiere(mat, n);
+			Object[] row=new Object[]{mat.getNomMatiere(),n.getDs(),n.getTp(),n.getExam(),notematiere.moyenne()};
+			data[i]=row;
+		}
 			
 	        table= new JTable(data, columns){
 //				private static final long serialVersionUID = 1L;
@@ -138,19 +158,7 @@ public class espace_etudiant extends JFrame implements ActionListener  {
 				};
 			};
 		}
-		if (c==2) {
-			String[] columns = new String[] {"Matiere", "Note S1", "Note S2", "Moyenne" };
-			Object[][] data = new Object[][] {{"proba", 10, 10, 10 },{"JAVA", 15, 8, 10.0 }};
-			
-	        table= new JTable(data, columns){
-				private static final long serialVersionUID = 1L;
-		
-				public boolean isCellEditable(int row, int column) {                
-						return false;               
-				};
-			};
-		}
-	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

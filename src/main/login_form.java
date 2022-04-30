@@ -2,6 +2,7 @@ package main;
 //import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Vector;
 
 //import java.awt.GridLayout;
@@ -20,6 +21,7 @@ import UI.espace_superadmin;
 import user.Utilisateur;
 import user.Admin;
 import model.Classe;
+import model.Matiere;
 import user.Enseignant;
 import user.Etudiant;
 import user.Super_Admin;
@@ -104,19 +106,18 @@ public class login_form extends JFrame implements ActionListener{
 		String l= this.login.getText();
 		String p= this.Passwordtext.getText();
 		Utilisateur user = new Utilisateur(l, p);
-		user = user.getUserFromDB();
-		System.out.println(user.idUser);
-//		Utilisateur user=connect(l,p);
+		user = user.getUserFromDB(); //null if not found
+//		Utilisateur user=connect(l,p); deprecated 
 		if(user!=null){
-			message.setText("user found !!");
 //			System.out.println(user.getClass());
 			dispose();
 			
 			switch (user.getType()) {
 				case etudiantTypeCode:{
+					
 					Etudiant etudiant = Etudiant.getEtudiantFromDB(user.idref);
 //					System.err.println(etudiant.toString());
-					etudiant.getListMatieresDB(user.idUser);
+					new espace_etudiant(etudiant,1);
 					// start the user main screen
 					break;
 				}

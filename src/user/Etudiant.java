@@ -29,12 +29,13 @@ public class Etudiant extends Utilisateur {
 		this.notesS2 = notesS2;
 	}
 	
-	public Etudiant(int id, String cin, String nom, String prenom) { //only id cin name (superadmin)
+	public Etudiant(int id, String nom, String prenom, String cin, int idc) { //only id cin name (superadmin)
 		super();
 		this.id = id;
 		this.cin = cin;
 		this.nom = nom;
 		this.prenom = prenom;
+		this.idClasse = idc;
 	}
 
 	public Etudiant(int id, String cin, String nom, String prenom, String login, String pwd) { // w/o notes (user)
@@ -43,6 +44,9 @@ public class Etudiant extends Utilisateur {
 		this.cin = cin;
 		this.nom = nom;
 		this.prenom = prenom;
+	}
+	public Etudiant(int id) {
+		this.id=id;
 	}
 
 
@@ -97,7 +101,7 @@ public class Etudiant extends Utilisateur {
 
 	@Override
 	public String toString() {
-		return "Etudiant [id=" + id + ", cin=" + cin + ", nom=" + nom +", prenom=" + prenom +", notesS1=" + notesS1.toString()
+		return "Etudiant [id=" + id + ", cin=" + cin + ", nom=" + nom +", prenom=" + prenom +", idClasse="+ idClasse+", notesS1=" + notesS1.toString()
 				+ ", notesS2=" + notesS2.toString() + "]";
 	}
 
@@ -158,16 +162,17 @@ public class Etudiant extends Utilisateur {
 				String query = "SELECT * FROM Etudiant WHERE idEtudiant=? ";
 //				Connection connection = new DBUtils().getConnection();
 				Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
-				PreparedStatement preparedStmt = connection.prepareStatement(query);
+				PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 				preparedStmt.setInt(1, id);
 				ResultSet resultSet = preparedStmt.executeQuery();
 				Etudiant etudiant = null;
 				while (resultSet.next()) {
 				// Etudiant(int id, String cin, String name, String lastName)
 				etudiant = new Etudiant(resultSet.getInt(1),
-						resultSet.getString(4),
 						resultSet.getString(2),
-						resultSet.getString(3));
+						resultSet.getString(3),
+						resultSet.getString(4),
+						resultSet.getInt(5));
 				}
 				connection.close();
 				return etudiant;
@@ -193,7 +198,7 @@ public class Etudiant extends Utilisateur {
 			+ " where Classe.idClasse = ?;";
 			
             java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
-			PreparedStatement preparedStmt = connection.prepareStatement(query);
+			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 			preparedStmt.setInt(1, this.idClasse);
 			ResultSet resultSet = preparedStmt.executeQuery();
 			ArrayList<Matiere> matieres = new ArrayList<Matiere>();
@@ -215,6 +220,25 @@ public class Etudiant extends Utilisateur {
 			e.printStackTrace();
 		}
 		return null;	
+	}
+	
+	public int fetch_note(int idMatiere) {
+		try {
+			String query="select idNote from NoteMatiere\n"
+					+ "where idMatiere=? and idEtudiant=?;";
+			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+			preparedStmt.setInt(1, idMatiere);
+			preparedStmt.setInt(2, this.id);
+			ResultSet resultSet = preparedStmt.executeQuery();
+			int idnote=-1;
+			while (resultSet.next()) idnote=resultSet.getInt(1);
+			connection.close();
+			return idnote;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 	
 	public void save_note(int idMatiere,Note note) {
@@ -259,4 +283,9 @@ public class Etudiant extends Utilisateur {
 		}
 	}
 
+	public static void main(String[] args) {
+		Etudiant u=new Etudiant(1);
+		u=u.getEtudiantFromDB(1);
+		System.out.println(u.toString());
+	}
 }

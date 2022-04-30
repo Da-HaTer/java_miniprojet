@@ -2,11 +2,11 @@ package model;
 
 public class NoteMatiere {
 	private Matiere matiere;
-	private Note notes;
+	private Note note;
 
 	public NoteMatiere(Matiere matiere, Note notes) {
 		this.matiere = matiere;
-		this.notes = notes;
+		this.note = notes;
 	}
 
 	public NoteMatiere(Matiere matiere) {
@@ -14,8 +14,8 @@ public class NoteMatiere {
 	}
 
 	public double moyenne() {
-		return (notes.getExam() * matiere.getCoefExam() + notes.getTp() * matiere.getCoefTp()
-				+ notes.getDs() * matiere.getCoefds());
+		return (note.getExam() * matiere.getCoefExam() + note.getTp() * matiere.getCoefTp()
+				+ note.getDs() * matiere.getCoefds());
 	}
 
 	public Matiere getMatiere() {
@@ -27,16 +27,16 @@ public class NoteMatiere {
 	}
 
 	public Note getNotes() {
-		return notes;
+		return note;
 	}
 
 	public void setNotes(Note notes) {
-		this.notes = notes;
+		this.note = notes;
 	}
 
 	@Override
 	public String toString() {
-		return "NoteMatiere [matiere=" + matiere.toString() + ", notes=" + notes.toString() + "]";
+		return "NoteMatiere [matiere=" + matiere.toString() + ", notes=" + note.toString() + "]";
 	}
 
 	public static void main(String[] args) {

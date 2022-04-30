@@ -12,6 +12,8 @@ public class Note {
 	private double ds;
 	private double tp;
 
+	public Note() {	
+	}
 	public Note(int id,double exam, double ds, double tp) {
 		this.id=id;
 		this.exam = exam;
