@@ -3,17 +3,14 @@ package model;
 import java.sql.*;
 import java.util.ArrayList;
 
+import com.mysql.jdbc.PreparedStatement;
+
 import user.Etudiant;
 
 public class Classe { //like struct
-	private int idClasse;
-	public int getIdClasse() {
-		return idClasse;
-	}
-	public void setIdClasse(int idClasse) {
-		this.idClasse = idClasse;
-	}
+	
 
+	private int idClasse;
 	String name;
 	public ArrayList<Matiere> listeMatiereS1 = new ArrayList<>();
 	public ArrayList<Matiere> listeMatiereS2 = new ArrayList<>();
@@ -23,7 +20,8 @@ public class Classe { //like struct
 		name=s;
 		// TODO Auto-generated constructor stub
 	}
-	public Classe(String s,ArrayList<Matiere> s1, ArrayList<Matiere> s2, ArrayList<Etudiant> e){
+	public Classe(int id ,String s,ArrayList<Matiere> s1, ArrayList<Matiere> s2, ArrayList<Etudiant> e){
+		idClasse=id;
 		name=s;
 		listeMatiereS1=s1;
 		listeMatiereS2=s2;
@@ -31,7 +29,14 @@ public class Classe { //like struct
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ArrayList<Matiere> getListMatieresDB(int sem) {
+	public int getIdClasse() {
+		return idClasse;
+	}
+	public void setIdClasse(int idClasse) {
+		this.idClasse = idClasse;
+	}
+	
+	public ArrayList<Matiere> getListMatieresDB(int sem) { ///returns matieres of this class for a given smester
 		try {
 			String query ="SELECT\n"
 			+ "Matiere.idMatiere,Matiere.MatiereName,Matiere.coefDS,"
@@ -44,8 +49,8 @@ public class Classe { //like struct
 			+ String.format(" ON Classe.idS%d = semestre.idsemestre\n", sem)
 			+ " where Classe.idClasse = ?;";
 			
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
-			PreparedStatement preparedStmt = connection.prepareStatement(query);
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 			preparedStmt.setInt(1, this.idClasse);
 			ResultSet resultSet = preparedStmt.executeQuery();
 			ArrayList<Matiere> matieres = new ArrayList<Matiere>();
@@ -69,6 +74,23 @@ public class Classe { //like struct
 		return null;
 	}
 	
+	public void save_classe() {
+        try{ 
+            String query = "insert into classe values (?,?,1,2);"; // WHERE Login=? and Pwd=?";
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+            
+            preparedStmt.setInt(1, idClasse);	preparedStmt.setString(2, this.name);
+
+            int rowsaffected = preparedStmt.executeUpdate();
+            System.out.println(rowsaffected);
+
+            connection.close();
+        }
+        
+        catch (SQLException e) {e.printStackTrace();}
+	}
+	
 	public boolean student_in_class(Etudiant e){ //check if a student is in a class
 		 for (Etudiant i: listeEtudiant) if (i.getId()==e.getId()) return true;
 		 return false;	 	
@@ -78,7 +100,7 @@ public class Classe { //like struct
 
 		Classe mi2 = new Classe("mi2");
 		mi2.setIdClasse(1);
-		mi2.getListMatieresDB(2);
+		mi2.getListMatieresDB(1);
 //		for(Matiere m:matieres) {
 //			System.out.println(m.getNomMatiere());
 //		}

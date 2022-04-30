@@ -120,7 +120,7 @@ public class Utilisateur {
         catch (SQLException e) {e.printStackTrace();}
         return null;
     }
-    public void save_user_DB() {
+    public void save_user_DB() { ///todo: remove manual id 
     	String exist=fetch_user(login,type);
     	if (exist=="") {
 	        try{ 
