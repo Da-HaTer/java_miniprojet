@@ -1,0 +1,2 @@
+- [ ] espace esneignant 2  (view, save if note is null in db, update if privilege granted)
+- [ ] gestion of entities (CRUD)

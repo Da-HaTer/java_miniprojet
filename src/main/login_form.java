@@ -122,7 +122,9 @@ public class login_form extends JFrame implements ActionListener{
 					break;
 				}
 				case ensegnantTypeCode: { /// complete these
-					break;
+					Enseignant enseignant= Enseignant.getEnseignantFromDB(user.idref);
+//					System.out.println(enseignant.toString());
+					new espace_enseignant1(enseignant);
 				}
 				case adminypeCode: {
 					break;

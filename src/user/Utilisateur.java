@@ -177,6 +177,10 @@ public class Utilisateur {
         return "";
     }
     
+    @Override
+    public String toString() {
+    	return String.format("userid : %d login: %s passwd: %s\n",this.idUser,login,this.motDePasse);
+    }
 //	public Boolean seConnecter(String login, String motDePasse) { (deprecated) 
 //		return (login.equals(this.login) && cryptPass(motDePasse).equals(this.motDePasse));
 //	}

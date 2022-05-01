@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -21,6 +22,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import main.login_form;
+import model.Classe;
 import user.Enseignant;
 import user.Utilisateur;
 
@@ -43,15 +45,15 @@ import java.awt.event.WindowListener;
 public class espace_enseignant1 extends JFrame implements ActionListener  {
 	private static final long serialVersionUID = 9L;
 	JButton deconnection,validate;
-	JComboBox<String> class_selection;
+	JComboBox<String> class_selection=new JComboBox<String>();
 	ButtonGroup radioButtonGroup = new ButtonGroup();
 	JRadioButton sem1,sem2;
-	Utilisateur ens;
-	public espace_enseignant1(Utilisateur e) {
-		super("Vos Notes");
+	Enseignant ens;
+	public espace_enseignant1(Enseignant e) {
+		super("Espace Enseignant");
 		ens=e;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setSize(700, 300);
+		this.setSize(700, 250);
 		this.setResizable(false);
 		//this.setLocation(350, 200);
 		this.setLocationRelativeTo(null);
@@ -63,7 +65,7 @@ public class espace_enseignant1 extends JFrame implements ActionListener  {
         
 		JLabel l = new JLabel("Selectionner classe");
 		l.setFont(new Font("Serif", Font.PLAIN, 18));
-		JLabel welcome=new JLabel("BIENVENUE "+ens.getLogin().toUpperCase());
+		JLabel welcome=new JLabel("BIENVENUE "+ens.getName().toUpperCase());
 		ui.add(new JLabel());
 		ui.add(welcome);
 		ui.add(new JLabel());
@@ -71,8 +73,7 @@ public class espace_enseignant1 extends JFrame implements ActionListener  {
 		ui.add(new JLabel());
 		ui.add(new JLabel());
 		ui.add(l);
-		
-		class_selection = getclasses();
+		getclasses(1);
 		class_selection.addActionListener(this);
 		ui.add(class_selection);
 		ui.add(new JLabel());
@@ -102,13 +103,19 @@ public class espace_enseignant1 extends JFrame implements ActionListener  {
 		ui.add(deconnection);
 		setVisible(true);
 	}
-	public JComboBox<String> getclasses() { ///make this external
+	public void getclasses(int sem) { ///make this external
 		// TODO Auto-generated method stub
 		///TODO
 		//auto import classes here
-		String[] data= {"MI2A","MI2B","PI"};
-		JComboBox<String> c=new JComboBox<String>(data);
-		return c;
+		ArrayList<Classe> classes=ens.getListeclasses(sem);
+		String[] data=new String[classes.size()];
+		for (int i = 0; i < classes.size(); i++) {
+			data[i]=classes.get(i).getName();
+		}
+		class_selection.setModel(new DefaultComboBoxModel<String>(data));
+//		String[] data= {"MI2A","MI2B","PI"};
+//		JComboBox<String> c=new JComboBox<String>(data);
+//		return c;
 	}
 
 
@@ -116,19 +123,31 @@ public class espace_enseignant1 extends JFrame implements ActionListener  {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object source=e.getSource();
-		String classe_name =class_selection.getSelectedItem().toString();
+		String classe_name="";
+		if (class_selection.getSelectedIndex()!=-1)
+			classe_name=class_selection.getSelectedItem().toString();
+		
 		int sem = 1 ;
 		
 		if (source==validate) {
 //			System.out.println("validate");
-			if (sem2.isSelected()) sem=2;
-			dispose();
-			new espace_enseignant2(classe_name,sem,ens);
-		} 
-		if (source==deconnection) {
+			if (classe_name=="") JOptionPane.showMessageDialog(null, "No classe selected"); //replace classe name by class classe
+			else {
+				if (sem2.isSelected()) sem=2;
+				dispose();
+				new espace_enseignant2(classe_name,sem,ens);
+			}
+		}
+		else if (source==deconnection) {
 			System.out.println("deconnection");
 			dispose();
 			new login_form();
+		}
+		else if (source==sem1) {
+			getclasses(1);
+		}
+		else if (source==sem2) {
+			getclasses(2);
 		}
 	}
 	///todo:
@@ -137,6 +156,7 @@ public class espace_enseignant1 extends JFrame implements ActionListener  {
 //	bouton sauvergarder (confirmation (optionon)) ..
 	public static void main(String[] args) throws Exception {
 		Enseignant e=new Enseignant("imen", "12345");
+		e.setName("test");
 		new espace_enseignant1(e) ;		
 	}
 }

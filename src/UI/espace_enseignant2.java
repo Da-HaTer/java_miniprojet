@@ -42,6 +42,7 @@ public class espace_enseignant2 extends JFrame implements ActionListener  {
 	private boolean locked;
 	JButton valider,deconnection,retour;
 	Utilisateur ens;
+	JTable table;
 	
 	public espace_enseignant2(String classname, int sem,Utilisateur ens2) { 
 		super("Vos Notes");
@@ -54,32 +55,9 @@ public class espace_enseignant2 extends JFrame implements ActionListener  {
 		JPanel contentPane =(JPanel) this.getContentPane() ;
 		//contentPane.setLayout(new GridLayout(3,1,100,10));
 		setLayout(new FlowLayout());
-		String[] columns = new String[] {"Etudiant", "Note DS", "Note TP", "Note Exam" };
-		Object[][] data = new Object[50][4];
-		for (int i = 0; i < data.length; i++) {
-			data[i]=new Object[]{"Etudiant "+Integer.toString(i), 10, 10, 10};
-		}
 		
-		///check if marks already assigned here
-		locked=false;
-		if (ens instanceof Enseignant) {
-			System.out.println("enseignant");
-			locked=true;
-		}
-		JTable table;
-		if (locked) {
-	        table =new JTable(data, columns)
-	        {
-				private static final long serialVersionUID = 1L;
+		get_data();
 		
-				public boolean isCellEditable(int row, int column) {                
-						return false;               
-				};
-			};
-		}
-		else {
-			table = new JTable(data, columns);
-		}
 		JLabel classe=new JLabel("Classe: "+classname);
 		classe.setFont(new Font("Serif", Font.BOLD, 18));
 		
@@ -107,6 +85,36 @@ public class espace_enseignant2 extends JFrame implements ActionListener  {
 //		reclamation.setBounds(150,170,160,30);
 		ui.add(deconnection);
 		setVisible(true);
+	}
+
+	private void get_data() { //fill table
+		// TODO Auto-generated method stub
+		String[] columns = new String[] {"Etudiant", "Note DS", "Note TP", "Note Exam" };
+		Object[][] data = new Object[50][4];
+		for (int i = 0; i < data.length; i++) {
+			data[i]=new Object[]{"Etudiant "+Integer.toString(i), 10, 10, 10};
+		}
+		
+		///check if marks already assigned here
+		locked=false;
+		if (ens instanceof Enseignant) {
+			System.out.println("enseignant");
+			locked=true;
+		}
+		
+		if (locked) {
+	        table =new JTable(data, columns)
+	        {
+				private static final long serialVersionUID = 1L;
+		
+				public boolean isCellEditable(int row, int column) {                
+						return false;               
+				};
+			};
+		}
+		else {
+			table = new JTable(data, columns);
+		}
 	}
 
 	@Override

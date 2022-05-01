@@ -16,8 +16,7 @@ public class Classe { //like struct
 	public ArrayList<Matiere> listeMatiereS2 = new ArrayList<>();
 	public ArrayList<Etudiant> listeEtudiant = new ArrayList<>();
 	
-	public Classe(String s) {
-		name=s;
+	public Classe() {
 		// TODO Auto-generated constructor stub
 	}
 	public Classe(int id ,String s,ArrayList<Matiere> s1, ArrayList<Matiere> s2, ArrayList<Etudiant> e){
@@ -29,6 +28,12 @@ public class Classe { //like struct
 		// TODO Auto-generated constructor stub
 	}
 	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getIdClasse() {
 		return idClasse;
 	}
@@ -47,7 +52,7 @@ public class Classe { //like struct
 			+ " ON Matiere.idSemestre = semestre.idsemestre\n"
 			+ "JOIN Classe\n"
 			+ String.format(" ON Classe.idS%d = semestre.idsemestre\n", sem)
-			+ " where Classe.idClasse = ?;";
+			+ " where Classe.idClasse = ?;"; 
 			
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
 			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
