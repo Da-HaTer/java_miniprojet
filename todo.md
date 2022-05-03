@@ -1,2 +1,3 @@
 - [ ] espace esneignant 2  (view, save if note is null in db, update if privilege granted)
+- [ ] create queries class for all queries & cleaner code
 - [ ] gestion of entities (CRUD)

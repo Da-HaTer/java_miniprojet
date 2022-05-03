@@ -21,10 +21,27 @@ public class Admin extends Utilisateur{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Admin() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public int getIdadmin() {
+		return idadmin;
+	}
+	public void setIdadmin(int idadmin) {
+		this.idadmin = idadmin;
+	}
+	public int getIssuper() {
+		return issuper;
+	}
+	public void setIssuper(int issuper) {
+		this.issuper = issuper;
+	}
 	public void save_admin_db() {
 		this.save_user_DB();
-        int exist=fetch_admin(this.idadmin);
-        if (exist==0) {
+        Admin exist=fetch_admin(this.idadmin);
+        if (exist!=null) {
 			try{ 
 	            String query = "insert into admin values (?,?);"; // WHERE Login=? and Pwd=?";
 	            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
@@ -69,25 +86,28 @@ public class Admin extends Utilisateur{
         catch (SQLException e) {e.printStackTrace();}
 	}
 	
-    public int fetch_admin(int id) {
+    public static Admin fetch_admin(int id) { ///change type to admin
         try{ 
-            String query = "select count(*) from admin where idAdmin=?;"; // WHERE Login=? and Pwd=?";
+            String query = "select isSuper from admin where idAdmin=?;"; // WHERE Login=? and Pwd=?";
             java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
             
             preparedStmt.setInt(1, id);
             
-            int res=0;
+            Admin admin=new Admin();
             ResultSet r = preparedStmt.executeQuery();
-            r.next();
-            res= r.getInt(1);
+            while(r.next()) {
+            	admin.setIdadmin(id);
+            	admin.setIssuper(r.getInt(1));
+            }
             connection.close();
-            return res;
+            return admin;
         }
         catch (SQLException e) {e.printStackTrace();}
-        return -1;
+        return null;
     }
 	
+
 	public static void main(String[] args) {
 		Admin admin=new Admin(4, "admin2", "admin", 2, 0);
 //		System.out.println(admin.fetch_admin(admin.idadmin));

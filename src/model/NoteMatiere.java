@@ -26,14 +26,15 @@ public class NoteMatiere {
 		this.matiere = matiere;
 	}
 
-	public Note getNotes() {
+	public Note getNote() {
 		return note;
 	}
 
-	public void setNotes(Note notes) {
+	public void setNote(Note notes) {
 		this.note = notes;
 	}
-
+	
+	
 	@Override
 	public String toString() {
 		return "NoteMatiere [matiere=" + matiere.toString() + ", notes=" + note.toString() + "]";

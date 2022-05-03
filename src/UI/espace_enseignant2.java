@@ -18,7 +18,13 @@ import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import main.login_form;
+import model.Classe;
+import model.Matiere;
+import model.Note;
+import model.NoteMatiere;
+import model.queries;
 import user.Enseignant;
+import user.Etudiant;
 import user.Utilisateur;
 
 import java.awt.Checkbox;
@@ -37,16 +43,24 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class espace_enseignant2 extends JFrame implements ActionListener  {
+public class espace_enseignant2 extends JFrame implements ActionListener  { ///rename to gestion notes and mvoe to gestion
 	private static final long serialVersionUID = 9L;
 	private boolean locked;
-	JButton valider,deconnection,retour;
-	Utilisateur ens;
-	JTable table;
+	private JButton valider,deconnection,retour;
+	private Enseignant ens;
+	private JTable table=new JTable();
+	private Classe classe;
+	private Matiere mat;
+	private boolean lock; //
 	
-	public espace_enseignant2(String classname, int sem,Utilisateur ens2) { 
+	//arraylist etudiants
+	//arraylist init notes (initial notes)
+	
+	public espace_enseignant2(Classe classe, Matiere mat,int sem,boolean lock) { 
 		super("Vos Notes");
-		ens=ens2;
+		this.classe=classe;
+		this.mat=mat;
+		this.lock=lock;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(550, 550);
 		this.setResizable(false);
@@ -58,10 +72,10 @@ public class espace_enseignant2 extends JFrame implements ActionListener  {
 		
 		get_data();
 		
-		JLabel classe=new JLabel("Classe: "+classname);
-		classe.setFont(new Font("Serif", Font.BOLD, 18));
+		JLabel classe_label=new JLabel("Classe: "+classe.getName());
+		classe_label.setFont(new Font("Serif", Font.BOLD, 18));
 		
-		contentPane.add(classe);
+		contentPane.add(classe_label);
         contentPane.add(table);
         JScrollPane scroll = new JScrollPane(table);
         table.setFillsViewportHeight(true);
@@ -90,25 +104,31 @@ public class espace_enseignant2 extends JFrame implements ActionListener  {
 	private void get_data() { //fill table
 		// TODO Auto-generated method stub
 		String[] columns = new String[] {"Etudiant", "Note DS", "Note TP", "Note Exam" };
-		Object[][] data = new Object[50][4];
-		for (int i = 0; i < data.length; i++) {
-			data[i]=new Object[]{"Etudiant "+Integer.toString(i), 10, 10, 10};
-		}
+
+		int idmatiere;
+		idmatiere=0;///to be deleted:
 		
-		///check if marks already assigned here
-		locked=false;
-		if (ens instanceof Enseignant) {
-			System.out.println("enseignant");
-			locked=true;
+		ArrayList<Etudiant> etudiants= classe.getEtudiants();/// //get etudiants of this class		
+		Object[][] data = new Object[etudiants.size()][4];
+		for (int i = 0; i < data.length; i++) {
+			Etudiant e=etudiants.get(i);
+			Note n=new NoteMatiere(mat,e.getId()).getNote(); ///todo: notematiere(matiere,id etudiant)
+			
+			if (n!=null)data[i]=new Object[]{e.getNom()+" "+e.getPrenom(), n.getDs(), n.getTp(), n.getExam()};
+			else data[i]=new Object[]{e.getNom()+" "+e.getPrenom(), "", "", ""};
 		}
+		///check if marks already assigned here
+		locked=lock;
 		
 		if (locked) {
 	        table =new JTable(data, columns)
 	        {
 				private static final long serialVersionUID = 1L;
-		
-				public boolean isCellEditable(int row, int column) {                
-						return false;               
+				
+				public boolean isCellEditable(int row, int column) {       //fingers crossed         
+						if (column==0) return false;
+						else if (data[row][column]!="") return false; 
+						else return true;
 				};
 			};
 		}
@@ -116,7 +136,9 @@ public class espace_enseignant2 extends JFrame implements ActionListener  {
 			table = new JTable(data, columns);
 		}
 	}
-
+	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -132,8 +154,17 @@ public class espace_enseignant2 extends JFrame implements ActionListener  {
 		}
 		else if (source==valider){
 			System.out.println("valider");
+			save_notes();
+			//refresh for easy lock
 		}
 	}
+	private void save_notes() {
+		// save only changed notes
+		double[] notes=get_notes(); //get notes from table (check gestion entité)
+		//compare notes with init notes;
+		//if not the same save note and refresh table ( easy lock )
+	}
+
 	///todo:
 //	set data based on semester (actionlistener)
 //	enseignant should be assigned matiere (important)

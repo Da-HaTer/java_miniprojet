@@ -127,28 +127,13 @@ public class login_form extends JFrame implements ActionListener{
 					new espace_enseignant1(enseignant);
 				}
 				case adminypeCode: {
-					break;
+					Admin admin= Admin.fetch_admin(user.idref);
+					if (admin.getIssuper()==1){
+						new espace_superadmin(user);
+					}
+					else new espace_admin();
 				}
 			}
-			
-//			System.out.print("login Successful as ");
-//			if (user instanceof Etudiant) {
-////				dispose();
-//				System.out.println("Etudiant "+l);
-//				new espace_etudiant((Etudiant) user,1);
-//			}
-//			if (user instanceof Enseignant){
-//				System.out.println("Enseignant "+l);
-//				new espace_enseignant1(user);
-//			}
-//			if (user instanceof Admin) {
-//				System.out.println("Admin "+l);
-//				new espace_admin();
-//			}
-//			if (user instanceof Super_Admin) {
-//				System.out.println("SuperAdmin "+l);
-//				new espace_superadmin(user);
-//			}
 		}
 		else {
 			message.setText("user not found !!"); ///temp, make this alert instead of message

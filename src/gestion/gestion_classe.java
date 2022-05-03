@@ -11,6 +11,8 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class gestion_classe implements ActionListener{
 	private JButton define;
@@ -18,10 +20,13 @@ public class gestion_classe implements ActionListener{
 	public gestion_classe() {
 		// TODO Auto-generated constructor stub
     	Vector<String> cols=new Vector<>();
+//    	cols.add("ID classe");
     	cols.add("Nom classe");
         JFrame f = new JFrame("Gestion classes");
+
         f.setLayout(new FlowLayout());
-        p1=new gestion_entite("classes",cols);
+        String[][] data= get_classes(); //name classe
+        p1=new gestion_entite("classes",cols,data);
         JPanel p2=p1.get_button_panel();
         define=new JButton("Definir");
         define.addActionListener(this);
@@ -51,8 +56,8 @@ public class gestion_classe implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object source=e.getSource();
 		if (source==define) {
-			String classe=p1.get_textfields().get(0).getText();
-			new gestion_classe_attributes(classe);
+			String classname=p1.get_textfields().get(0).getText(); //selected class
+			new gestion_classe_attributes(classname);
 		}
 		// TODO Auto-generated method stub
 	}

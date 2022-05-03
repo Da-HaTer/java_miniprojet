@@ -127,5 +127,9 @@ public class Classe { //like struct
 //		c.saisirLesNoteParMatiere();
 
 	}
+	public ArrayList<Etudiant> getListeEtudiants() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

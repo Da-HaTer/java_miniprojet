@@ -157,7 +157,7 @@ public class Etudiant extends Utilisateur {
 
 	}
 
-	public static Etudiant getEtudiantFromDB(int id) {
+	public static Etudiant getEtudiantFromDB(int id) { //returns etudiant
 			try {
 				String query = "SELECT * FROM Etudiant WHERE idEtudiant=? ";
 //				Connection connection = new DBUtils().getConnection();
