@@ -10,15 +10,15 @@ import model.Note;
 import model.NoteMatiere;
 
 public class Etudiant extends Utilisateur {
-	private int id;
+	private Integer id;
 	private String cin;
 	private String nom;
 	private String prenom;
-	private int idClasse;
-	private ArrayList<NoteMatiere> notesS1 = new ArrayList<>();
+	private Integer idClasse;
+	private ArrayList<NoteMatiere> notesS1 = new ArrayList<>();//deprecated
 	private ArrayList<NoteMatiere> notesS2 = new ArrayList<>();
 
-	public Etudiant(int id, String cin, String nom, String prenom, int idClasse, ArrayList<NoteMatiere> notesS1,
+	public Etudiant(Integer id, String cin, String nom, String prenom, int idClasse, ArrayList<NoteMatiere> notesS1,
 			ArrayList<NoteMatiere> notesS2) { //w/o login & passwd  (for superadmin)
 		super();
 		this.id = id;
@@ -29,7 +29,7 @@ public class Etudiant extends Utilisateur {
 		this.notesS2 = notesS2;
 	}
 	
-	public Etudiant(int id, String nom, String prenom, String cin, int idc) { //only id cin name (superadmin)
+	public Etudiant(int id, String nom, String prenom, String cin, Integer idc) { //only id cin name (superadmin)
 		super();
 		this.id = id;
 		this.cin = cin;
@@ -38,17 +38,34 @@ public class Etudiant extends Utilisateur {
 		this.idClasse = idc;
 	}
 
-	public Etudiant(int id, String cin, String nom, String prenom, String login, String pwd) { // w/o notes (user)
-		super(login, pwd);
-		this.id = id;
+	public Etudiant(Integer id,String login, String pwd,int ide, String cin, String nom, String prenom,int idc) { // w/o notes (user)
+		super(id,login, pwd,ide,1);
+		this.id = ide;
 		this.cin = cin;
 		this.nom = nom;
 		this.prenom = prenom;
+		this.idClasse=idc;
 	}
 	public Etudiant(int id) {
 		this.id=id;
 	}
 
+
+	public Etudiant() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Etudiant(String[] s) {
+		if (s[0].length()!=0) this.id=Integer.parseInt(s[0]);
+		else this.id=-1;
+		this.cin = s[1];
+		this.nom = s[2];
+		this.prenom = s[3];
+		if (s[4].length()!=0) this.idClasse=Integer.parseInt(s[4]);
+		else this.idClasse=null;
+		
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getId() {
 		return id;
@@ -101,7 +118,11 @@ public class Etudiant extends Utilisateur {
 
 	@Override
 	public String toString() {
-		return "Etudiant [id=" + id + ", cin=" + cin + ", nom=" + nom +", prenom=" + prenom +", idClasse="+ idClasse+", notesS1=" + notesS1.toString()
+		return id + "," + cin + "," + nom +"," + prenom +","+ idClasse+",";
+//				+ ", notesS2=" + notesS2.toString() + "]";
+	}
+	public String toString_verbose() {
+		return super.toString_verbose()+"Etudiant [id=" + id + ", cin=" + cin + ", nom=" + nom +", prenom=" + prenom +", idClasse="+ idClasse+", notesS1=" + notesS1.toString()
 				+ ", notesS2=" + notesS2.toString() + "]";
 	}
 
@@ -157,6 +178,71 @@ public class Etudiant extends Utilisateur {
 
 	}
 
+	
+	public void delete_Etudiant(int id) {
+    	try {
+    	String query="delete from etudiant where idEtudiant=?;";
+    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+        preparedStmt.setInt(1, id);
+        int rowsaffected = preparedStmt.executeUpdate();
+        System.out.println(rowsaffected);
+        connection.close();
+
+    	}
+    	
+    	catch (SQLException e) {e.printStackTrace();}
+	}
+	
+	
+    public void save_Etudiant() { //save or udpate
+    	
+        try{
+        	String query=String.format("update etudiant set idEtudiant=?,nom=?,prenom=?,cin=?,idClasse=?\r\n"
+        			+ "where idEtudiant=%d;",this.id);
+	    	if (fetch_etudiant(id)==null) {
+	    		query = "insert into etudiant values (?,?,?,?,?);"; // WHERE Login=? and Pwd=?";
+	    	}
+            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+            if (id<=0) preparedStmt.setNull(1, id);
+            else preparedStmt.setInt(1, id);
+            preparedStmt.setString(2, nom);
+			preparedStmt.setString(3, prenom);
+			preparedStmt.setString(4, cin);
+			if (idClasse!=null && idClasse>0) preparedStmt.setInt(5, idClasse); //case of null added
+			else preparedStmt.setNull(5,java.sql.Types.NULL);
+
+            int rowsaffected = preparedStmt.executeUpdate();
+            System.out.println(rowsaffected);
+
+            connection.close();
+        }
+        
+        catch (SQLException e) {e.printStackTrace();}
+	}
+    
+    public Etudiant fetch_etudiant(int id){
+    	try {
+    	
+    	String query="select * from Etudiant where idEtudiant=?;";
+    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+        preparedStmt.setInt(1, id);
+        ResultSet r = preparedStmt.executeQuery();
+        Etudiant etudiant=null;
+        while(r.next()) {
+        	etudiant=new Etudiant(r.getInt(1),r.getString(2),r.getString(3),r.getString(4),r.getInt(5));
+        }
+        connection.close();
+    	return etudiant;
+    	}
+    	
+    	catch (SQLException e) {e.printStackTrace();}
+    	return null;
+    }
+	
+	
 	public static Etudiant getEtudiantFromDB(int id) { //returns etudiant
 			try {
 				String query = "SELECT * FROM Etudiant WHERE idEtudiant=? ";
@@ -282,10 +368,42 @@ public class Etudiant extends Utilisateur {
 			e.printStackTrace();
 		}
 	}
-
-	public static void main(String[] args) {
-		Etudiant u=new Etudiant(1);
-		u=u.getEtudiantFromDB(1);
-		System.out.println(u.toString());
+	
+    public ArrayList<Etudiant> getListEtudiants() { ///returns matieres of this class for a given smester
+		try {
+			String query ="select * from etudiant";
+			
+			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+			ResultSet resultSet = preparedStmt.executeQuery();
+			ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
+			ResultSet r=resultSet;
+			while (r.next()) {
+//				int id,String login, String pwd,int ide, String cin, String nom, String prenom,id
+				etudiants.add(new Etudiant(resultSet.getInt(1),
+						resultSet.getString(2),
+						resultSet.getString(3),
+						resultSet.getString(4),
+						resultSet.getInt(5)));
+			}
+			connection.close();
+			return etudiants;
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
+	public static void main(String[] args) {
+//		ArrayList<Etudiant> etudiants=new Etudiant().getListEtudiants();
+//		for (Etudiant e:etudiants) {
+//			System.out.println(e);
+//		}
+		Etudiant e=new Etudiant(2,"oussema","haboubi","1666666",1);
+//		e.save_Etudiant();
+		e.delete_Etudiant(2);
+//		u=u.getEtudiantFromDB(1);
+//		System.out.println(u.toString());
+	}
+
 }

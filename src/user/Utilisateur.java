@@ -26,7 +26,15 @@ public class Utilisateur {
 		this.login = login;
 		this.motDePasse = cryptPass(motDePasse);
 	}
+	public Utilisateur() {}
 	
+	public Utilisateur(String id, String login, String pwd, String idref, int i) {
+		// TODO Auto-generated constructor stub
+		if (id.length()!=0) idUser=Integer.parseInt(id);
+		else this.idUser=-1;
+		this.login=login;
+		this.motDePasse=pwd;
+	}
 	public int getIdUser() {
 		return idUser;
 	}
@@ -42,9 +50,7 @@ public class Utilisateur {
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
-	public Utilisateur() {
-		
-	}
+
 
 	public String getLogin() {
 		return login;
@@ -179,6 +185,9 @@ public class Utilisateur {
     
     @Override
     public String toString() {
+    	return String.format("%d,%s,%s\n",this.idUser,login,this.motDePasse);
+    }
+    public String toString_verbose() {
     	return String.format("userid : %d login: %s passwd: %s\n",this.idUser,login,this.motDePasse);
     }
 //	public Boolean seConnecter(String login, String motDePasse) { (deprecated) 
