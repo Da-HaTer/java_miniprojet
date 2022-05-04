@@ -122,12 +122,12 @@ public class login_form extends JFrame implements ActionListener{
 					break;
 				}
 				case ensegnantTypeCode: { /// complete these
-					Enseignant enseignant= Enseignant.getEnseignantFromDB(user.idref);
+					Enseignant enseignant= new Enseignant( ).fetch_Enseignant(user.idref);
 //					System.out.println(enseignant.toString());
 					new espace_enseignant1(enseignant);
 				}
 				case adminypeCode: {
-					Admin admin= Admin.fetch_admin(user.idref);
+					Admin admin= new Admin().fetch_Admin(user.idref);
 					if (admin.getIssuper()==1){
 						new espace_superadmin(user);
 					}

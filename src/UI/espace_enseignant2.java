@@ -108,11 +108,11 @@ public class espace_enseignant2 extends JFrame implements ActionListener  { ///r
 		int idmatiere;
 		idmatiere=0;///to be deleted:
 		
-		ArrayList<Etudiant> etudiants= classe.getEtudiants();/// //get etudiants of this class		
+		ArrayList<Etudiant> etudiants= classe.getListeEtudiants();
 		Object[][] data = new Object[etudiants.size()][4];
 		for (int i = 0; i < data.length; i++) {
 			Etudiant e=etudiants.get(i);
-			Note n=new NoteMatiere(mat,e.getId()).getNote(); ///todo: notematiere(matiere,id etudiant)
+			Note n=new NoteMatiere().get_note(mat.getId(),e.getId()); ///todo: notematiere(matiere,id etudiant)
 			
 			if (n!=null)data[i]=new Object[]{e.getNom()+" "+e.getPrenom(), n.getDs(), n.getTp(), n.getExam()};
 			else data[i]=new Object[]{e.getNom()+" "+e.getPrenom(), "", "", ""};

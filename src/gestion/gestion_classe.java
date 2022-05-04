@@ -26,6 +26,8 @@ public class gestion_classe implements ActionListener{
     	Vector<String> cols=new Vector<>();
     	cols.add("ID classe");
     	cols.add("Nom classe");
+    	cols.add("semester1 id");
+    	cols.add("semester2 id");
         JFrame f = new JFrame("Gestion classes");
 
         f.setLayout(new FlowLayout());
@@ -87,11 +89,10 @@ public class gestion_classe implements ActionListener{
 			new gestion_classe();
 			}
 		});
-        
-        
+
         
         JPanel p2=p1.get_button_panel();
-        define=new JButton("Definir");
+        define=new JButton("Define");
         define.addActionListener(this);
         p2.add(define);
         f.getContentPane().add(p1);
@@ -137,7 +138,7 @@ public class gestion_classe implements ActionListener{
 		if (source==define) {
 			Integer classid=Integer.parseInt(p1.get_textfields().get(0).getText()) ; 
 			String classname=p1.get_textfields().get(1).getText(); //selected class
-			new gestion_classe_attributes(classid,classname);
+			new gestion_classe_attributes(classid);
 		}
 		// TODO Auto-generated method stub
 	}

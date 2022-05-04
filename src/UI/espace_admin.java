@@ -16,6 +16,7 @@ import gestion.gestion_classe;
 import gestion.gestion_enseignant;
 import gestion.gestion_etudiant;
 import gestion.gestion_matiere;
+import gestion.gestion_utilisateur;
 import main.login_form;
 
  public class espace_admin extends JFrame implements ActionListener{
@@ -53,7 +54,7 @@ import main.login_form;
 		// TODO Auto-generated method stub
 		///TODO
 		//auto import classes here
-		String[] data= {"Etudiant","Enseignant","Classe","Matiere"};
+		String[] data= {"Utilisateur","Etudiant","Enseignant","Classe","Matiere"};
 		JComboBox<String> c=new JComboBox<String>(data);
 		return c;
 	}
@@ -75,6 +76,12 @@ import main.login_form;
 				}
 				case "Enseignant": {
 					new gestion_enseignant();
+//					System.out.println("enseignant");
+					break;
+				}
+				
+				case "Utilisateur": {
+					new gestion_utilisateur(false);
 //					System.out.println("enseignant");
 					break;
 				}

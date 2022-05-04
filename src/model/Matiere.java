@@ -16,6 +16,7 @@ public class Matiere {
 	private double coefTp;
 	private double coefMatiere;
 	private Integer idSemestre;
+
 	private Integer idEnseignant;
 
 
@@ -43,9 +44,19 @@ public class Matiere {
 		this.coefTp = Double.parseDouble(s[3]);
 		this.coefExam = Double.parseDouble(s[4]);
 		this.coefMatiere = Double.parseDouble(s[5]);
-		if (s[6].length()!=0) this.idEnseignant=Integer.parseInt(s[6]);
+		if (s[6].length()!=0) this.idSemestre=Integer.parseInt(s[6]);
+		else this.idSemestre=null;
+		if (s[7].length()!=0) this.idEnseignant=Integer.parseInt(s[7]);
 		else this.idEnseignant=null;
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Integer getIdSemestre() {
+		return idSemestre;
+	}
+
+	public void setIdSemestre(Integer idSemestre) {
+		this.idSemestre = idSemestre;
 	}
 
 	public double getCoefExam() {
@@ -106,7 +117,7 @@ public class Matiere {
 
 	@Override
 	public String toString() {
-		return getId()+","+getNomMatiere()+","+getCoefds()+","+getCoefTp()+","+getCoefExam()+","+getCoefMatiere()+","+getIdEnseignant();
+		return getId()+","+getNomMatiere()+","+getCoefds()+","+getCoefTp()+","+getCoefExam()+","+getCoefMatiere()+","+getIdSemestre()+","+getIdEnseignant();
 	}
 	public String toString_verbose() {
 		return "Matiere [coefExam=" + coefExam + ", coefDs=" + coefDs + ", coefTp=" + coefTp + ", coefMatiere="
@@ -138,7 +149,7 @@ public class Matiere {
     public void save_matiere() { //save or udpate
     	
         try{
-        	String query=String.format("update matiere set idMatiere=?,MatiereName=?,coefDS=?,coefTP=?,coefExam=?,CoefMatiere=?,idSemestre=?,idEnseignant=?\r\n"
+        	String query=String.format("update matiere set idMatiere=?,MatiereName=?,coefDS=?,coefExam=?,coefTP=?,CoefMatiere=?,idSemestre=?,idEnseignant=?\r\n"
         			+ "where idMatiere=%d;",this.id);
 	    	if (fetch_matiere(this.id)==null) {
 	    		query = "insert into matiere values (?,?,?,?,?,?,?,?);"; // WHERE Login=? and Pwd=?";
@@ -160,6 +171,7 @@ public class Matiere {
 			
             int rowsaffected = preparedStmt.executeUpdate();
             System.out.println(rowsaffected);
+            System.out.println("saved matiere");
 
             connection.close();
         }

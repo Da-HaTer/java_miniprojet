@@ -36,9 +36,14 @@ public class Admin extends Utilisateur{
 	public Admin(String[] s) {
 		if (s[0].length()!=0) this.idadmin=Integer.parseInt(s[0]);
 		else this.idadmin=-1;
-		this.issuper=Integer.parseInt(s[1]);
+		
+		if (s[1].length()!=0) {
+			this.issuper=Integer.parseInt(s[1]); 
+			if (this.issuper!=1 && this.issuper!=0) this.issuper=0;
+		} 
+		else this.issuper=0;
+	} 	
 		// TODO Auto-generated constructor stub
-	}
 	public int getIdadmin() {
 		return idadmin;
 	}
@@ -99,11 +104,11 @@ public class Admin extends Utilisateur{
 	
 	
     public void save_Admin() { //save or udpate
-    	
         try{
-        	String query=String.format("update admin set idAdmin=?,isSuper=?\r\n"
+        	String query=String.format("update admin set idAdmin=?,isSuper=? \r\n"
         			+ "where idAdmin=%d;",this.idadmin);
 	    	if (fetch_Admin(idadmin)==null) {
+	    		
 	    		query = "insert into admin values (?,?);"; // WHERE Login=? and Pwd=?";
 	    	}
             java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
@@ -120,7 +125,7 @@ public class Admin extends Utilisateur{
         catch (SQLException e) {e.printStackTrace();}
 	}
 	
-    public static Admin fetch_Admin(int id) { ///change type to admin
+    public Admin fetch_Admin(int id) { ///change type to admin
         try{ 
             String query = "select * from admin where idAdmin=?;"; // WHERE Login=? and Pwd=?";
             java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
@@ -132,10 +137,11 @@ public class Admin extends Utilisateur{
             ResultSet r = preparedStmt.executeQuery();
             while(r.next()) {
             	admin.setIdadmin(id);
-            	admin.setIssuper(r.getInt(1));
+            	admin.setIssuper(r.getInt(2));
+            	return admin;
             }
             connection.close();
-            return admin;
+            return null;
         }
         catch (SQLException e) {e.printStackTrace();}
         return null;
@@ -146,7 +152,7 @@ public class Admin extends Utilisateur{
 		Admin admin=new Admin(4, "admin2", "admin", 2, 0);
 //		System.out.println(admin.fetch_admin(admin.idadmin));
 //		admin.save_admin_db();
-		admin.delete_db(1);
+//		admin.delete_db(1);
 	}
 
 }

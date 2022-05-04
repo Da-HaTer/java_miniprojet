@@ -9,22 +9,26 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import user.Enseignant;
-import user.Etudiant;
+import model.Matiere;
+import user.Admin;
+import user.Utilisateur;
 
-public class gestion_enseignant {
-	public gestion_enseignant() {
+public class gestion_utilisateur {
+	public gestion_utilisateur(boolean previlege) {
 		// TODO Auto-generated constructor stub
 		Vector<String> cols=new Vector<>();
-    	cols.add("id");
-    	cols.add("nom");
-    	cols.add("prenom");
-        JFrame f = new JFrame("Gestion Enseignants");
+		cols.add("idUser");
+    	cols.add("login");
+    	cols.add("password");
+    	cols.add("idref");
+    	cols.add("type");
+        JFrame f = new JFrame("Gestion Utilisateurs");
         f.setLayout(new FlowLayout());
-        String[][] data= data_fromarraylist(new Enseignant().getListEnseignant());
-        gestion_entite p1=new gestion_entite("Enseignants",cols,data);
+        String[][] data= data_fromarraylist(new Utilisateur().getListeUtilisateur());
+        gestion_entite p1=new gestion_entite("Utilisateurs",cols,data);///external action listener
         JButton restore=p1.restore;
         restore.addActionListener(new ActionListener() {
 			
@@ -32,10 +36,11 @@ public class gestion_enseignant {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				f.dispose();
-				new gestion_enseignant();
+				new gestion_utilisateur(false);
 			}
 			
 		});
+        
         JButton validate=p1.valider;
         validate.addActionListener(new ActionListener() {
 			
@@ -51,14 +56,12 @@ public class gestion_enseignant {
 					for (int j = 0; j < data.length && isnew; j++) {
 						if (data[j][0].equals(new_data[i][0])) {
 							isnew=false;
-							if (!arrayequals(new_data[i],(data[j]))) new Enseignant(new_data[i]).save_Enseignant(); // System.out.println("updating");} ///not updating if last column is empty
-//								System.out.println(Arrays.deepToString(new_data[i]));} //update()
+							if (!arrayequals(new_data[i],(data[j]))) new Utilisateur(new_data[i]).save_Utilisateur(previlege);
+								
 						}
 					}
 					
-					if (isnew)  new Enseignant(new_data[i]).save_Enseignant();// System.out.println("adding enseignant");}
-//						System.out.println(Arrays.deepToString(new_data[i])); //add new
-//					}
+					if (isnew) new Utilisateur(new_data[i]).save_Utilisateur(previlege);
 
 				}
 				//check if something is deleted locally
@@ -71,17 +74,17 @@ public class gestion_enseignant {
 							iskept=true;}
 					}
 					if (!iskept) {
-//						System.out.println("matiere of id "+data[i][0]+" is deleted");
-						new Enseignant().delete_Enseignant((Integer.parseInt(data[i][0])));
+						System.out.println("matiere of id "+data[i][0]+" is deleted");
+						new Utilisateur().delete_Utilisateur((Integer.parseInt(data[i][0])));;
 					}
 				}
 				//check if deleted
 				
 			f.dispose();
-			new gestion_enseignant();
+			new gestion_utilisateur(false);
 			}
 		});
-        
+
         
         f.getContentPane().add(p1);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -90,24 +93,25 @@ public class gestion_enseignant {
         f.setLocationRelativeTo(null);
         f.setVisible(true);
 	}
-	public boolean arrayequals(String[] a1,String[]a2) {///duplicate (make imported
-		if (a1.length!=a2.length) return false;
-		boolean equals=true;	
+	
+	public boolean arrayequals(String[] a1,String[]a2) {
+		boolean equals=true;
 		for (int i = 0; i < a2.length && equals; i++) {
 			if (!(a1[i].equals(a2[i]))) equals=false;
 		}
 		return equals;
 	}
-    private String[][] data_fromarraylist(ArrayList<Enseignant> enseignants) {
+
+    private String[][] data_fromarraylist(ArrayList<Utilisateur> users) {
 		// TODO Auto-generated method stub
-    	String[][] data=new String[enseignants.size()][5];
+    	String[][] data=new String[users.size()][5];
     	for (int i = 0; i < data.length; i++) {
-    		Enseignant mat=enseignants.get(i);
-    		data[i]=mat.toString().split(",");
+    		Utilisateur u=users.get(i);
+    		data[i]=u.toString().split(",");
 		}
 		return data;
 	}
     public static void main(String[] args) {
-        new gestion_enseignant();
+        new gestion_utilisateur(true);
     }
 }

@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -20,7 +21,7 @@ import user.Enseignant;
 import user.Etudiant;
 
 public class gestion_classe_attributes {
-	public gestion_classe_attributes(Integer id ,String classename) {
+	public gestion_classe_attributes(int idClasse) {
 		// TODO Auto-generated constructor stub
     	Vector<String> mat_s1=new Vector<>();
     	mat_s1.add("id matiere");
@@ -28,14 +29,14 @@ public class gestion_classe_attributes {
     	mat_s2.add("id matiere");
     	Vector<String> Etudiants=new Vector<>();
     	Etudiants.add("id etudiant");
-    	
-		String[][] data1= classe_data_fromarraylist(new Classe(id).getListMatieresDB(1)) ; ///get matieres of semestre 3
-		String[][] data2= classe_data_fromarraylist(new Classe(id).getListMatieresDB(2)) ; ///Get matieres of semestre 2
-		String[][] data3= student_data_fromarraylist(new Etudiant(id).getListEtudiants()) ; ///Get matieres of semestre 2
+    	Classe classe=new Classe().fetch_Classe(idClasse);
+		String[][] data1= classe_data_fromarraylist(new Classe(idClasse).getListMatieresDB(1)) ; ///get matieres of semestre 3
+		String[][] data2= classe_data_fromarraylist(new Classe(idClasse).getListMatieresDB(2)) ; ///Get matieres of semestre 2
+		String[][] data3= student_data_fromarraylist(new Classe(idClasse).getListeEtudiants()) ; ///Get matieres of semestre 2
 //    	String[][] data3= init_etudiants(); ///get etudiants of this class
 //    	String[][] data3= {};
     	JPanel buttonpane=new JPanel();
-        JFrame f = new JFrame("Gestion classe "+classename);//        f.setLayout(new FlowLayout()); doesn't work with scrollpane..
+        JFrame f = new JFrame("Gestion classe "+classe.getName());//        f.setLayout(new FlowLayout()); doesn't work with scrollpane..
         gestion_entite p1=new gestion_entite("Matieres semestre 1",mat_s1,data1);
         gestion_entite p2=new gestion_entite("Matieres semestre 2",mat_s2,data2);
         gestion_entite p3=new gestion_entite("Etudiants",Etudiants,data3);
@@ -45,6 +46,7 @@ public class gestion_classe_attributes {
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS
         );
+        
         f.add(scroll);
         p4.add(p1,BorderLayout.WEST);
         p4.add(p2,BorderLayout.CENTER);
@@ -53,9 +55,9 @@ public class gestion_classe_attributes {
         
         
         //buttons & actions
-        p1.valider.setVisible(false);
-        p2.valider.setVisible(false);
-        p3.valider.setVisible(false);
+        p1.valider.setVisible(false);p1.restore.setVisible(false);
+        p2.valider.setVisible(false);p2.restore.setVisible(false);
+        p3.valider.setVisible(false);p3.restore.setVisible(false);
         JButton validate=new JButton();///change to a button class with color properties
         JButton restore=new JButton(); //reload this page
         buttonpane.add(validate);
@@ -74,19 +76,73 @@ public class gestion_classe_attributes {
 //				System.out.println(Arrays.deepToString(data));
 //				System.out.println(Arrays.deepToString(new_data));
 				//check for something new locally
-				for (int k = 0; k < data.length; k++) {
+				for (int k = 0; k < data.length; k++) { //0: sem1 , 1: sem2 , 3 student
 	
 					for (int i = 0; i < new_data[k].length; i++) {
 						boolean isnew=true;
 						for (int j = 0; j < data[k].length && isnew; j++) {
 							if (data[k][j][0].equals(new_data[k][i][0])) {
 								isnew=false;
-								if (!arrayequals(new_data[k][i],(data[k][j]))) new Etudiant(new_data[k][i]).save_Etudiant();
+								if (!arrayequals(new_data[k][i],(data[k][j]))) {
+									if (k==0) {
+										Integer idmat=Integer.parseInt(new_data[k][i][0]);
+										Matiere mat=new Matiere().fetch_matiere(idmat);
+										mat.setIdSemestre(classe.getSem1());
+										mat.save_matiere();
+									}
+									else if (k==1) {
+										Integer idmat=Integer.parseInt(new_data[k][i][0]);
+										Matiere mat=new Matiere().fetch_matiere(idmat);
+										mat.setIdSemestre(classe.getSem2());
+										mat.save_matiere();
+									}
+									if (k==2) {
+										Integer idetudiant=Integer.parseInt(new_data[k][i][0]);
+										Etudiant e1=new Etudiant().fetch_etudiant(idetudiant);
+										e1.setIdClasse(classe.getIdClasse());
+										e1.save_Etudiant();
+									}
 									//System.out.println(Arrays.deepToString(new_data[i])); //update()
+								}
 							}
 						}
 						
-						if (isnew) new Etudiant(new_data[k][i]).save_Etudiant();
+						if (isnew) {//add new entry
+							if (k==0) {
+								Integer idmat=Integer.parseInt(new_data[k][i][0]);
+								Matiere mat=new Matiere().fetch_matiere(idmat);
+								if (mat==null) {
+//									alert();
+									JOptionPane.showMessageDialog(null, String.format("matiere d'indice %d non existante",idmat));
+									break;
+								}
+								mat.setIdSemestre(classe.getSem1());
+								mat.save_matiere();
+							}
+							else if (k==1) {
+								Integer idmat=Integer.parseInt(new_data[k][i][0]);
+								Matiere mat=new Matiere().fetch_matiere(idmat);
+								if (mat==null) {
+//									alert();
+									JOptionPane.showMessageDialog(null, String.format("matiere d'indice %d non existante",idmat));
+									break;
+								}
+								mat.setIdSemestre(classe.getSem2());
+								mat.save_matiere();
+							}
+							if (k==2) {
+								Integer idetudiant=Integer.parseInt(new_data[k][i][0]);
+								Etudiant e1=new Etudiant().fetch_etudiant(idetudiant);
+								if (e1==null) {
+//									alert();
+									JOptionPane.showMessageDialog(null, String.format("etudiant d'indice %d non existant",idetudiant));
+									break;
+								}
+								e1.setIdClasse(classe.getIdClasse());
+								e1.save_Etudiant();
+							}
+//							new Etudiant(new_data[k][i]).save_Etudiant();
+						}
 	//						System.out.println(Arrays.deepToString(new_data[i])); //add new
 	//					}
 	
@@ -100,9 +156,27 @@ public class gestion_classe_attributes {
 	
 								iskept=true;}
 						}
-						if (!iskept) {
-							System.out.println("matiere of id "+data[k][i][0]+" is deleted");
-							new Etudiant().delete_Etudiant((Integer.parseInt(data[k][i][0])));
+						if (!iskept) { //delete
+							if (k==0) {
+								Integer idmat=Integer.parseInt(data[k][i][0]);
+								Matiere mat=new Matiere().fetch_matiere(idmat);
+								mat.setIdSemestre(-1);
+								mat.save_matiere();
+							}
+							else if (k==1) {
+								Integer idmat=Integer.parseInt(data[k][i][0]);
+								Matiere mat=new Matiere().fetch_matiere(idmat);
+								mat.setIdSemestre(-1);
+								mat.save_matiere();
+							}
+							if (k==2) {
+								Integer idetudiant=Integer.parseInt(data[k][i][0]);
+								Etudiant e1=new Etudiant().fetch_etudiant(idetudiant);
+								e1.setIdClasse(-1);
+								e1.save_Etudiant();
+							}
+//							System.out.println("matiere of id "+data[k][i][0]+" is deleted");
+//							new Etudiant().delete_Etudiant((Integer.parseInt(data[k][i][0])));
 						}
 					}
 				//check if deleted
@@ -110,7 +184,7 @@ public class gestion_classe_attributes {
 				}
 				
 			f.dispose();
-			new gestion_etudiant();
+			new gestion_classe_attributes(idClasse);
 			}
 		});
         restore.setText("Tout restaurer");
@@ -120,13 +194,10 @@ public class gestion_classe_attributes {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				f.dispose();
-				new gestion_classe_attributes(id,classename);
+				new gestion_classe_attributes(idClasse);
 			}
 		});
-        
-        
-        
-        
+    
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //      f.setSize(340,250);
         f.pack();
@@ -154,13 +225,13 @@ public class gestion_classe_attributes {
 		// TODO Auto-generated method stub
     	String[][] data=new String[e.size()][5];
     	for (int i = 0; i < data.length; i++) {
-    		data[i]=new String[] {e.get(i).getId().toString()};
+    		data[i]=new String[] {Integer.toString(e.get(i).getId())};
 		}
 		return data;
 	}
     public static void main(String[] args) {
 //    	Classe classe=new Classe();
 //    	classe.setName("MI2-A");
-//        new gestion_classe_attributes(classe);
+        new gestion_classe_attributes(1);
     }
 }

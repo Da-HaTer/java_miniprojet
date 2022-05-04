@@ -9,6 +9,7 @@ import gestion.gestion_classe;
 import gestion.gestion_enseignant;
 import gestion.gestion_etudiant;
 import gestion.gestion_matiere;
+import gestion.gestion_utilisateur;
 import user.Admin;
 import user.Super_Admin;
 import user.Utilisateur;
@@ -26,7 +27,7 @@ public class espace_superadmin extends espace_admin{
 		// TODO Auto-generated method stub
 		///TODO
 		//auto import classes here
-		String[] data= {"Etudiant","Enseignant","Classe","Matiere","Admin","Note"};
+		String[] data= {"Utilisateur","Etudiant","Enseignant","Classe","Matiere","Admin","Note"};
 		JComboBox<String> c=new JComboBox<String>(data);
 		return c;
 	}
@@ -46,6 +47,11 @@ public class espace_superadmin extends espace_admin{
 				case "Etudiant": {
 //					System.out.println("etudiant");
 					new gestion_etudiant();
+					break;
+				}
+				case "Utilisateur": {
+					new gestion_utilisateur(true);
+//					System.out.println("enseignant");
 					break;
 				}
 				case "Enseignant": {

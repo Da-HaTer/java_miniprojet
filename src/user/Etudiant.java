@@ -15,6 +15,7 @@ public class Etudiant extends Utilisateur {
 	private String nom;
 	private String prenom;
 	private Integer idClasse;
+
 	private ArrayList<NoteMatiere> notesS1 = new ArrayList<>();//deprecated
 	private ArrayList<NoteMatiere> notesS2 = new ArrayList<>();
 
@@ -67,6 +68,14 @@ public class Etudiant extends Utilisateur {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Integer getIdClasse() {
+		return idClasse;
+	}
+
+	public void setIdClasse(Integer idClasse) {
+		this.idClasse = idClasse;
+	}
+	
 	public int getId() {
 		return id;
 	}

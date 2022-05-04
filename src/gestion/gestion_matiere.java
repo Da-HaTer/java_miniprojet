@@ -24,6 +24,7 @@ public class gestion_matiere {
     	cols.add("coef-TP");
     	cols.add("coef-EX");
     	cols.add("coeficient Matiere");
+    	cols.add("id Semestre");
     	cols.add("id Enseignant");
     	String[][] data= data_fromarraylist(new Matiere().getListMatieresDB());
 //    	String[][] data= {};
@@ -95,7 +96,8 @@ public class gestion_matiere {
         f.setVisible(true);
 	}
 	
-	public boolean arrayequals(String[] a1,String[]a2) {
+	public boolean arrayequals(String[] a1,String[]a2) {///move to lib
+		if (a1.length!=a2.length)return false;
 		boolean equals=true;
 		for (int i = 0; i < a2.length && equals; i++) {
 			if (!(a1[i].equals(a2[i]))) equals=false;

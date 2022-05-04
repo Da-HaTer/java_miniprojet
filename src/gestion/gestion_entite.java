@@ -41,6 +41,8 @@ public class gestion_entite extends JPanel {
 		if (colnames != null) {
 			columns = (String[]) colnames.toArray(new String[colnames.size()]);
 		}
+		int x=(colnames.size()-1)*40;
+		setPreferredSize(new Dimension(400+x,600));
 		setLayout(new BorderLayout());
 		model = new DefaultTableModel(data, columns);
 		table.setModel(model);
@@ -52,7 +54,7 @@ public class gestion_entite extends JPanel {
 		JButton updateButton = new JButton("Update");
 		restore = new JButton("Restaurer");
 		JButton delete = new JButton("delete");
-		valider = new JButton("valider");
+		valider = new JButton("Enregistrer");
 		// Button panel
 		buttonPanel = new JPanel();
 		// Add buttons to panel
@@ -190,6 +192,9 @@ public class gestion_entite extends JPanel {
 	private void init_fields() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < columns.length; i++) {
+			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+			centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 			tfields.add(new JTextField());
 		}
 	}

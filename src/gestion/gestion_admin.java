@@ -32,7 +32,7 @@ public class gestion_admin {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				f.dispose();
-				new gestion_matiere();
+				new gestion_admin();
 			}
 			
 		});
@@ -53,13 +53,11 @@ public class gestion_admin {
 						if (data[j][0].equals(new_data[i][0])) {
 							isnew=false;
 							if (!arrayequals(new_data[i],(data[j]))) new Admin(new_data[i]).save_Admin();
-								//System.out.println(Arrays.deepToString(new_data[i])); //update()
+								
 						}
 					}
 					
 					if (isnew) new Admin(new_data[i]).save_Admin();
-//						System.out.println(Arrays.deepToString(new_data[i])); //add new
-//					}
 
 				}
 				//check if something is deleted locally
