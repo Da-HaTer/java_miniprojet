@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import user.Enseignant;
 import user.Etudiant;
 
 public class Classe { //like struct
@@ -19,6 +20,10 @@ public class Classe { //like struct
 	public Classe() {
 		// TODO Auto-generated constructor stub
 	}
+	public Classe(Integer id) {
+		this.idClasse=id;
+		// TODO Auto-generated constructor stub
+	}
 	public Classe(int id ,String s,ArrayList<Matiere> s1, ArrayList<Matiere> s2, ArrayList<Etudiant> e){
 		idClasse=id;
 		name=s;
@@ -28,6 +33,17 @@ public class Classe { //like struct
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Classe(int int1, String string) {
+		// TODO Auto-generated constructor stub
+		this.idClasse=int1;
+		this.name=string;
+	}
+	public Classe(String[] s) {
+		if (s[0].length()!=0) this.idClasse=Integer.parseInt(s[0]);
+		else this.idClasse=-1;
+		this.name = s[1];
+		// TODO Auto-generated constructor stub
+	}
 	public String getName() {
 		return name;
 	}
@@ -79,13 +95,35 @@ public class Classe { //like struct
 		return null;
 	}
 	
-	public void save_classe() {
-        try{ 
-            String query = "insert into classe values (?,?,1,2);"; // WHERE Login=? and Pwd=?";
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+	public void delete_Classe(int id) {
+    	try {
+    	String query="delete from classe where idClasse=?;";
+    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+        preparedStmt.setInt(1, id);
+        int rowsaffected = preparedStmt.executeUpdate();
+        System.out.println(rowsaffected);
+        connection.close();
+
+    	}
+    	
+    	catch (SQLException e) {e.printStackTrace();}
+	}
+	
+	
+    public void save_Classe() { //save or udpate
+    	
+        try{
+        	String query=String.format("update classe set idClasse=?,nomClasse=?\r\n"
+        			+ "where idEnseignant=%d;",this.idClasse);
+	    	if (fetch_Enseignant(idClasse)==null) {
+	    		query = "insert into enseignant values (?,?,?);"; // WHERE Login=? and Pwd=?";
+	    	}
+            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
-            
-            preparedStmt.setInt(1, idClasse);	preparedStmt.setString(2, this.name);
+            if (idClasse<=0) preparedStmt.setNull(1, idClasse);
+            else preparedStmt.setInt(1, idClasse);
+            preparedStmt.setString(2, name);
 
             int rowsaffected = preparedStmt.executeUpdate();
             System.out.println(rowsaffected);
@@ -95,12 +133,55 @@ public class Classe { //like struct
         
         catch (SQLException e) {e.printStackTrace();}
 	}
+    
+    public Classe fetch_Enseignant(int id){
+    	try {
+    	
+    	String query="select * from classe where idClasse=?;";
+    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+        preparedStmt.setInt(1, id);
+        ResultSet r = preparedStmt.executeQuery();
+        Classe classe=null;
+        while(r.next()) {
+        	classe=new Classe(r.getInt(1),r.getString(2));
+        }
+        connection.close();
+    	return classe;
+    	}
+    	
+    	catch (SQLException e) {e.printStackTrace();}
+    	return null;
+    }
 	
-	public boolean student_in_class(Etudiant e){ //check if a student is in a class
-		 for (Etudiant i: listeEtudiant) if (i.getId()==e.getId()) return true;
-		 return false;	 	
+    public ArrayList<Classe> getListClasse() { ///returns matieres of this class for a given smester
+		try {
+			String query ="select * from classe";
+			
+			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+			ResultSet resultSet = preparedStmt.executeQuery();
+			ArrayList<Classe> classes = new ArrayList<Classe>();
+			ResultSet r=resultSet;
+			while (r.next()) {
+//				int id,String login, String pwd,int ide, String cin, String nom, String prenom,id
+				classes.add(new Classe(resultSet.getInt(1),
+						resultSet.getString(2)));
+			}
+			connection.close();
+			return classes;
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
+    @Override
+    	public String toString() {
+    		// TODO Auto-generated method stub
+    		return idClasse+","+name;
+    	}
 	public static void main(String[] args) {
 
 		Classe mi2 = new Classe("mi2");

@@ -30,6 +30,18 @@ public class gestion_matiere {
         JFrame f = new JFrame("Gestion Matieres");
         f.setLayout(new FlowLayout());
         gestion_entite p1=new gestion_entite("Matieres",cols,data);
+        JButton restore=p1.restore;
+        restore.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				f.dispose();
+				new gestion_matiere();
+			}
+			
+		});
+        
         JButton validate=p1.valider;
         validate.addActionListener(new ActionListener() {
 			

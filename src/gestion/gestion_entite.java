@@ -34,7 +34,7 @@ public class gestion_entite extends JPanel {
 		 };
 		 
 	private JPanel buttonPanel;
-	public JButton valider;
+	public JButton valider,restore;
 
 	// Create the main panel
 	public gestion_entite(String tablename, Vector<String> colnames, String[][] data) {
@@ -50,16 +50,19 @@ public class gestion_entite extends JPanel {
 		JButton addButton = new JButton("+ Add");
 		// Update button
 		JButton updateButton = new JButton("Update");
+		restore = new JButton("Restaurer");
 		JButton delete = new JButton("delete");
 		valider = new JButton("valider");
 		// Button panel
 		buttonPanel = new JPanel();
 		// Add buttons to panel
+		buttonPanel.add(restore);
 		buttonPanel.add(valider);
 		buttonPanel.add(addButton);
 		buttonPanel.add(updateButton);
 		buttonPanel.add(delete);
 
+		
 		// This code is called when the Add button is clicked
 		addButton.addActionListener(new ActionListener() {
 			@Override
@@ -197,6 +200,8 @@ public class gestion_entite extends JPanel {
 		String[][] data = new String[L][C];
 		for (int i = 0; i < L; i++) {
 			for (int j = 0; j < C; j++) {
+				data[i][j]="";
+				if (table.getValueAt(i, j)!=null)
 				data[i][j] = table.getValueAt(i, j).toString();
 			}
 		}

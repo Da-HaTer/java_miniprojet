@@ -26,6 +26,17 @@ public class gestion_etudiant {
         f.setLayout(new FlowLayout());
         String[][] data= data_fromarraylist(new Etudiant().getListEtudiants());
         gestion_entite p1=new gestion_entite("Etudiants",cols,data);
+        JButton restore=p1.restore;
+        restore.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				f.dispose();
+				new gestion_etudiant();
+			}
+			
+		});
         JButton validate=p1.valider;
         validate.addActionListener(new ActionListener() {
 			

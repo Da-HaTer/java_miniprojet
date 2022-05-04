@@ -3,8 +3,11 @@ package user;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.mysql.jdbc.PreparedStatement;
+
+import model.Classe;
 
 public class Admin extends Utilisateur{
 	private int idadmin;
@@ -24,8 +27,18 @@ public class Admin extends Utilisateur{
 	public Admin() {
 		// TODO Auto-generated constructor stub
 	}
+	public Admin(Integer id, int issuper) {
+		// TODO Auto-generated constructor stub
+		this.idadmin=id;
+		this.issuper=issuper;
+	}
 	
-	
+	public Admin(String[] s) {
+		if (s[0].length()!=0) this.idadmin=Integer.parseInt(s[0]);
+		else this.idadmin=-1;
+		this.issuper=Integer.parseInt(s[1]);
+		// TODO Auto-generated constructor stub
+	}
 	public int getIdadmin() {
 		return idadmin;
 	}
@@ -38,57 +51,78 @@ public class Admin extends Utilisateur{
 	public void setIssuper(int issuper) {
 		this.issuper = issuper;
 	}
-	public void save_admin_db() {
-		this.save_user_DB();
-        Admin exist=fetch_admin(this.idadmin);
-        if (exist!=null) {
-			try{ 
-	            String query = "insert into admin values (?,?);"; // WHERE Login=? and Pwd=?";
-	            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
-	            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
-	            
-	            preparedStmt.setInt(1, idadmin);	preparedStmt.setInt(2, issuper);
-				
-	            int rowsaffected = preparedStmt.executeUpdate();
-	            System.out.println(rowsaffected);
 	
-	            connection.close();
-	        }
-	        catch (SQLException e) {e.printStackTrace();}
-        }
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return idadmin+","+issuper;
 	}
 	
-	private void delete_db(int id) {
-		// TODO Auto-generated method stub
-		
+    public ArrayList<Admin> getListAdmin() { ///returns matieres of this class for a given smester
+		try {
+			String query ="select * from admin";
+			
+			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+			ResultSet resultSet = preparedStmt.executeQuery();
+			ArrayList<Admin> admins = new ArrayList<Admin>();
+			ResultSet r=resultSet;
+			while (r.next()) {
+//				int id,String login, String pwd,int ide, String cin, String nom, String prenom,id
+				admins.add(new Admin(resultSet.getInt(1),
+						resultSet.getInt(2)));
+			}
+			connection.close();
+			return admins;
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
+	public void delete_Admin(int id) {
+    	try {
+    	String query="delete from admin where idAdmin=?;";
+    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+        preparedStmt.setInt(1, id);
+        int rowsaffected = preparedStmt.executeUpdate();
+        System.out.println(rowsaffected);
+        connection.close();
+
+    	}
+    	
+    	catch (SQLException e) {e.printStackTrace();}
+	}
+	
+	
+    public void save_Admin() { //save or udpate
+    	
         try{
-        	String query1 = "select Login from user where idRef=? and userType=3;";
-        	String query2 = "delete from admin where idAdmin=?;"; // 
-        	
+        	String query=String.format("update admin set idAdmin=?,isSuper=?\r\n"
+        			+ "where idAdmin=%d;",this.idadmin);
+	    	if (fetch_Admin(idadmin)==null) {
+	    		query = "insert into admin values (?,?);"; // WHERE Login=? and Pwd=?";
+	    	}
             java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
-            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query1);
-            preparedStmt.setInt(1, id);
-            ResultSet r = preparedStmt.executeQuery();
-            while (r.next()) {
-            	String id_user= r.getString(1);
-            	DBdelete_by_login(id_user);
-            }
-        	
-            PreparedStatement preparedStmt1 = (PreparedStatement) connection.prepareStatement(query2);
-            
-            preparedStmt1.setInt(1, id);
-            int rowsaffected = preparedStmt1.executeUpdate();
+            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+            if (idadmin<=0) preparedStmt.setNull(1,idadmin);
+            else preparedStmt.setInt(1, idadmin);
+            preparedStmt.setInt(2, issuper);
+            int rowsaffected = preparedStmt.executeUpdate();
             System.out.println(rowsaffected);
-            
+
             connection.close();
-        } 
+        }
         
         catch (SQLException e) {e.printStackTrace();}
 	}
 	
-    public static Admin fetch_admin(int id) { ///change type to admin
+    public static Admin fetch_Admin(int id) { ///change type to admin
         try{ 
-            String query = "select isSuper from admin where idAdmin=?;"; // WHERE Login=? and Pwd=?";
+            String query = "select * from admin where idAdmin=?;"; // WHERE Login=? and Pwd=?";
             java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
             

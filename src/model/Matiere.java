@@ -96,7 +96,7 @@ public class Matiere {
 		this.idEnseignant = idEnseignant;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 

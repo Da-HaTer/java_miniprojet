@@ -34,6 +34,16 @@ public class Enseignant extends Utilisateur{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Enseignant() {
+		// TODO Auto-generated constructor stub
+	}
+	public Enseignant(String[] s) {
+		if (s[0].length()!=0) this.ide=Integer.parseInt(s[0]);
+		else this.ide=-1;
+		this.nom = s[1];
+		this.prenom = s[2];
+		// TODO Auto-generated constructor stub
+	}
 	public String getName() {
 		return nom;
 	}
@@ -124,29 +134,7 @@ public class Enseignant extends Utilisateur{
 //		ens.save_ens_db();
 		ens.delete_db(2);
 	}
-	
-	public static Enseignant getEnseignantFromDB(int idref) {
-		try {
-			String query = "SELECT * FROM Enseignant WHERE idEnseignant=?";
-//			Connection connection = new DBUtils().getConnection();
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
-			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
-			preparedStmt.setInt(1, idref);
-			ResultSet resultSet = preparedStmt.executeQuery();
-			Enseignant enseignant = null;
-			while (resultSet.next()) {
-			// Etudiant(int id, String cin, String name, String lastName)
-			enseignant = new Enseignant(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
-			}
-			connection.close();
-			return enseignant;
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
+
 	public ArrayList<Classe> getListeclasses(int sem) {
 		try {
 			String query="SELECT idClasse,nomClasse FROM classe\r\n"
@@ -178,9 +166,97 @@ public class Enseignant extends Utilisateur{
 		return null;
 	};
 	
+	public void delete_Enseignant(int id) {
+    	try {
+    	String query="delete from enseignant where idEnseignant=?;";
+    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+        preparedStmt.setInt(1, id);
+        int rowsaffected = preparedStmt.executeUpdate();
+        System.out.println(rowsaffected);
+        connection.close();
+
+    	}
+    	
+    	catch (SQLException e) {e.printStackTrace();}
+	}
+	
+	
+    public void save_Enseignant() { //save or udpate
+    	
+        try{
+        	String query=String.format("update enseignant set idEnseignant=?,nom=?,prenom=?\r\n"
+        			+ "where idEnseignant=%d;",this.ide);
+	    	if (fetch_Enseignant(ide)==null) {
+	    		query = "insert into enseignant values (?,?,?);"; // WHERE Login=? and Pwd=?";
+	    	}
+            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+            if (ide<=0) preparedStmt.setNull(1, ide);
+            else preparedStmt.setInt(1, ide);
+            preparedStmt.setString(2, nom);
+			preparedStmt.setString(3, prenom);
+
+            int rowsaffected = preparedStmt.executeUpdate();
+            System.out.println(rowsaffected);
+
+            connection.close();
+        }
+        
+        catch (SQLException e) {e.printStackTrace();}
+	}
+    
+    public Enseignant fetch_Enseignant(int id){
+    	try {
+    	
+    	String query="select * from enseignant where idEnseignant=?;";
+    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+        preparedStmt.setInt(1, id);
+        ResultSet r = preparedStmt.executeQuery();
+        Enseignant enseignant=null;
+        while(r.next()) {
+        	enseignant=new Enseignant(r.getInt(1),r.getString(2),r.getString(3));
+        }
+        connection.close();
+    	return enseignant;
+    	}
+    	
+    	catch (SQLException e) {e.printStackTrace();}
+    	return null;
+    }
+	
+    public ArrayList<Enseignant> getListEnseignant() { ///returns matieres of this class for a given smester
+		try {
+			String query ="select * from enseignant";
+			
+			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+			ResultSet resultSet = preparedStmt.executeQuery();
+			ArrayList<Enseignant> enseignant = new ArrayList<Enseignant>();
+			ResultSet r=resultSet;
+			while (r.next()) {
+//				int id,String login, String pwd,int ide, String cin, String nom, String prenom,id
+				enseignant.add(new Enseignant(resultSet.getInt(1),
+						resultSet.getString(2),
+						resultSet.getString(3)));
+			}
+			connection.close();
+			return enseignant;
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return super.toString() +String.format("id : %d Nom : %s prenom : %s",this.ide,this.nom,this.prenom);
+		return String.format("%d,%s,%s,",this.ide,this.nom,this.prenom);
+	}
+	
+	public String toString_verbose() {
+		// TODO Auto-generated method stub
+		return super.toString_verbose() +String.format("id : %d Nom : %s prenom : %s",this.ide,this.nom,this.prenom);
 	}
 }

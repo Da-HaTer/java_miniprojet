@@ -7,39 +7,82 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import model.Matiere;
 import user.Admin;
 
 public class gestion_admin {
 	public gestion_admin() {
 		// TODO Auto-generated constructor stub
 		Vector<String> cols=new Vector<>();
-		cols.add("username");
-    	cols.add("password");
-    	cols.add("super");
+		cols.add("idadmin");
+    	cols.add("isSuper");
         JFrame f = new JFrame("Gestion Admins");
         f.setLayout(new FlowLayout());
-        String[][] data= get_admins(); ///select login,password,issuper from user join ... admin where type=3 idref=idref ..
-        
+        String[][] data= data_fromarraylist(new Admin().getListAdmin());
         gestion_entite p1=new gestion_entite("Admins",cols,data);///external action listener
+        JButton restore=p1.restore;
+        restore.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				f.dispose();
+				new gestion_matiere();
+			}
+			
+		});
         
-        p1.valider.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	JOptionPane.showMessageDialog(null, "Donnes sauvegardes"); //alert
-            	String[][] s=p1.get_data();
-//            	ArrayList<Admin> admins=new ArrayList<Admin>();
-            	for (int i = 0; i < s.length; i++) {
-            		//login is the index here
-					new Admin().save_update(login,pasword,issuper);///if already exists login update values else add new line 1)(insert new admin(issuper) 2)get id last admin inserted 3)insert user (idref,type(3) 
+        JButton validate=p1.valider;
+        validate.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String[][] new_data=p1.get_data();
+//				System.out.println(Arrays.deepToString(data));
+//				System.out.println(Arrays.deepToString(new_data));
+				//check for something new locally
+				for (int i = 0; i < new_data.length; i++) {
+					boolean isnew=true;
+					for (int j = 0; j < data.length && isnew; j++) {
+						if (data[j][0].equals(new_data[i][0])) {
+							isnew=false;
+							if (!arrayequals(new_data[i],(data[j]))) new Admin(new_data[i]).save_Admin();
+								//System.out.println(Arrays.deepToString(new_data[i])); //update()
+						}
+					}
+					
+					if (isnew) new Admin(new_data[i]).save_Admin();
+//						System.out.println(Arrays.deepToString(new_data[i])); //add new
+//					}
+
 				}
-            }
-        });
-        
-        
+				//check if something is deleted locally
+				for (int i = 0; i < data.length; i++) {
+					boolean iskept=false;
+					for (int j = 0; (j < new_data.length) && (!iskept); j++) {
+						
+						if(data[i][0].equals(new_data[j][0])) {
+
+							iskept=true;}
+					}
+					if (!iskept) {
+						System.out.println("matiere of id "+data[i][0]+" is deleted");
+						new Admin().delete_Admin(Integer.parseInt(data[i][0]));
+					}
+				}
+				//check if deleted
+				
+			f.dispose();
+			new gestion_admin();
+			}
+		});
+
         
         f.getContentPane().add(p1);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -47,6 +90,24 @@ public class gestion_admin {
         f.pack();
         f.setLocationRelativeTo(null);
         f.setVisible(true);
+	}
+	
+	public boolean arrayequals(String[] a1,String[]a2) {
+		boolean equals=true;
+		for (int i = 0; i < a2.length && equals; i++) {
+			if (!(a1[i].equals(a2[i]))) equals=false;
+		}
+		return equals;
+	}
+
+    private String[][] data_fromarraylist(ArrayList<Admin> listMatieresDB) {
+		// TODO Auto-generated method stub
+    	String[][] data=new String[listMatieresDB.size()][7];
+    	for (int i = 0; i < data.length; i++) {
+    		Admin admins=listMatieresDB.get(i);
+    		data[i]=admins.toString().split(",");
+		}
+		return data;
 	}
     public static void main(String[] args) {
         new gestion_admin();
