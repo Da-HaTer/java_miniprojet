@@ -76,7 +76,7 @@ public class Etudiant extends Utilisateur {
 		this.idClasse = idClasse;
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 

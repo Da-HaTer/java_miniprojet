@@ -125,6 +125,7 @@ public class login_form extends JFrame implements ActionListener{
 					Enseignant enseignant= new Enseignant( ).fetch_Enseignant(user.idref);
 //					System.out.println(enseignant.toString());
 					new espace_enseignant1(enseignant);
+					break;
 				}
 				case adminypeCode: {
 					Admin admin= new Admin().fetch_Admin(user.idref);
@@ -132,6 +133,7 @@ public class login_form extends JFrame implements ActionListener{
 						new espace_superadmin(user);
 					}
 					else new espace_admin();
+					break;
 				}
 			}
 		}

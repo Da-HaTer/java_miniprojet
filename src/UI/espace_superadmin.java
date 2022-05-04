@@ -70,7 +70,7 @@ public class espace_superadmin extends espace_admin{
 					break;
 				}
 				case "Note": {
-					new espace_enseignant1(admin);
+//					new espace_enseignant1();
 					System.out.println("calsse");
 					break;
 				}

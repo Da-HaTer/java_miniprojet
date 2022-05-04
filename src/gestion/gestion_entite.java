@@ -22,6 +22,7 @@ public class gestion_entite extends JPanel {
 	private Vector<JLabel> labels; // label1, label2, label3, label4;
 	// JTable Header
 	private String[] columns = { "Name", "Age", "sex", "Address", };
+
 	// Create the table model
 	private DefaultTableModel model;
 	// Create the table
@@ -34,14 +35,14 @@ public class gestion_entite extends JPanel {
 		 };
 		 
 	private JPanel buttonPanel;
-	public JButton valider,restore;
+	public JButton valider,restore,delete,addButton,updateButton;
 
 	// Create the main panel
 	public gestion_entite(String tablename, Vector<String> colnames, String[][] data) {
 		if (colnames != null) {
 			columns = (String[]) colnames.toArray(new String[colnames.size()]);
 		}
-		int x=(colnames.size()-1)*40;
+		int x=(colnames.size()-2)*40;
 		setPreferredSize(new Dimension(400+x,600));
 		setLayout(new BorderLayout());
 		model = new DefaultTableModel(data, columns);
@@ -49,11 +50,11 @@ public class gestion_entite extends JPanel {
 		tfields = new Vector<JTextField>();
 		labels = new Vector<JLabel>();
 		// Add button
-		JButton addButton = new JButton("+ Add");
+		addButton = new JButton("+ Add");
 		// Update button
-		JButton updateButton = new JButton("Update");
+		updateButton = new JButton("Update");
 		restore = new JButton("Restaurer");
-		JButton delete = new JButton("delete");
+		delete = new JButton("delete");
 		valider = new JButton("Enregistrer");
 		// Button panel
 		buttonPanel = new JPanel();
@@ -173,11 +174,15 @@ public class gestion_entite extends JPanel {
 	protected boolean check_unique_id(int line) { //checks if inserted id is unique across table before adding/updating
 		String[][]data=get_data();
 		boolean unique=true;
-		if (tfields.get(0).getText().length()==0) return true; //permit null indexes (auto incerement)
-		if (Integer.parseInt(tfields.get(0).getText())<=0) return true; //permit auto index (0,-1 etc ..) (auto increment)
-		for (int j = 0; j < data.length; j++) {
-			if ((j != line) && data[j][0].length()!=0 && (Integer.parseInt(data[j][0]) == Integer.parseInt(tfields.get(0).getText()))) unique=false;
+		try {
+			if (Integer.parseInt(tfields.get(0).getText())<=0) return true; //permit auto index (0,-1 etc ..) (auto increment)
+			for (int j = 0; j < data.length; j++) {
+				if ((j != line) && data[j][0].length()!=0 && (Integer.parseInt(data[j][0]) == Integer.parseInt(tfields.get(0).getText()))) unique=false;
+			}
+		} catch (Exception e) {
+			return true;
 		}
+		
 		return unique;
 	}
 
@@ -228,6 +233,14 @@ public class gestion_entite extends JPanel {
 		return tfields;
 	}
 
+	public Vector<JLabel> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(Vector<JLabel> labels) {
+		this.labels = labels;
+	}
+
 	// Get the main panel
 //    public JComponent getComponent() {
 //        return mainPanel;
@@ -247,7 +260,7 @@ public class gestion_entite extends JPanel {
 		cols.add("cin");
 		cols.add("sex");
 		JFrame f = new JFrame("Gestion");
-		String[][] data = {};
+		String[][] data = {}; 
 //                f.setLayout(new FlowLayout());
 		JPanel p1 = new gestion_entite("Table 1", cols, data);
 		JPanel p2 = new gestion_entite("Table 2", cols, data);

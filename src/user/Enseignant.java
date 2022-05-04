@@ -62,7 +62,26 @@ public class Enseignant extends Utilisateur{
 	public void setId(int id) {
 		this.ide = id;
 	}
-	public void save_ens_db() {
+	
+	public Matiere get_matiere() {
+		try {
+	    	String query="select idMatiere from Matiere where idEnseignant=?;";
+	    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+	        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+	        preparedStmt.setInt(1, ide);
+	        ResultSet r = preparedStmt.executeQuery();
+	        Matiere mat=null;
+	        while(r.next()) {
+	        	mat=new Matiere().fetch_matiere(r.getInt(1));
+	        }
+	        connection.close();
+	    	return mat;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/*public void save_ens_db() {
 		this.save_user_DB();
         int exist=fetch_enseignant(this.ide);
         if (exist==0) {
@@ -108,7 +127,7 @@ public class Enseignant extends Utilisateur{
         } 
         
         catch (SQLException e) {e.printStackTrace();}
-	}
+	}*/
 	
     public int fetch_enseignant(int id) {
         try{ 

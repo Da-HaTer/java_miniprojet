@@ -21,6 +21,7 @@ import javax.swing.UIManager;
 
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import gestion.gestion_note;
 import main.login_form;
 import model.Classe;
 import user.Enseignant;
@@ -46,6 +47,7 @@ public class espace_enseignant1 extends JFrame implements ActionListener  {
 	private static final long serialVersionUID = 9L;
 	JButton deconnection,validate;
 	JComboBox<String> class_selection=new JComboBox<String>();
+	ArrayList<Classe> classes;
 	ButtonGroup radioButtonGroup = new ButtonGroup();
 	JRadioButton sem1,sem2;
 	Enseignant ens;
@@ -107,7 +109,7 @@ public class espace_enseignant1 extends JFrame implements ActionListener  {
 		// TODO Auto-generated method stub
 		///TODO
 		//auto import classes here
-		ArrayList<Classe> classes=ens.getListeclasses(sem);
+		classes=ens.getListeclasses(sem);
 		String[] data=new String[classes.size()];
 		for (int i = 0; i < classes.size(); i++) {
 			data[i]=classes.get(i).getName();
@@ -123,19 +125,20 @@ public class espace_enseignant1 extends JFrame implements ActionListener  {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object source=e.getSource();
-		String classe_name="";
+		Classe classe=new Classe();
 		if (class_selection.getSelectedIndex()!=-1)
-			classe_name=class_selection.getSelectedItem().toString();
+			classe=classes.get(class_selection.getSelectedIndex());
+			
 		
 		int sem = 1 ;
 		
 		if (source==validate) {
 //			System.out.println("validate");
-			if (classe_name=="") JOptionPane.showMessageDialog(null, "No classe selected"); //replace classe name by class classe
+			if (class_selection.getSelectedIndex()==-1) JOptionPane.showMessageDialog(null, "No classe selected"); //replace classe name by class classe
 			else {
 				if (sem2.isSelected()) sem=2;
 				dispose();
-				new espace_enseignant2(classe_name,sem,ens);
+				new gestion_note(classe,ens.get_matiere(),false); ///get class from classname, get matiere from enseignant
 			}
 		}
 		else if (source==deconnection) {

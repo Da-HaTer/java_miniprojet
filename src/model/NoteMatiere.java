@@ -19,9 +19,21 @@ public class NoteMatiere {
 	}
 
 
+	public NoteMatiere(Matiere m) {
+		// TODO Auto-generated constructor stub
+		this.matiere=m;
+	}
+
 	public double moyenne() {
-		return (note.getExam() * matiere.getCoefExam() + note.getTp() * matiere.getCoefTp()
-				+ note.getDs() * matiere.getCoefds());
+		Double exam,ds,tp; 
+		if(note.getExam()==null)exam=(double) 0;
+		else exam=note.getExam();
+		if(note.getTp()==null)tp=(double) 0;
+		else tp=note.getTp();
+		if(note.getDs()==null)ds=(double) 0;
+		else ds=note.getDs();
+		return ( exam* matiere.getCoefExam() + tp * matiere.getCoefTp()
+				+ ds * matiere.getCoefds());
 	}
 
 	public Matiere getMatiere() {
@@ -42,7 +54,6 @@ public class NoteMatiere {
 	
 	public Note get_note(int idmat, int idetudiant) {//get notematiere where etudiant
     	try {
-        	
     	String query="select notes.*"
     			+ " from notematiere join notes where "
     			+ "notes.idNote=notematiere.idNote and "
@@ -56,9 +67,12 @@ public class NoteMatiere {
         Note Note=null;
         while(r.next()) {
         	int idm=r.getInt(1);
-        	double exam=r.getDouble(2);
-        	double ds=r.getDouble(3);
-        	double tp=r.getDouble(4);
+        	Double exam=r.getDouble(2);
+        	if(r.wasNull()) exam=null;
+        	Double ds=r.getDouble(3);
+        	if(r.wasNull()) ds=null;
+        	Double tp=r.getDouble(4);
+        	if(r.wasNull()) tp=null;
         		
         	Note=new Note(idm,exam,ds,tp);
         }
@@ -70,11 +84,40 @@ public class NoteMatiere {
     	return null;
 	}
 	
+	public void init_notematiere(int ide,int idm){ //initialize matiere for a student if not already set
+		if (get_note(idm,ide)==null) {
+			try {
+			    	String query1="insert into notes values()";
+			    	String query2="SELECT * FROM notematiere where idnote_matiere=(select max(idnote_matiere) from notematiere);";
+			    	String query3="insert into notematiere values(null,?,?,?)";
+			    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query1);
+		            preparedStmt.executeUpdate();
+		            preparedStmt = (PreparedStatement) connection.prepareStatement(query2);
+			        ResultSet r = preparedStmt.executeQuery();
+			        int idn=-1;
+			        while(r.next()) {
+			        	idn=r.getInt(1);
+			        }
+			        preparedStmt = (PreparedStatement) connection.prepareStatement(query3);
+			        preparedStmt.setInt(1, idn);
+			        preparedStmt.setInt(2, idm);
+			        preparedStmt.setInt(3, ide);
+			        preparedStmt.executeUpdate();
+			        connection.close();
+		    	}
+	    	
+	    	catch (SQLException e) {e.printStackTrace();}
+		}
+	}
+		
+	
 	@Override
 	public String toString() {
 		return "NoteMatiere [matiere=" + matiere.toString() + ", notes=" + note.toString() + "]";
 	}
-
+	
+	
 	public static void main(String[] args) {
 		Matiere m = new Matiere(0.7, 0, 0.3, 1, "JAVA");
 		Note n = new Note(14, 0, 17);

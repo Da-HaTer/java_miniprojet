@@ -17,6 +17,7 @@ import javax.swing.ScrollPaneConstants;
 
 import model.Classe;
 import model.Matiere;
+import model.NoteMatiere;
 import user.Enseignant;
 import user.Etudiant;
 
@@ -29,10 +30,19 @@ public class gestion_classe_attributes {
     	mat_s2.add("id matiere");
     	Vector<String> Etudiants=new Vector<>();
     	Etudiants.add("id etudiant");
+    	
+    	
+    	
+    	ArrayList<Matiere> matS1 = new Classe(idClasse).getListMatieresDB(1);
+    	ArrayList<Matiere> matS2 = new Classe(idClasse).getListMatieresDB(2);
+    	ArrayList<Etudiant> Etuds = new Classe(idClasse).getListeEtudiants();
+    	
     	Classe classe=new Classe().fetch_Classe(idClasse);
-		String[][] data1= classe_data_fromarraylist(new Classe(idClasse).getListMatieresDB(1)) ; ///get matieres of semestre 3
-		String[][] data2= classe_data_fromarraylist(new Classe(idClasse).getListMatieresDB(2)) ; ///Get matieres of semestre 2
-		String[][] data3= student_data_fromarraylist(new Classe(idClasse).getListeEtudiants()) ; ///Get matieres of semestre 2
+		String[][] data1= classe_data_fromarraylist(matS1) ; ///get matieres of semestre 3
+		String[][] data2= classe_data_fromarraylist(matS2) ; ///Get matieres of semestre 2
+		String[][] data3= student_data_fromarraylist(Etuds) ; ///Get matieres of semestre 2
+		matS1.addAll(matS2);
+		init_usernotes(matS1,Etuds); //create notematieres for each student in class for each matiere in class
 //    	String[][] data3= init_etudiants(); ///get etudiants of this class
 //    	String[][] data3= {};
     	JPanel buttonpane=new JPanel();
@@ -60,10 +70,14 @@ public class gestion_classe_attributes {
         p3.valider.setVisible(false);p3.restore.setVisible(false);
         JButton validate=new JButton();///change to a button class with color properties
         JButton restore=new JButton(); //reload this page
+        JButton close=new JButton("Fermer"); //reload this page
         buttonpane.add(validate);
         buttonpane.add(restore);
-        validate.setBackground(new Color(255,220,128));//experimenting with rgb
+        buttonpane.add(close);
+        validate.setBackground(new Color(72, 201, 176));//experimenting with rgb
         restore.setBackground(new Color(255,220,128));//experimenting with rgb
+        close.setBackground(new Color(230, 176, 170));//experimenting with rgb
+        
         validate.setText("Tout Enregistrer");
         validate.addActionListener(new ActionListener() {
 			
@@ -82,7 +96,7 @@ public class gestion_classe_attributes {
 						boolean isnew=true;
 						for (int j = 0; j < data[k].length && isnew; j++) {
 							if (data[k][j][0].equals(new_data[k][i][0])) {
-								isnew=false;
+								isnew=false; //update already existing data
 								if (!arrayequals(new_data[k][i],(data[k][j]))) {
 									if (k==0) {
 										Integer idmat=Integer.parseInt(new_data[k][i][0]);
@@ -182,7 +196,9 @@ public class gestion_classe_attributes {
 				//check if deleted
 				
 				}
-				
+			
+			
+			
 			f.dispose();
 			new gestion_classe_attributes(idClasse);
 			}
@@ -197,12 +213,32 @@ public class gestion_classe_attributes {
 				new gestion_classe_attributes(idClasse);
 			}
 		});
+        close.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				f.dispose();
+//				new gestion_classe_attributes(idClasse);
+			}
+		});
     
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //      f.setSize(340,250);
         f.pack();
         f.setLocationRelativeTo(null);
         f.setVisible(true);
+	}
+	private void init_usernotes(ArrayList<Matiere> mats, ArrayList<Etudiant> etuds) {
+		// TODO Auto-generated method stub
+		for (Etudiant e:etuds) {
+			for (Matiere m:mats) {
+				Integer ide = e.getId();
+				Integer idm = m.getId();
+				new NoteMatiere().init_notematiere(ide, idm);
+			}
+		}
+		
 	}
 	public boolean arrayequals(String[] a1,String[]a2) {
 		boolean equals=true;
