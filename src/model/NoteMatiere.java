@@ -88,7 +88,7 @@ public class NoteMatiere {
 		if (get_note(idm,ide)==null) {
 			try {
 			    	String query1="insert into notes values()";
-			    	String query2="SELECT * FROM notematiere where idnote_matiere=(select max(idnote_matiere) from notematiere);";
+			    	String query2="SELECT * FROM notes where idNote=(select max(idNote) from notes);";
 			    	String query3="insert into notematiere values(null,?,?,?)";
 			    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
 			        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query1);

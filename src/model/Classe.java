@@ -141,7 +141,7 @@ public class Classe { //like struct
     	}
         try{
         	String query=String.format("update classe set idClasse=?,nomClasse=?,idS1=?,idS2=?\r\n"
-        			+ "where idEnseignant=%d;",this.idClasse);
+        			+ "where idClasse=%d;",this.idClasse);
 	    	if (fetch_Classe(idClasse)==null) {
 	    		query = "insert into classe values (?,?,?,?);"; // WHERE Login=? and Pwd=?";
 	    	}

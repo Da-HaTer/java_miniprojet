@@ -9,6 +9,7 @@ import gestion.gestion_classe;
 import gestion.gestion_enseignant;
 import gestion.gestion_etudiant;
 import gestion.gestion_matiere;
+import gestion.gestion_note;
 import gestion.gestion_utilisateur;
 import user.Admin;
 import user.Super_Admin;
@@ -34,7 +35,7 @@ public class espace_superadmin extends espace_admin{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Object source=e.getSource();
+		Object source=e.getSource();	
 		if (source==validate) {
 			String choix=entity_selection.getSelectedItem().toString();
 			
@@ -66,12 +67,13 @@ public class espace_superadmin extends espace_admin{
 				}
 				case "Classe": {
 					new gestion_classe();
-					System.out.println("calsse");
+					System.out.println("classe");
 					break;
 				}
 				case "Note": {
 //					new espace_enseignant1();
-					System.out.println("calsse");
+					System.out.println("Note");
+					new espace_superadmin2();
 					break;
 				}
 			}

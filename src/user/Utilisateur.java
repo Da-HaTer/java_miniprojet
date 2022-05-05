@@ -282,7 +282,9 @@ public class Utilisateur {
 //	}
 
 	public static void main(String[] args) {
-		Utilisateur user = new Utilisateur(3,"admin", "*****",1,3);
+		Utilisateur user = new Utilisateur();
+		user.setMotDePasse("toor");
+		System.out.println(user.getMotDePasse());
 //		int r=user.fetch_user(user.getLogin());
 //		System.out.println(r);
 //		user.save_to_DB();

@@ -137,7 +137,7 @@ public class espace_enseignant1 extends JFrame implements ActionListener  {
 			if (class_selection.getSelectedIndex()==-1) JOptionPane.showMessageDialog(null, "No classe selected"); //replace classe name by class classe
 			else {
 				if (sem2.isSelected()) sem=2;
-				dispose();
+//				dispose();
 				new gestion_note(classe,ens.get_matiere(),false); ///get class from classname, get matiere from enseignant
 			}
 		}

@@ -81,7 +81,7 @@ public class gestion_utilisateur {
 				//check if deleted
 				
 			f.dispose();
-			new gestion_utilisateur(false);
+			new gestion_utilisateur(previlege);
 			}
 		});
 

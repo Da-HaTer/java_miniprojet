@@ -42,7 +42,7 @@ public class gestion_entite extends JPanel {
 		if (colnames != null) {
 			columns = (String[]) colnames.toArray(new String[colnames.size()]);
 		}
-		int x=(colnames.size()-2)*40;
+		int x=(colnames.size()-1)*40;
 		setPreferredSize(new Dimension(400+x,600));
 		setLayout(new BorderLayout());
 		model = new DefaultTableModel(data, columns);
@@ -250,21 +250,11 @@ public class gestion_entite extends JPanel {
 		Vector<String> cols = new Vector<>();
 		cols.add("nom");
 		cols.add("prenom");
-		cols.add("addresse");
-		cols.add("cin");
-		cols.add("sex");
-		cols.add("addresse");
-		cols.add("cin");
-		cols.add("sex");
-		cols.add("addresse");
-		cols.add("cin");
-		cols.add("sex");
+
 		JFrame f = new JFrame("Gestion");
 		String[][] data = {}; 
 //                f.setLayout(new FlowLayout());
 		JPanel p1 = new gestion_entite("Table 1", cols, data);
-		JPanel p2 = new gestion_entite("Table 2", cols, data);
-		JPanel p3 = new gestion_entite("Table 3", cols, data);
 		JPanel p4 = new JPanel();
 
 		JScrollPane scroll = new JScrollPane( /// added scroll option for small screens
@@ -272,8 +262,8 @@ public class gestion_entite extends JPanel {
 		f.add(scroll);
 
 		p4.add(p1);
-		p4.add(p2);
-		p4.add(p3);
+//		p4.add(p2);
+//		p4.add(p3);
 
 //                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

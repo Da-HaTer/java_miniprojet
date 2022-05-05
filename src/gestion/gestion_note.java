@@ -87,9 +87,9 @@ public class gestion_note {
 				for (int i = 0; i < new_data.length; i++) {
 					if (!arrayequals(new_data[i],(data[i]))){
 						Note note=notes.get(i);
-						note.setDs(Double.parseDouble(new_data[i][2]));
-						note.setTp(Double.parseDouble(new_data[i][3]));
-						note.setExam(Double.parseDouble(new_data[i][4]));
+						note.setDs(Double.parseDouble(0+new_data[i][2]));
+						note.setTp(Double.parseDouble(0+new_data[i][3]));
+						note.setExam(Double.parseDouble(0+new_data[i][4]));
 						if (note.isvalid()) note.save_note(previlege);
 						else JOptionPane.showMessageDialog(null, "Note invalide");
 					}

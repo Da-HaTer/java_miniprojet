@@ -25,6 +25,7 @@ public class gestion_admin {
         f.setLayout(new FlowLayout());
         String[][] data= data_fromarraylist(new Admin().getListAdmin());
         gestion_entite p1=new gestion_entite("Admins",cols,data);///external action listener
+//        p1.delete.setVisible(true);
         JButton restore=p1.restore;
         restore.addActionListener(new ActionListener() {
 			
