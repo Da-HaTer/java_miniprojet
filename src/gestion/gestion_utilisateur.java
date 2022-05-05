@@ -75,7 +75,7 @@ public class gestion_utilisateur {
 					}
 					if (!iskept) {
 						System.out.println("matiere of id "+data[i][0]+" is deleted");
-						new Utilisateur().delete_Utilisateur((Integer.parseInt(data[i][0])));;
+						new Utilisateur().delete_Utilisateur((Integer.parseInt(data[i][0])),previlege);;
 					}
 				}
 				//check if deleted

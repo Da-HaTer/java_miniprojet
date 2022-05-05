@@ -196,19 +196,20 @@ public class Utilisateur {
         catch (SQLException e) {e.printStackTrace();}
         return null;
     }
-	public void delete_Utilisateur(int id) {
-    	try {
-    	String query="delete from user where idUser=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
-        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
-        preparedStmt.setInt(1, id);
-        int rowsaffected = preparedStmt.executeUpdate();
-        System.out.println(rowsaffected);
-        connection.close();
-
-    	}
-    	
+	public void delete_Utilisateur(int id,boolean previlege) {
+		if (fetch_Utilisateur(id).type==3 && !previlege) JOptionPane.showMessageDialog(null, String.format("You don't have the previlege for this action"));
+		else {
+			try {
+		    	String query="delete from user where idUser=?;";
+		    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+		        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
+		        preparedStmt.setInt(1, id);
+		        int rowsaffected = preparedStmt.executeUpdate();
+		        System.out.println(rowsaffected);
+		        connection.close();
+			}
     	catch (SQLException e) {e.printStackTrace();}
+		}
 	}
 	
 	

@@ -11,6 +11,7 @@ import gestion.gestion_etudiant;
 import gestion.gestion_matiere;
 import gestion.gestion_note;
 import gestion.gestion_utilisateur;
+import main.login_form;
 import user.Admin;
 import user.Super_Admin;
 import user.Utilisateur;
@@ -51,7 +52,7 @@ public class espace_superadmin extends espace_admin{
 					break;
 				}
 				case "Utilisateur": {
-					new gestion_utilisateur(true);
+					new gestion_utilisateur(false);
 //					System.out.println("enseignant");
 					break;
 				}
@@ -77,6 +78,10 @@ public class espace_superadmin extends espace_admin{
 					break;
 				}
 			}
+		}
+		else if (source==deconnection) {
+			dispose();
+			new login_form();
 		}
 	}
 	
