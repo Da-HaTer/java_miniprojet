@@ -207,7 +207,7 @@ public class Matiere {
     	return null;
     }
     
-    public ArrayList<Matiere> getListMatieresDB() { ///returns matieres of this class for a given smester
+    public ArrayList<Matiere> getListMatieresDB() {
 		try {
 			String query ="select* from matiere";
 			

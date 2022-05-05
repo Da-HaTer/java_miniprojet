@@ -26,14 +26,14 @@ public class gestion_entite extends JPanel {
 	// Create the table model
 	private DefaultTableModel model;
 	// Create the table
-	private JTable table = new JTable(model){
-		 	private static final long serialVersionUID = 1L;
-	
-		 	public boolean isCellEditable(int row, int column) {                
-		 			return false;               
-		 	};
-		 };
-		 
+		private JTable table = new JTable(model){
+				private static final long serialVersionUID = 1L;
+		
+				public boolean isCellEditable(int row, int column) {                
+						return false;               
+				};
+			};
+		
 	private JPanel buttonPanel;
 	public JButton valider,restore,delete,addButton,updateButton;
 

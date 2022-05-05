@@ -19,10 +19,10 @@ public class NoteMatiere {
 	}
 
 
-	public NoteMatiere(Matiere m) {
-		// TODO Auto-generated constructor stub
-		this.matiere=m;
-	}
+//	public NoteMatiere(Matiere m) {
+//		// TODO Auto-generated constructor stub
+//		this.matiere=m;
+//	}
 
 	public double moyenne() {
 		Double exam,ds,tp; 

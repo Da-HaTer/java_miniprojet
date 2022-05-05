@@ -43,7 +43,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class espace_enseignant2 extends JFrame implements ActionListener  { ///rename to gestion notes and mvoe to gestion
+public class espace_enseignant2 extends JFrame implements ActionListener  { //to be deleted
 	private static final long serialVersionUID = 9L;
 	private boolean locked;
 	private JButton valider,deconnection,retour;
@@ -160,7 +160,7 @@ public class espace_enseignant2 extends JFrame implements ActionListener  { ///r
 	}
 	private void save_notes() {
 		// save only changed notes
-		double[] notes=get_notes(); //get notes from table (check gestion entité)
+		double[] notes=get_notes(); //get notes from table (check gestion entitï¿½)
 		//compare notes with init notes;
 		//if not the same save note and refresh table ( easy lock )
 	}
