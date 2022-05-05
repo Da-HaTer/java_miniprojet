@@ -115,7 +115,7 @@ public class login_form extends JFrame implements ActionListener{
 			switch (user.getType()) {
 				case etudiantTypeCode:{
 					
-					Etudiant etudiant = Etudiant.getEtudiantFromDB(user.idref);
+					Etudiant etudiant = new Etudiant().fetch_etudiant(user.idref);
 //					System.err.println(etudiant.toString());
 					new espace_etudiant(etudiant,1);
 					// start the user main screen

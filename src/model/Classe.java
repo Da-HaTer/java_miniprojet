@@ -105,7 +105,7 @@ public class Classe { //like struct
 				matiere.setCoefTp(resultSet.getDouble(5));
 				matiere.setCoefMatiere(resultSet.getDouble(6));
 				matieres.add(matiere);
-				System.out.println(matiere.toString());
+//				System.out.println(matiere.toString());
 			}
 			connection.close();
 			return matieres;

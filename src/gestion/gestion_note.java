@@ -44,9 +44,9 @@ public class gestion_note {
 				if (n.getDs()==null) ds="";
 				else ds=Double.toString(n.getDs());
 				if (n.getExam()==null) exam="";
-				else exam=Double.toString(n.getDs());
+				else exam=Double.toString(n.getExam());
 				if (n.getTp()==null) tp="";
-				else tp=Double.toString(n.getDs());
+				else tp=Double.toString(n.getTp());
 				data[i]=new String[]{Integer.toString(n.getId()) ,e.getNom()+" "+e.getPrenom(),ds,tp,exam};
 			}
 				
@@ -90,7 +90,8 @@ public class gestion_note {
 						note.setDs(Double.parseDouble(new_data[i][2]));
 						note.setTp(Double.parseDouble(new_data[i][3]));
 						note.setExam(Double.parseDouble(new_data[i][4]));
-						note.save_note(previlege);
+						if (note.isvalid()) note.save_note(previlege);
+						else JOptionPane.showMessageDialog(null, "Note invalide");
 					}
 				}
 			f.dispose();
@@ -127,6 +128,6 @@ public class gestion_note {
     public static void main(String[] args) {
     	Classe classe=new Classe().fetch_Classe(1);
     	Matiere mat=new Matiere().fetch_matiere(2);
-        new gestion_note(classe,mat,false);
+        new gestion_note(classe,mat,true);
     }
 }

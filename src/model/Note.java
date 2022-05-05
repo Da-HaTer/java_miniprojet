@@ -11,7 +11,7 @@ public class Note {
 	private Double exam;
 	private Double ds;
 	private Double tp;
-
+	
 	public Note() {	
 		exam=null;
 		ds=null;
@@ -60,6 +60,13 @@ public class Note {
 	public void setTp(double tp) {
 		this.tp = tp;
 	}
+	
+	public boolean isvalid() {
+		boolean valid=true;
+		Double[] notes={tp,exam,ds};
+		for(Double note:notes) if (note>20 || note<0) valid=false;
+		return valid;
+	}
 
 	@Override
 	public String toString() {
@@ -91,14 +98,13 @@ public class Note {
 	            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
 	            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 	            
-
 	            preparedStmt.setDouble(1, exam);
 	            preparedStmt.setDouble(2, ds);
 	            preparedStmt.setDouble(3, tp);
 	            preparedStmt.setInt(4, id);
-
+	            
 	            int rowsaffected = preparedStmt.executeUpdate();
-	            System.out.println(rowsaffected);
+	            System.out.println("note saved"+" rows affected: "+rowsaffected);
 	
 	            connection.close();
 	        }
