@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import lib.MYSQL_Connection;
+
 public class Note {
 	private int id; ///should not be used manually ...
 	private Double exam;
@@ -76,7 +78,7 @@ public class Note {
 	public void delete_note(int id) {
     	try {
     	String query="delete from notes where idNote=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt1 = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt1.setInt(1, id);
         int rowsaffected1 = preparedStmt1.executeUpdate();
@@ -95,7 +97,7 @@ public class Note {
     	if (fetch_note(this.id).getExam()==null || previlege) {
 	        try{ 
 	            String query = "update notes set exam=?,ds=?,tp=? where idNote=?;"; // WHERE Login=? and Pwd=?";
-	            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+	            java.sql.Connection connection=MYSQL_Connection.getconnection();
 	            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 	            
 	            preparedStmt.setDouble(1, exam);
@@ -117,7 +119,7 @@ public class Note {
     	try {
     	
     	String query="select * from notes where idNote=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         ResultSet r = preparedStmt.executeQuery();

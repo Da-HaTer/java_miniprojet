@@ -15,7 +15,7 @@ public class Calcule {
 
 	int y = 0;
 
-	// TODO: this method will be replaced with graphic input to create a "Note"
+	/// deprecated
 	public Note saisirUneNote(double coefExam, double coefds, double coefTp) { //params needed only to avoid zero coef marks
 		Scanner scanner = new Scanner(System.in);
 		double ds = 0.0;
@@ -68,7 +68,7 @@ public class Calcule {
 	
 	public void saisirLesNoteParEtudiant() { //notes input for each student for each module + AVG output
 		for (Etudiant etudiant : classe.listeEtudiant) {
-			System.out.println("Les notes du l'etudiant " + etudiant.getName());
+			System.out.println("Les notes du l'etudiant " + etudiant.getNom());
 			System.out.println("S1:");
 			etudiant.setNotesS1(saisirNotesSemestre(classe.listeMatiereS1));
 			System.out.println("S2:");
@@ -77,18 +77,18 @@ public class Calcule {
 
 		for (Etudiant etudiant : classe.listeEtudiant) {
 			System.out.println();
-			System.out.println(etudiant.getName() + " => " + etudiant.moyenneS1() + "//" + etudiant.moyenneS2() + "==>"
+			System.out.println(etudiant.getNom() + " => " + etudiant.moyenneS1() + "//" + etudiant.moyenneS2() + "==>"
 					+ etudiant.moyenne());
 		}
 	}
 
 
 	//can be used to set Notes from a JTable 
-	public void saisirLesNoteParMatiere(){ //input marks per module per student
+	public void saisirLesNoteParMatiere(){ //input marks per module per student  ///deprecated
 		for (Matiere matiere : classe.listeMatiereS1) { 
 			System.out.println("****Les notes de la matiere: " + matiere.getNomMatiere());
 			for (Etudiant etudiant : classe.listeEtudiant) {
-				System.out.println("Les notes du l'etudiant " + etudiant.getName());
+				System.out.println("Les notes du l'etudiant " + etudiant.getNom());
 				Note n = saisirUneNote(matiere.getCoefExam(), matiere.getCoefds(), matiere.getCoefTp()); //input
 				etudiant.ajouterNote(new NoteMatiere(matiere,n));
 			}
@@ -97,7 +97,7 @@ public class Calcule {
 		for (Matiere matiere : classe.listeMatiereS2) {
 			System.out.println("****Les notes de la matiere: " + matiere.getNomMatiere());
 			for (Etudiant etudiant : classe.listeEtudiant) {
-				System.out.println("Les notes du l'etudiant " + etudiant.getName());
+				System.out.println("Les notes du l'etudiant " + etudiant.getNom());
 				Note n = saisirUneNote(matiere.getCoefExam(), matiere.getCoefds(), matiere.getCoefTp());
 				etudiant.ajouterNote(new NoteMatiere(matiere,n));
 			}
@@ -106,7 +106,7 @@ public class Calcule {
 		//print out the data it's only for test
 		for (Etudiant etudiant : classe.listeEtudiant) {
 			System.out.println();
-			System.out.println(etudiant.getName() + " => " + etudiant.moyenneS1() + "//" + etudiant.moyenneS2() + "==>"
+			System.out.println(etudiant.getNom() + " => " + etudiant.moyenneS1() + "//" + etudiant.moyenneS2() + "==>"
 					+ etudiant.moyenne());
 		}
 	}

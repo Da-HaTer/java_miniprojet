@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import lib.MYSQL_Connection;
 import user.Enseignant;
 import user.Etudiant;
 
@@ -119,7 +120,7 @@ public class Classe { //like struct
 	public void delete_Classe(int id) {
     	try {
     	String query="delete from classe where idClasse=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         int rowsaffected = preparedStmt.executeUpdate();
@@ -145,7 +146,7 @@ public class Classe { //like struct
 	    	if (fetch_Classe(idClasse)==null) {
 	    		query = "insert into classe values (?,?,?,?);"; // WHERE Login=? and Pwd=?";
 	    	}
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            java.sql.Connection connection=MYSQL_Connection.getconnection();
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
             if (idClasse<=0) preparedStmt.setNull(1, idClasse);
             else preparedStmt.setInt(1, idClasse);
@@ -169,7 +170,7 @@ public class Classe { //like struct
     	try {
     	
     	String query="select * from classe where idClasse=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         ResultSet r = preparedStmt.executeQuery();
@@ -189,7 +190,7 @@ public class Classe { //like struct
 		try {
 			String query ="select * from classe";
 			
-			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			java.sql.Connection connection=MYSQL_Connection.getconnection();
 			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 			ResultSet resultSet = preparedStmt.executeQuery();
 			ArrayList<Classe> classes = new ArrayList<Classe>();
@@ -224,7 +225,7 @@ public class Classe { //like struct
 		try {
 			String query ="select * from etudiant where idClasse=?";
 			
-			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			java.sql.Connection connection=MYSQL_Connection.getconnection();
 			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 			preparedStmt.setInt(1, idClasse);
 			ResultSet resultSet = preparedStmt.executeQuery();

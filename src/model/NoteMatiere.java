@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import lib.MYSQL_Connection;
+
 public class NoteMatiere {
 	private Matiere matiere;
 	private Note note;
@@ -59,7 +61,7 @@ public class NoteMatiere {
     			+ "notes.idNote=notematiere.idNote and "
     			+ "notematiere.idEtudiant=? and "
     			+ "notematiere.idMatiere=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, idetudiant);
         preparedStmt.setInt(2, idmat);
@@ -90,7 +92,7 @@ public class NoteMatiere {
 			    	String query1="insert into notes values()";
 			    	String query2="SELECT * FROM notes where idNote=(select max(idNote) from notes);";
 			    	String query3="insert into notematiere values(null,?,?,?)";
-			    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			    	java.sql.Connection connection=MYSQL_Connection.getconnection();
 			        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query1);
 		            preparedStmt.executeUpdate();
 		            preparedStmt = (PreparedStatement) connection.prepareStatement(query2);

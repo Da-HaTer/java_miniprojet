@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import lib.MYSQL_Connection;
 import model.Classe;
 
 public class Admin extends Utilisateur{
@@ -67,7 +68,7 @@ public class Admin extends Utilisateur{
 		try {
 			String query ="select * from admin";
 			
-			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			java.sql.Connection connection=MYSQL_Connection.getconnection();
 			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 			ResultSet resultSet = preparedStmt.executeQuery();
 			ArrayList<Admin> admins = new ArrayList<Admin>();
@@ -90,7 +91,7 @@ public class Admin extends Utilisateur{
 	public void delete_Admin(int id) {
     	try {
     	String query="delete from admin where idAdmin=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         int rowsaffected = preparedStmt.executeUpdate();
@@ -111,7 +112,7 @@ public class Admin extends Utilisateur{
 	    		
 	    		query = "insert into admin values (?,?);"; // WHERE Login=? and Pwd=?";
 	    	}
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            java.sql.Connection connection=MYSQL_Connection.getconnection();
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
             if (idadmin<=0) preparedStmt.setNull(1,idadmin);
             else preparedStmt.setInt(1, idadmin);
@@ -128,7 +129,7 @@ public class Admin extends Utilisateur{
     public Admin fetch_Admin(int id) { ///change type to admin
         try{ 
             String query = "select * from admin where idAdmin=?;"; // WHERE Login=? and Pwd=?";
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            java.sql.Connection connection=MYSQL_Connection.getconnection();
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
             
             preparedStmt.setInt(1, id);

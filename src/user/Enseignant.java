@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import lib.MYSQL_Connection;
 import model.Classe;
 import model.Matiere;
 
@@ -66,7 +67,7 @@ public class Enseignant extends Utilisateur{
 	public Matiere get_matiere() {
 		try {
 	    	String query="select idMatiere from Matiere where idEnseignant=?;";
-	    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+	    	java.sql.Connection connection=MYSQL_Connection.getconnection();
 	        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 	        preparedStmt.setInt(1, ide);
 	        ResultSet r = preparedStmt.executeQuery();
@@ -87,7 +88,7 @@ public class Enseignant extends Utilisateur{
         if (exist==0) {
 			try{ 
 	            String query = "insert into enseignant values (?,?,?);"; // WHERE Login=? and Pwd=?";
-	            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+	            java.sql.Connection connection=MYSQL_Connection.getconnection();
 	            PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 	            
 	            preparedStmt.setInt(1, ide); preparedStmt.setString(2, nom); preparedStmt.setString(3, prenom);
@@ -108,7 +109,7 @@ public class Enseignant extends Utilisateur{
         	String query1 = "select Login from user where idRef=? and userType=2;";
         	String query2 = "delete from enseignant where idEnseignant=?;"; // 
         	
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            java.sql.Connection connection=MYSQL_Connection.getconnection();
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query1);
             preparedStmt.setInt(1, ide);
             ResultSet r = preparedStmt.executeQuery();
@@ -132,7 +133,7 @@ public class Enseignant extends Utilisateur{
     public int fetch_enseignant(int id) {
         try{ 
             String query = "select count(*) from enseignant where idEnseignant=?;"; // WHERE Login=? and Pwd=?";
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            java.sql.Connection connection=MYSQL_Connection.getconnection();
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
             
             preparedStmt.setInt(1, id);
@@ -164,7 +165,7 @@ public class Enseignant extends Utilisateur{
 					+ "JOIN enseignant\r\n"
 					+ "On matiere.idEnseignant=enseignant.idEnseignant\r\n"
 					+ "where enseignant.idEnseignant = ?;";
-			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			java.sql.Connection connection=MYSQL_Connection.getconnection();
 			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 			preparedStmt.setInt(1, ide);
 			ResultSet resultSet = preparedStmt.executeQuery();
@@ -188,7 +189,7 @@ public class Enseignant extends Utilisateur{
 	public void delete_Enseignant(int id) {
     	try {
     	String query="delete from enseignant where idEnseignant=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         int rowsaffected = preparedStmt.executeUpdate();
@@ -209,7 +210,7 @@ public class Enseignant extends Utilisateur{
 	    	if (fetch_Enseignant(ide)==null) {
 	    		query = "insert into enseignant values (?,?,?);"; // WHERE Login=? and Pwd=?";
 	    	}
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            java.sql.Connection connection=MYSQL_Connection.getconnection();
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
             if (ide<=0) preparedStmt.setNull(1, ide);
             else preparedStmt.setInt(1, ide);
@@ -229,7 +230,7 @@ public class Enseignant extends Utilisateur{
     	try {
     	
     	String query="select * from enseignant where idEnseignant=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         ResultSet r = preparedStmt.executeQuery();
@@ -249,7 +250,7 @@ public class Enseignant extends Utilisateur{
 		try {
 			String query ="select * from enseignant";
 			
-			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			java.sql.Connection connection=MYSQL_Connection.getconnection();
 			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 			ResultSet resultSet = preparedStmt.executeQuery();
 			ArrayList<Enseignant> enseignant = new ArrayList<Enseignant>();

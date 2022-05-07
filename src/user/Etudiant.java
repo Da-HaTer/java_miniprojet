@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import lib.MYSQL_Connection;
 import model.Classe;
 import model.Matiere;
 import model.Note;
@@ -171,7 +172,7 @@ public class Etudiant extends Utilisateur {
 	public Classe get_classe() {
     	try {
 			String query="select idClasse from Etudiant where idEtudiant=?;";
-			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			java.sql.Connection connection=MYSQL_Connection.getconnection();
 		    PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 		    preparedStmt.setInt(1, id);
 		    ResultSet r = preparedStmt.executeQuery();
@@ -209,7 +210,7 @@ public class Etudiant extends Utilisateur {
 		
 		/*try {
 			String query="select * from Etudiant where idEtudiant=?;";
-			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			java.sql.Connection connection=MYSQL_Connection.getconnection();
 		    PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 		    preparedStmt.setInt(1, id);
 		    ResultSet r = preparedStmt.executeQuery();
@@ -227,7 +228,7 @@ public class Etudiant extends Utilisateur {
 	public void delete_Etudiant(int id) {
     	try {
     	String query="delete from etudiant where idEtudiant=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         int rowsaffected = preparedStmt.executeUpdate();
@@ -247,7 +248,7 @@ public class Etudiant extends Utilisateur {
 	    	if (fetch_etudiant(id)==null) {
 	    		query = "insert into etudiant values (?,?,?,?,?);"; // WHERE Login=? and Pwd=?";
 	    	}
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            java.sql.Connection connection=MYSQL_Connection.getconnection();
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
             if (id<=0) preparedStmt.setNull(1, id);
             else preparedStmt.setInt(1, id);
@@ -270,7 +271,7 @@ public class Etudiant extends Utilisateur {
     	try {
     	
     	String query="select * from Etudiant where idEtudiant=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         ResultSet r = preparedStmt.executeQuery();
@@ -290,7 +291,7 @@ public class Etudiant extends Utilisateur {
 		try {
 			String query ="select * from etudiant";
 			
-			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			java.sql.Connection connection=MYSQL_Connection.getconnection();
 			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 			ResultSet resultSet = preparedStmt.executeQuery();
 			ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
@@ -316,7 +317,7 @@ public class Etudiant extends Utilisateur {
 		try {
 			String query="select idNote from NoteMatiere\n"
 					+ "where idMatiere=? and idEtudiant=?;";
-			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			java.sql.Connection connection=MYSQL_Connection.getconnection();
 			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 			preparedStmt.setInt(1, idMatiere);
 			preparedStmt.setInt(2, this.id);

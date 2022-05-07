@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import lib.MYSQL_Connection;
+
 public class Matiere {
 
 	private Integer id;
@@ -128,7 +130,7 @@ public class Matiere {
     	try {
     	String query="delete from notematiere where idMatiere=?;";
     	String query1="delete from matiere where idMatiere=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         int rowsaffected = preparedStmt.executeUpdate();
@@ -154,7 +156,7 @@ public class Matiere {
 	    	if (fetch_matiere(this.id)==null) {
 	    		query = "insert into matiere values (?,?,?,?,?,?,?,?);"; // WHERE Login=? and Pwd=?";
 	    	}
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            java.sql.Connection connection=MYSQL_Connection.getconnection();
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
             if (id<=0) preparedStmt.setNull(1, id);
             else preparedStmt.setInt(1, id);
@@ -183,7 +185,7 @@ public class Matiere {
     	try {
     	
     	String query="select * from matiere where idMatiere=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         ResultSet r = preparedStmt.executeQuery();
@@ -211,7 +213,7 @@ public class Matiere {
 		try {
 			String query ="select* from matiere";
 			
-			java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+			java.sql.Connection connection=MYSQL_Connection.getconnection();
 			PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 			ResultSet resultSet = preparedStmt.executeQuery();
 			ArrayList<Matiere> matieres = new ArrayList<Matiere>();

@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import lib.MYSQL_Connection;
+
 public class Semestre {
 	private Integer idsem;
 	private String name;
@@ -23,7 +25,7 @@ public class Semestre {
 	public void delete_Semestre(int id) {
     	try {
     	String query="delete from semestre where idsemestre=?;";
-    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+    	java.sql.Connection connection=MYSQL_Connection.getconnection();
         PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
         preparedStmt.setInt(1, id);
         int rowsaffected = preparedStmt.executeUpdate();
@@ -44,7 +46,7 @@ public class Semestre {
 	    		
 	    		query = "insert into semestre values (?,?);"; // WHERE Login=? and Pwd=?";
 	    	}
-            java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+            java.sql.Connection connection=MYSQL_Connection.getconnection();
             PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
             if (idsem<=0) preparedStmt.setNull(1,idsem);
             else preparedStmt.setInt(1, idsem);
@@ -61,7 +63,7 @@ public class Semestre {
 	public Semestre fetch_semestre(Integer id){
     	try {
 	    	String query="select * from semestre where idsemestre=?;";
-	    	java.sql.Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_test?characterEncoding=utf8","root","toor");
+	    	java.sql.Connection connection=MYSQL_Connection.getconnection();
 	        PreparedStatement preparedStmt = (PreparedStatement) connection.prepareStatement(query);
 	        preparedStmt.setInt(1, id);
 	        ResultSet r = preparedStmt.executeQuery();

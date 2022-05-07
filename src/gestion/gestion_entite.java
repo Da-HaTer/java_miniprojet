@@ -252,7 +252,7 @@ public class gestion_entite extends JPanel {
 		cols.add("prenom");
 
 		JFrame f = new JFrame("Gestion");
-		String[][] data = {}; 
+		String[][] data = {{"zied","zaafrani"},{"oussema","haboubi"}}; 
 //                f.setLayout(new FlowLayout());
 		JPanel p1 = new gestion_entite("Table 1", cols, data);
 		JPanel p4 = new JPanel();
